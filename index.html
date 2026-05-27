@@ -1,0 +1,3024 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>概算見積AI モックアップ</title>
+    <style>
+:root {
+  --bg: #eef2f0;
+  --surface: #ffffff;
+  --surface-soft: #f7f8f5;
+  --ink: #1d2522;
+  --muted: #68746f;
+  --line: #d8dfda;
+  --accent: #0f766e;
+  --accent-dark: #115e59;
+  --accent-soft: #d7f2ed;
+  --warning: #b45309;
+  --danger: #b91c1c;
+  --blueprint: #214a63;
+  --shadow: 0 18px 48px rgba(28, 39, 35, 0.11);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 22px 16px;
+  background: #15211d;
+  color: #f5fbf8;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 6px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #f6c95d;
+  color: #18231f;
+  font-weight: 800;
+}
+
+.brand strong {
+  display: block;
+  font-size: 16px;
+}
+
+.brand span,
+.side-status span,
+.side-status strong {
+  display: block;
+}
+
+.brand span {
+  margin-top: 2px;
+  color: rgba(245, 251, 248, 0.62);
+  font-size: 12px;
+}
+
+.nav-list {
+  display: grid;
+  gap: 6px;
+}
+
+.nav-item {
+  width: 100%;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(245, 251, 248, 0.76);
+  text-align: left;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+}
+
+.icon svg,
+.icon-button svg,
+.drop-zone svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.side-status {
+  margin-top: auto;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.side-status span {
+  color: rgba(245, 251, 248, 0.68);
+  font-size: 12px;
+}
+
+.side-status strong {
+  margin: 6px 0 10px;
+  font-size: 22px;
+}
+
+.meter {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.meter span {
+  height: 100%;
+  border-radius: inherit;
+  background: #f6c95d;
+}
+
+.main {
+  min-width: 0;
+  padding: 26px;
+}
+
+.topbar {
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+h2 {
+  margin-bottom: 4px;
+  font-size: 17px;
+  line-height: 1.3;
+}
+
+h3 {
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-button {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.user-pill {
+  min-width: 132px;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+}
+
+.user-pill span,
+.user-pill strong {
+  display: block;
+  line-height: 1.2;
+}
+
+.user-pill span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.user-pill strong {
+  font-size: 13px;
+}
+
+.view {
+  display: none;
+}
+
+.view.active {
+  display: block;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.metric,
+.panel {
+  border: 1px solid rgba(216, 223, 218, 0.9);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.metric {
+  min-height: 128px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.metric span,
+.metric small,
+.panel-header p,
+.timeline p,
+.extract-grid p,
+.master-grid p,
+.note-box p {
+  color: var(--muted);
+}
+
+.metric span,
+.metric small {
+  font-size: 12px;
+}
+
+.metric strong {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.metric.alert {
+  border-color: rgba(180, 83, 9, 0.35);
+  background: #fff9ed;
+}
+
+.metric.knowledge-metric {
+  border-color: rgba(15, 118, 110, 0.26);
+  background: #effaf6;
+}
+
+.content-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.two-col {
+  grid-template-columns: minmax(0, 1.45fr) minmax(330px, 0.85fr);
+}
+
+.form-layout {
+  grid-template-columns: minmax(0, 1fr) 330px;
+}
+
+.upload-layout,
+.analysis-layout,
+.knowledge-layout,
+.review-layout {
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+
+.panel {
+  min-width: 0;
+  padding: 18px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.panel-header p {
+  margin-bottom: 0;
+  font-size: 13px;
+}
+
+.primary-button,
+.secondary-button {
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.primary-button {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.primary-button:hover {
+  background: var(--accent-dark);
+}
+
+.secondary-button {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.warning-action {
+  border-color: rgba(180, 83, 9, 0.3);
+  background: #fff9ed;
+  color: #8a5a00;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th,
+td {
+  padding: 12px 13px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+}
+
+th {
+  background: var(--surface-soft);
+  color: #41504a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+tbody tr {
+  background: var(--surface);
+}
+
+tbody tr:hover {
+  background: #f8fbf9;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.status,
+.confidence {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 58px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.status.review,
+.confidence.mid {
+  background: #fff2ce;
+  color: #8a5a00;
+}
+
+.status.running {
+  background: #dfefff;
+  color: #155e9d;
+}
+
+.status.done,
+.confidence.high {
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}
+
+.status.draft,
+.confidence.low {
+  background: #ffe4e4;
+  color: var(--danger);
+}
+
+.visual-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.blueprint-preview {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  background: var(--blueprint);
+}
+
+.blueprint-preview svg {
+  width: 100%;
+  height: 100%;
+}
+
+.blueprint-preview rect {
+  fill: #23516d;
+}
+
+.blueprint-preview path,
+.blueprint-preview circle {
+  fill: none;
+  stroke: rgba(217, 245, 255, 0.86);
+  stroke-width: 3;
+}
+
+.scan-line {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(246, 201, 93, 0.22) 50%, transparent 100%);
+  height: 36%;
+  animation: scan 3.6s linear infinite;
+}
+
+@keyframes scan {
+  from {
+    transform: translateY(-110%);
+  }
+  to {
+    transform: translateY(310%);
+  }
+}
+
+.timeline {
+  display: grid;
+  gap: 12px;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 10px;
+}
+
+.timeline-item > span {
+  width: 12px;
+  height: 12px;
+  margin-top: 4px;
+  border-radius: 999px;
+  border: 2px solid var(--line);
+}
+
+.timeline-item.done > span {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.timeline-item.running > span {
+  border-color: #f6c95d;
+  background: #f6c95d;
+}
+
+.timeline strong {
+  display: block;
+  font-size: 13px;
+}
+
+.timeline p {
+  margin-bottom: 0;
+  font-size: 12px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+label {
+  display: grid;
+  gap: 7px;
+  color: #41504a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--ink);
+}
+
+input,
+select {
+  height: 40px;
+  padding: 0 10px;
+}
+
+textarea {
+  min-height: 128px;
+  resize: vertical;
+  padding: 10px;
+  line-height: 1.6;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.compact-panel {
+  align-self: start;
+}
+
+.condition-list,
+.checklist,
+.confidence-list {
+  display: grid;
+  gap: 10px;
+}
+
+.condition-list span {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+  font-size: 13px;
+}
+
+.note-box,
+.risk-panel {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 8px;
+  background: #fff9ed;
+  border: 1px solid rgba(180, 83, 9, 0.18);
+}
+
+.note-box p {
+  margin-bottom: 0;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.drop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.drop-zone {
+  min-height: 150px;
+  padding: 18px;
+  border: 1px dashed #9bb2aa;
+  border-radius: 8px;
+  background: #f8fbf9;
+  color: var(--ink);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 9px;
+}
+
+.drop-zone:hover {
+  border-color: var(--accent);
+  background: #eefaf6;
+}
+
+.drop-zone svg {
+  width: 28px;
+  height: 28px;
+  color: var(--accent);
+}
+
+.drop-zone span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.file-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.file-row {
+  min-height: 48px;
+  display: grid;
+  grid-template-columns: 70px 1fr 90px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.file-row em {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+  text-align: right;
+}
+
+.file-type {
+  display: inline-flex;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #dfefff;
+  color: #155e9d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.file-type.spec {
+  background: #eee7ff;
+  color: #6d45a5;
+}
+
+.file-type.photo {
+  background: #e7f6dc;
+  color: #3f761f;
+}
+
+.checklist label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.checklist input {
+  width: 16px;
+  height: 16px;
+}
+
+.extract-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.extract-grid article,
+.master-grid article {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.extract-grid span,
+.master-grid span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.extract-grid strong,
+.master-grid strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.extract-grid p,
+.master-grid p {
+  margin-bottom: 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.risk-panel ul,
+.plain-list {
+  margin: 0;
+  padding-left: 18px;
+  color: #3b4843;
+  line-height: 1.7;
+}
+
+.confidence-list div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.confidence-list div:last-child {
+  border-bottom: 0;
+}
+
+.confidence-list span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.amount-box {
+  min-width: 210px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #15211d;
+  color: #ffffff;
+  text-align: right;
+}
+
+.amount-box span,
+.amount-box strong {
+  display: block;
+}
+
+.amount-box span {
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 12px;
+}
+
+.amount-box strong {
+  margin-top: 2px;
+  font-size: 22px;
+}
+
+.estimate-toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.estimate-table input {
+  width: 96px;
+  height: 32px;
+  text-align: right;
+}
+
+.line-total {
+  min-width: 118px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.below {
+  margin-top: 18px;
+}
+
+.hierarchy-editor {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid rgba(15, 118, 110, 0.22);
+  border-radius: 8px;
+  background: #effaf6;
+}
+
+.evidence-panel {
+  scroll-margin-top: 16px;
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid rgba(33, 74, 99, 0.22);
+  border-radius: 8px;
+  background: #f4f8fa;
+}
+
+.evidence-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+  gap: 14px;
+}
+
+.document-preview,
+.evidence-detail article,
+.evidence-list article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.document-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.document-tabs button {
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.document-tabs button.active {
+  border-color: var(--blueprint);
+  background: #e7f1f5;
+  color: var(--blueprint);
+}
+
+.drawing-canvas {
+  padding: 10px;
+  background: #eaf1f3;
+}
+
+.drawing-canvas svg {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  display: block;
+}
+
+.drawing-canvas rect {
+  fill: var(--blueprint);
+}
+
+.drawing-canvas path {
+  fill: none;
+  stroke: rgba(217, 245, 255, 0.86);
+  stroke-width: 3;
+}
+
+.drawing-canvas .highlight {
+  fill: rgba(246, 201, 93, 0.24);
+  stroke: #f6c95d;
+  stroke-width: 4;
+}
+
+.drawing-canvas .highlight.alt {
+  fill: rgba(15, 118, 110, 0.22);
+  stroke: #35b7a7;
+}
+
+.drawing-canvas text {
+  fill: #ffffff;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.evidence-detail,
+.evidence-list {
+  display: grid;
+  gap: 10px;
+}
+
+.evidence-detail article,
+.evidence-list article {
+  padding: 12px;
+}
+
+.evidence-detail span,
+.evidence-list span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.evidence-detail strong,
+.evidence-list strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.evidence-detail p,
+.evidence-list p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.evidence-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 12px;
+}
+
+.editor-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.editor-header h3 {
+  margin-bottom: 4px;
+}
+
+.editor-header p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.hierarchy-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.learning-hint {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+}
+
+.learning-hint strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.learning-hint p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.learning-log-panel {
+  box-shadow: var(--shadow);
+}
+
+.learning-log {
+  display: grid;
+  gap: 10px;
+}
+
+.learning-log article {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.learning-log span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.learning-log strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.learning-log p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.wizard-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(13, 22, 18, 0.5);
+}
+
+.wizard-overlay.show {
+  display: flex;
+}
+
+.wizard-dialog {
+  width: min(860px, 100%);
+  max-height: min(780px, 92vh);
+  overflow: auto;
+  padding: 18px;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 24px 80px rgba(13, 22, 18, 0.24);
+}
+
+.wizard-header,
+.wizard-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wizard-header {
+  margin-bottom: 14px;
+}
+
+.wizard-header h2 {
+  margin-bottom: 0;
+  font-size: 22px;
+}
+
+.wizard-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.wizard-steps span {
+  min-height: 34px;
+  display: grid;
+  place-items: center;
+  padding: 0 8px;
+  border-radius: 8px;
+  background: var(--surface-soft);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.wizard-steps span.active {
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}
+
+.wizard-body {
+  min-height: 330px;
+}
+
+.wizard-card {
+  display: none;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.wizard-card.active {
+  display: block;
+}
+
+.wizard-card p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.difference-list,
+.reason-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.difference-list {
+  grid-template-columns: 1fr;
+}
+
+.reason-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.difference-list label,
+.reason-grid label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.difference-list input,
+.reason-grid input {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+
+.difference-list strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.difference-list span {
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.learning-preview {
+  margin-bottom: 14px;
+  padding: 14px;
+  border: 1px solid rgba(15, 118, 110, 0.24);
+  border-radius: 8px;
+  background: #effaf6;
+}
+
+.learning-preview strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.learning-preview p {
+  margin-bottom: 0;
+  color: #41504a;
+}
+
+.wizard-footer {
+  margin-top: 16px;
+  justify-content: flex-end;
+}
+
+.wizard-footer button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.review-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.review-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.review-summary p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.review-total {
+  min-width: 240px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #15211d;
+  color: #ffffff;
+  text-align: right;
+}
+
+.review-total span,
+.review-total strong,
+.review-total small {
+  display: block;
+}
+
+.review-total span,
+.review-total small {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 12px;
+}
+
+.review-total strong {
+  margin: 3px 0;
+  font-size: 22px;
+}
+
+.review-actions {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+}
+
+.review-tree {
+  display: grid;
+  gap: 10px;
+}
+
+.review-tree details {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.review-tree details details {
+  margin: 0 12px 12px 34px;
+  background: #fbfcfa;
+}
+
+.review-tree summary {
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: 18px 86px minmax(160px, 1fr) 136px 92px;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 13px;
+  list-style: none;
+}
+
+.review-tree summary::-webkit-details-marker {
+  display: none;
+}
+
+.review-tree summary::before {
+  content: "▾";
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.review-tree details:not([open]) > summary::before {
+  content: "▸";
+}
+
+.tree-level {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-width: 58px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tree-level.large {
+  background: #15211d;
+  color: #ffffff;
+}
+
+.tree-level.medium {
+  background: #d7f2ed;
+  color: var(--accent-dark);
+}
+
+.tree-level.small {
+  background: #f1ead7;
+  color: #735719;
+}
+
+.review-tree summary strong,
+.review-line strong {
+  font-size: 14px;
+}
+
+.review-tree summary em,
+.review-line em {
+  color: var(--ink);
+  font-style: normal;
+  font-weight: 800;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.review-line {
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: 86px minmax(150px, 0.8fr) minmax(220px, 1fr) 128px;
+  align-items: center;
+  gap: 10px;
+  margin: 0 12px 10px 34px;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.review-line p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.warning-line {
+  border-color: rgba(180, 83, 9, 0.26);
+  background: #fff9ed;
+}
+
+.comment-list {
+  display: grid;
+  gap: 10px;
+}
+
+.comment-list article {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.comment-list strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.comment-list p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.master-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.knowledge-score {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.knowledge-score article {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.knowledge-score span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.knowledge-score strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 22px;
+}
+
+.knowledge-score p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.knowledge-upload-bundle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+  gap: 14px;
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid rgba(15, 118, 110, 0.24);
+  border-radius: 8px;
+  background: #effaf6;
+}
+
+.bundle-copy span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.bundle-copy strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.bundle-copy p {
+  margin-bottom: 0;
+  color: #41504a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.bundle-drops {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mini-drop {
+  min-height: 76px;
+  padding: 10px;
+  border: 1px dashed #7ca8a0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--ink);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.mini-drop small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.knowledge-flow {
+  display: grid;
+  gap: 10px;
+}
+
+.knowledge-flow div {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.knowledge-flow strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.knowledge-flow p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 20;
+  min-width: 220px;
+  padding: 13px 16px;
+  border-radius: 8px;
+  background: #15211d;
+  color: #ffffff;
+  box-shadow: var(--shadow);
+  transform: translateY(120px);
+  opacity: 0;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@media (max-width: 1080px) {
+  .app-shell {
+    grid-template-columns: 86px minmax(0, 1fr);
+  }
+
+  .brand div:last-child,
+  .nav-item:not(.active),
+  .nav-item.active {
+    font-size: 0;
+  }
+
+  .nav-item {
+    justify-content: center;
+  }
+
+  .side-status {
+    display: none;
+  }
+
+  .summary-grid,
+  .two-col,
+  .form-layout,
+  .upload-layout,
+  .analysis-layout,
+  .knowledge-layout,
+  .review-layout,
+  .review-header,
+  .knowledge-score,
+  .knowledge-upload-bundle,
+  .evidence-layout,
+  .evidence-list,
+  .hierarchy-grid,
+  .master-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .review-summary {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .review-total {
+    text-align: left;
+  }
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    display: block;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    padding: 12px;
+  }
+
+  .brand {
+    padding-bottom: 12px;
+  }
+
+  .nav-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .nav-item {
+    height: 44px;
+    justify-content: flex-start;
+    font-size: 12px !important;
+  }
+
+  .main {
+    padding: 16px;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    height: auto;
+    flex-direction: column;
+  }
+
+  .top-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .summary-grid,
+  .drop-grid,
+  .extract-grid,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-header,
+  .editor-header,
+  .button-row,
+  .estimate-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .wizard-steps,
+  .reason-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .review-tree summary,
+  .review-line {
+    grid-template-columns: 1fr;
+  }
+
+  .review-tree details details,
+  .review-line {
+    margin-left: 12px;
+  }
+
+  .amount-box {
+    text-align: left;
+  }
+
+  table {
+    min-width: 860px;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="メインナビゲーション">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">積</div>
+          <div>
+            <strong>概算見積AI</strong>
+            <span>建築・土木の概算見積</span>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item active" data-view="dashboard" type="button">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 13h6v7H4zM14 4h6v16h-6zM4 4h6v5H4z"/></svg>
+            </span>
+            案件一覧
+          </button>
+          <button class="nav-item" data-view="create" type="button">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M11 5h2v14h-2zM5 11h14v2H5z"/></svg>
+            </span>
+            案件作成
+          </button>
+          <button class="nav-item" data-view="upload" type="button">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 3l5 5h-3v7h-4V8H7zM5 18h14v3H5z"/></svg>
+            </span>
+            資料アップロード
+          </button>
+          <button class="nav-item" data-view="analysis" type="button">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z"/></svg>
+            </span>
+            AI解析
+          </button>
+          <button class="nav-item" data-view="estimate" type="button">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 3h14v18H5zM8 7h8v2H8zM8 11h8v2H8zM8 15h5v2H8z"/></svg>
+            </span>
+            見積編集
+          </button>
+          <button class="nav-item" data-view="review" type="button">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M7 3h10v3h3v15H4V6h3zM9 5v2h6V5zM8 11h8v2H8zM8 15h5v2H8z"/></svg>
+            </span>
+            見積レビュー
+          </button>
+          <button class="nav-item" data-view="knowledge" type="button">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 5h7a3 3 0 0 1 3 3v11a3 3 0 0 0-3-3H4zM20 5h-7a3 3 0 0 0-3 3v11a3 3 0 0 1 3-3h7z"/></svg>
+            </span>
+            積算ナレッジ
+          </button>
+          <button class="nav-item" data-view="master" type="button">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 4h14v4H5zM5 10h14v4H5zM5 16h14v4H5z"/></svg>
+            </span>
+            単価マスタ
+          </button>
+        </nav>
+
+        <div class="side-status">
+          <span>AI解析枠</span>
+          <strong>3 / 10 件</strong>
+          <div class="meter"><span style="width: 30%"></span></div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">MVP Mockup</p>
+            <h1 id="page-title">案件一覧</h1>
+          </div>
+          <div class="top-actions">
+            <button class="icon-button" type="button" aria-label="通知">
+              <svg viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 22ZM19 17l-2-2v-5a5 5 0 0 0-10 0v5l-2 2v1h14z"/></svg>
+            </button>
+            <button class="user-pill" type="button">
+              <span>青木建設</span>
+              <strong>積算部</strong>
+            </button>
+          </div>
+        </header>
+
+        <section class="view active" id="dashboard">
+          <div class="summary-grid">
+            <article class="metric">
+              <span>解析中</span>
+              <strong>3</strong>
+              <small>橋梁補修 1件 / 建築 2件</small>
+            </article>
+            <article class="metric">
+              <span>今月の概算見積</span>
+              <strong>18</strong>
+              <small>平均作成時間 8分</small>
+            </article>
+            <article class="metric">
+              <span>確認待ち金額</span>
+              <strong>12.4億円</strong>
+              <small>社内確認用 5案件</small>
+            </article>
+            <article class="metric alert">
+              <span>要確認項目</span>
+              <strong>27</strong>
+              <small>根拠不足・写真判定含む</small>
+            </article>
+            <article class="metric knowledge-metric">
+              <span>学習済み積算</span>
+              <strong>1,248</strong>
+              <small>類似案件ヒット率 72%</small>
+            </article>
+          </div>
+
+          <div class="content-grid two-col">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>案件一覧</h2>
+                  <p>営業・入札判断に使う概算見積の進捗</p>
+                </div>
+                <button class="primary-button" data-view="create" type="button">新規案件</button>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>案件名</th>
+                      <th>種別</th>
+                      <th>ステータス</th>
+                      <th>概算金額</th>
+                      <th>担当</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-view="estimate">
+                      <td>東町RCマンション新築</td>
+                      <td>建築 / RC造</td>
+                      <td><span class="status review">確認中</span></td>
+                      <td>¥684,200,000</td>
+                      <td>佐藤</td>
+                    </tr>
+                    <tr data-view="analysis">
+                      <td>県道12号 橋梁補修</td>
+                      <td>土木 / 橋梁</td>
+                      <td><span class="status running">解析中</span></td>
+                      <td>算出中</td>
+                      <td>田中</td>
+                    </tr>
+                    <tr>
+                      <td>駅前広場 外構改修</td>
+                      <td>外構</td>
+                      <td><span class="status done">出力済み</span></td>
+                      <td>¥76,400,000</td>
+                      <td>山本</td>
+                    </tr>
+                    <tr>
+                      <td>西工場S造倉庫</td>
+                      <td>建築 / S造</td>
+                      <td><span class="status draft">資料待ち</span></td>
+                      <td>-</td>
+                      <td>鈴木</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="panel visual-panel">
+              <div class="panel-header">
+                <div>
+                  <h2>AI解析キュー</h2>
+                  <p>資料分類と抽出の進行状況</p>
+                </div>
+              </div>
+              <div class="blueprint-preview" aria-label="図面解析プレビュー">
+                <svg viewBox="0 0 520 300" role="img">
+                  <rect x="0" y="0" width="520" height="300" rx="8"></rect>
+                  <path d="M58 45h180v78H58zM58 154h180v92H58zM282 45h175v201H282z"></path>
+                  <path d="M88 45v78M129 154v92M282 104h175M354 104v142M58 123h180M238 73h44M238 196h44"></path>
+                  <circle cx="132" cy="84" r="18"></circle>
+                  <circle cx="385" cy="178" r="24"></circle>
+                  <path d="M68 264h120M204 264h106M328 264h130"></path>
+                </svg>
+                <div class="scan-line"></div>
+              </div>
+              <div class="timeline">
+                <div class="timeline-item done">
+                  <span></span>
+                  <div>
+                    <strong>資料分類</strong>
+                    <p>図面 12枚、仕様書 1件、写真 18枚</p>
+                  </div>
+                </div>
+                <div class="timeline-item running">
+                  <span></span>
+                  <div>
+                    <strong>工事概要抽出</strong>
+                    <p>橋長・幅員・仮設条件を確認中</p>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <span></span>
+                  <div>
+                    <strong>見積初案生成</strong>
+                    <p>単価マスタ適用待ち</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="create">
+          <div class="content-grid form-layout">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>案件基本情報</h2>
+                  <p>概算見積の前提となる工事情報</p>
+                </div>
+              </div>
+              <form class="form-grid">
+                <label>
+                  案件名
+                  <input type="text" value="東町RCマンション新築">
+                </label>
+                <label>
+                  所在地
+                  <input type="text" value="長野県松本市東町">
+                </label>
+                <label>
+                  工事分類
+                  <select>
+                    <option>建築</option>
+                    <option>土木</option>
+                    <option>外構</option>
+                  </select>
+                </label>
+                <label>
+                  工事種別
+                  <select>
+                    <option>RC造マンション新築</option>
+                    <option>橋梁補修工事</option>
+                    <option>道路改良工事</option>
+                  </select>
+                </label>
+                <label>
+                  希望予算
+                  <input type="text" value="6.5億円以内">
+                </label>
+                <label>
+                  概算目的
+                  <select>
+                    <option>営業提案用</option>
+                    <option>入札判断用</option>
+                    <option>社内検討用</option>
+                  </select>
+                </label>
+                <label class="wide">
+                  顧客要望
+                  <textarea>RC造7階建て、ファミリー向け40戸程度。標準仕様をベースに、外構と機械式駐車場も概算に含めたい。顧客希望予算との差分が大きい場合はVE候補も知りたい。</textarea>
+                </label>
+              </form>
+              <div class="button-row">
+                <button class="secondary-button" type="button">下書き保存</button>
+                <button class="primary-button" data-view="upload" type="button">資料アップロードへ</button>
+              </div>
+            </section>
+
+            <aside class="panel compact-panel">
+              <h2>見積条件の自動整理</h2>
+              <div class="condition-list">
+                <span>用途: 共同住宅</span>
+                <span>構造: RC造</span>
+                <span>品質: 標準</span>
+                <span>出力: 営業提案用</span>
+              </div>
+              <div class="note-box">
+                <strong>初期確認</strong>
+                <p>延床面積、住戸数、杭条件、設備仕様が未確定の場合は、AI見積で信頼度が下がります。</p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="upload">
+          <div class="content-grid upload-layout">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>資料アップロード</h2>
+                  <p>図面、仕様書、現場写真を案件に紐づける</p>
+                </div>
+                <button class="primary-button" id="start-analysis" type="button">AI解析開始</button>
+              </div>
+              <div class="drop-grid">
+                <button class="drop-zone" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM7 8h10v2H7zM7 12h7v2H7z"/></svg>
+                  <strong>図面PDF</strong>
+                  <span>平面図・配置図・構造図</span>
+                </button>
+                <button class="drop-zone" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6zM8 10h8v2H8zM8 14h8v2H8z"/></svg>
+                  <strong>仕様書</strong>
+                  <span>材料・工法・仕上げ</span>
+                </button>
+                <button class="drop-zone" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h4l2-2h4l2 2h4v14H4zM12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+                  <strong>現場写真</strong>
+                  <span>搬入・周辺・既存物</span>
+                </button>
+              </div>
+              <div class="file-list">
+                <div class="file-row">
+                  <span class="file-type">図面</span>
+                  <strong>A-101_平面図.pdf</strong>
+                  <em>分類済み</em>
+                </div>
+                <div class="file-row">
+                  <span class="file-type">図面</span>
+                  <strong>S-201_構造伏図.pdf</strong>
+                  <em>分類済み</em>
+                </div>
+                <div class="file-row">
+                  <span class="file-type spec">仕様</span>
+                  <strong>特記仕様書.pdf</strong>
+                  <em>OCR待ち</em>
+                </div>
+                <div class="file-row">
+                  <span class="file-type photo">写真</span>
+                  <strong>現地写真_搬入口.jpg</strong>
+                  <em>解析待ち</em>
+                </div>
+              </div>
+            </section>
+
+            <aside class="panel compact-panel">
+              <h2>資料チェック</h2>
+              <div class="checklist">
+                <label><input type="checkbox" checked> 配置図</label>
+                <label><input type="checkbox" checked> 平面図</label>
+                <label><input type="checkbox" checked> 仕様書</label>
+                <label><input type="checkbox"> 構造計算条件</label>
+                <label><input type="checkbox"> 地盤・杭条件</label>
+                <label><input type="checkbox" checked> 現場写真</label>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="analysis">
+          <div class="content-grid analysis-layout">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>AI解析結果</h2>
+                  <p>抽出した工事概要・仕様・リスク</p>
+                </div>
+                <span class="status done">解析完了</span>
+              </div>
+              <div class="extract-grid">
+                <article>
+                  <span>工事概要</span>
+                  <strong>RC造 7階建 / 共同住宅 40戸</strong>
+                  <p>延床面積 3,820m2、敷地面積 1,180m2、標準仕様</p>
+                </article>
+                <article>
+                  <span>仕様抽出</span>
+                  <strong>外壁タイル + 一部吹付</strong>
+                  <p>屋上防水、共用部長尺シート、住戸内標準仕上げ</p>
+                </article>
+                <article>
+                  <span>現場条件</span>
+                  <strong>搬入経路が狭い可能性</strong>
+                  <p>前面道路幅員 5.2m。資材搬入とクレーン計画を要確認</p>
+                </article>
+                <article>
+                  <span>不足情報</span>
+                  <strong>杭条件・設備グレード</strong>
+                  <p>地盤資料と設備仕様の追加で概算精度が改善</p>
+                </article>
+              </div>
+              <div class="risk-panel">
+                <h3>AI確認事項</h3>
+                <ul>
+                  <li>杭工事の有無が資料から確定できないため、仮定条件として含めています。</li>
+                  <li>機械式駐車場の台数が未確定です。暫定で20台として算出しています。</li>
+                  <li>希望予算6.5億円に対して概算が約6.84億円です。VE検討が必要です。</li>
+                </ul>
+              </div>
+              <div class="button-row">
+                <button class="secondary-button" data-view="upload" type="button">資料を追加</button>
+                <button class="primary-button" data-view="estimate" type="button">見積初案を確認</button>
+              </div>
+            </section>
+
+            <aside class="panel compact-panel">
+              <h2>信頼度サマリ</h2>
+              <div class="confidence-list">
+                <div><span>工事概要</span><strong>高</strong></div>
+                <div><span>躯体数量</span><strong>中</strong></div>
+                <div><span>設備概算</span><strong>低</strong></div>
+                <div><span>現場条件</span><strong>中</strong></div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="estimate">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>概算見積編集</h2>
+                <p>数量・単価を確認し、AIの根拠と注意事項を見ながら補正</p>
+              </div>
+              <div class="amount-box">
+                <span>概算合計</span>
+                <strong id="total-amount">¥684,200,000</strong>
+              </div>
+            </div>
+
+            <div class="estimate-toolbar">
+              <button class="secondary-button" id="add-item-button" type="button">項目追加</button>
+              <button class="secondary-button" id="edit-hierarchy-button" type="button">中小項目編集</button>
+              <button class="secondary-button warning-action" id="open-wizard-button" type="button">差額修正ウィザード</button>
+              <button class="secondary-button" id="show-evidence-button" type="button">根拠表示</button>
+              <button class="secondary-button" data-view="review" type="button">レビュー確認</button>
+              <button class="primary-button" id="export-button" type="button">Excel / PDF 出力</button>
+            </div>
+
+            <div class="table-wrap estimate-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>工種</th>
+                    <th>品目</th>
+                    <th>仕様</th>
+                    <th>数量</th>
+                    <th>単位</th>
+                    <th>単価</th>
+                    <th>金額</th>
+                    <th>信頼度</th>
+                    <th>根拠</th>
+                  </tr>
+                </thead>
+                <tbody id="estimate-body">
+                  <tr>
+                    <td>仮設工事</td>
+                    <td>共通仮設</td>
+                    <td>RC7階 標準</td>
+                    <td><input class="qty" type="number" value="1"></td>
+                    <td>式</td>
+                    <td><input class="unit-price" type="number" value="42800000"></td>
+                    <td class="line-total">¥42,800,000</td>
+                    <td><span class="confidence mid">中</span></td>
+                    <td>仕様書 p.3</td>
+                  </tr>
+                  <tr>
+                    <td>躯体工事</td>
+                    <td>コンクリート</td>
+                    <td>普通 24N</td>
+                    <td><input class="qty" type="number" value="2120"></td>
+                    <td>m3</td>
+                    <td><input class="unit-price" type="number" value="31500"></td>
+                    <td class="line-total">¥66,780,000</td>
+                    <td><span class="confidence high">高</span></td>
+                    <td>構造図 p.8</td>
+                  </tr>
+                  <tr>
+                    <td>躯体工事</td>
+                    <td>型枠</td>
+                    <td>普通型枠</td>
+                    <td><input class="qty" type="number" value="12800"></td>
+                    <td>m2</td>
+                    <td><input class="unit-price" type="number" value="8200"></td>
+                    <td class="line-total">¥104,960,000</td>
+                    <td><span class="confidence mid">中</span></td>
+                    <td>構造図 p.8</td>
+                  </tr>
+                  <tr>
+                    <td>躯体工事</td>
+                    <td>鉄筋</td>
+                    <td>SD345</td>
+                    <td><input class="qty" type="number" value="286"></td>
+                    <td>t</td>
+                    <td><input class="unit-price" type="number" value="188000"></td>
+                    <td class="line-total">¥53,768,000</td>
+                    <td><span class="confidence mid">中</span></td>
+                    <td>AI推定</td>
+                  </tr>
+                  <tr>
+                    <td>仕上工事</td>
+                    <td>外壁仕上</td>
+                    <td>タイル + 吹付</td>
+                    <td><input class="qty" type="number" value="2980"></td>
+                    <td>m2</td>
+                    <td><input class="unit-price" type="number" value="16800"></td>
+                    <td class="line-total">¥50,064,000</td>
+                    <td><span class="confidence high">高</span></td>
+                    <td>仕様書 p.12</td>
+                  </tr>
+                  <tr>
+                    <td>設備工事</td>
+                    <td>電気・機械設備</td>
+                    <td>標準概算</td>
+                    <td><input class="qty" type="number" value="3820"></td>
+                    <td>m2</td>
+                    <td><input class="unit-price" type="number" value="58000"></td>
+                    <td class="line-total">¥221,560,000</td>
+                    <td><span class="confidence low">低</span></td>
+                    <td>概算単価</td>
+                  </tr>
+                  <tr>
+                    <td>外構工事</td>
+                    <td>舗装・植栽・駐車場</td>
+                    <td>機械式20台含む</td>
+                    <td><input class="qty" type="number" value="1"></td>
+                    <td>式</td>
+                    <td><input class="unit-price" type="number" value="58300000"></td>
+                    <td class="line-total">¥58,300,000</td>
+                    <td><span class="confidence low">低</span></td>
+                    <td>要望入力</td>
+                  </tr>
+                  <tr>
+                    <td>諸経費</td>
+                    <td>現場管理・一般管理</td>
+                    <td>直接工事費比率</td>
+                    <td><input class="qty" type="number" value="1"></td>
+                    <td>式</td>
+                    <td><input class="unit-price" type="number" value="86268000"></td>
+                    <td class="line-total">¥86,268,000</td>
+                    <td><span class="confidence mid">中</span></td>
+                    <td>社内係数</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="evidence-panel" id="evidence-panel">
+              <div class="editor-header">
+                <div>
+                  <h3>拾い根拠</h3>
+                  <p>図面・仕様書・写真・過去工事から、数量や仕様の根拠を引用して表示</p>
+                </div>
+                <span class="status done">根拠あり</span>
+              </div>
+
+              <div class="evidence-layout">
+                <section class="document-preview">
+                  <div class="document-tabs">
+                    <button class="active" type="button">構造図 p.8</button>
+                    <button type="button">仕様書 p.12</button>
+                    <button type="button">現場写真</button>
+                  </div>
+                  <div class="drawing-canvas">
+                    <svg viewBox="0 0 520 320" role="img" aria-label="図面上の拾い根拠">
+                      <rect x="0" y="0" width="520" height="320" rx="8"></rect>
+                      <path d="M42 42h190v96H42zM42 176h190v96H42zM286 42h180v230H286z"></path>
+                      <path d="M88 42v96M146 42v96M42 92h190M88 176v96M146 176v96M42 226h190M286 112h180M346 112v160M406 112v160"></path>
+                      <path class="highlight" d="M286 42h180v70H286z"></path>
+                      <path class="highlight alt" d="M42 176h190v96H42z"></path>
+                      <text x="300" y="78">梁・床スラブ範囲</text>
+                      <text x="58" y="214">型枠拾い対象</text>
+                    </svg>
+                  </div>
+                </section>
+
+                <aside class="evidence-detail">
+                  <article>
+                    <span>対象明細</span>
+                    <strong>躯体工事 / コンクリート</strong>
+                    <p>普通 24N、数量 2,120m3。構造図 p.8 の柱・梁・スラブ範囲から推定。</p>
+                  </article>
+                  <article>
+                    <span>引用元</span>
+                    <strong>構造図 S-201 / p.8</strong>
+                    <p>AI抽出: 「基準階スラブ t=180、梁成 600、柱 800角」。寸法線と部材記号をOCR・図形解析で参照。</p>
+                  </article>
+                  <article>
+                    <span>信頼度</span>
+                    <strong>高</strong>
+                    <p>根拠図面あり。未確認: 開口部控除、地下躯体、杭工事の有無。</p>
+                  </article>
+                </aside>
+              </div>
+
+              <div class="evidence-list">
+                <article>
+                  <span>仕様根拠</span>
+                  <strong>仕様書 p.12: 外壁仕上 タイル + 一部吹付</strong>
+                  <p>外壁仕上工事の仕様と単価グレードに反映。</p>
+                </article>
+                <article>
+                  <span>写真根拠</span>
+                  <strong>現場写真_搬入口.jpg</strong>
+                  <p>前面道路幅員が狭い可能性。仮設・搬入条件の要確認に反映。</p>
+                </article>
+                <article>
+                  <span>過去工事根拠</span>
+                  <strong>中央町RC賃貸マンション / 類似度 89%</strong>
+                  <p>設備費比率、外構条件、躯体単価の補正候補に使用。</p>
+                </article>
+              </div>
+            </div>
+
+            <div class="hierarchy-editor" id="hierarchy-editor">
+              <div class="editor-header">
+                <div>
+                  <h3>見積項目の階層編集</h3>
+                  <p>大項目、中項目、小項目を追加・名称変更し、見積書の構成を整える</p>
+                </div>
+                <button class="secondary-button" id="add-small-item" type="button">小項目を追加</button>
+              </div>
+              <div class="hierarchy-grid">
+                <label>
+                  大項目
+                  <select>
+                    <option>建築工事</option>
+                    <option>設備工事</option>
+                    <option>外構工事</option>
+                    <option>諸経費</option>
+                  </select>
+                </label>
+                <label>
+                  中項目
+                  <input type="text" value="躯体工事">
+                </label>
+                <label>
+                  小項目
+                  <input type="text" value="鉄筋">
+                </label>
+                <label>
+                  変更理由
+                  <select>
+                    <option>項目分類の修正</option>
+                    <option>図面追加による項目追加</option>
+                    <option>社内標準フォーマットに合わせる</option>
+                  </select>
+                </label>
+              </div>
+              <div class="learning-hint">
+                <strong>学習に使う情報</strong>
+                <p>項目追加や階層変更の理由を残すと、次回の類似工事でAIが同じ分類・項目構成を提案しやすくなります。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-grid two-col below">
+            <section class="panel">
+              <h2>概算条件</h2>
+              <ul class="plain-list">
+                <li>杭工事は地盤資料未受領のため、近隣実績ベースの概算を含む。</li>
+                <li>設備仕様は標準グレードとして算定。高効率機器指定は別途。</li>
+                <li>前面道路が狭いため、搬入計画により仮設費が変動する可能性あり。</li>
+              </ul>
+            </section>
+            <section class="panel">
+              <h2>VE候補</h2>
+              <ul class="plain-list">
+                <li>外壁タイル範囲の見直しで約1,200万円の削減余地。</li>
+                <li>機械式駐車場台数を15台にした場合、約900万円の削減余地。</li>
+                <li>共用部仕上げ仕様を標準化すると約500万円の削減余地。</li>
+              </ul>
+            </section>
+          </div>
+
+          <div class="panel below learning-log-panel">
+            <div class="panel-header">
+              <div>
+                <h2>修正理由ログ</h2>
+                <p>指摘や修正の理由を蓄積し、次回のAI見積・ナレッジ補正に反映</p>
+              </div>
+              <span class="status running">学習候補</span>
+            </div>
+            <div class="learning-log">
+              <article>
+                <span>設備工事 / 設備一式</span>
+                <strong>金額差が大きいため、仕様未確定から過去類似案件の設備比率へ変更</strong>
+                <p>次回: RCマンション標準仕様で設備仕様が未確定の場合、延床面積単価だけでなく類似工事比率を併用。</p>
+              </article>
+              <article>
+                <span>外構工事 / 機械式駐車場</span>
+                <strong>顧客要望の台数が仮定だったため、20台から15台へ補正予定</strong>
+                <p>次回: 台数未確定の機械式駐車場は要確認項目としてウィザードに出す。</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="review">
+          <div class="review-header">
+            <section class="panel review-summary">
+              <div>
+                <h2>東町RCマンション新築 見積レビュー</h2>
+                <p>大項目・中項目・小項目の階層で、金額、根拠、AI信頼度、確認事項をレビュー</p>
+              </div>
+              <div class="review-total">
+                <span>概算見積合計</span>
+                <strong>¥684,500,000</strong>
+                <small>希望予算との差額 +¥34,500,000</small>
+              </div>
+            </section>
+            <section class="panel review-actions">
+              <button class="primary-button" type="button">レビュー完了</button>
+              <button class="secondary-button" type="button">差戻し</button>
+              <button class="secondary-button" data-view="estimate" type="button">明細編集へ</button>
+            </section>
+          </div>
+
+          <div class="content-grid review-layout">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>見積階層</h2>
+                  <p>大項目、中項目、小項目ごとにレビュー状態を確認</p>
+                </div>
+                <span class="status review">確認中</span>
+              </div>
+
+              <div class="review-tree">
+                <details open>
+                  <summary>
+                    <span class="tree-level large">大項目</span>
+                    <strong>建築工事</strong>
+                    <em>¥512,600,000</em>
+                    <span class="status review">要確認 4</span>
+                  </summary>
+
+                  <details open>
+                    <summary>
+                      <span class="tree-level medium">中項目</span>
+                      <strong>仮設工事</strong>
+                      <em>¥42,800,000</em>
+                      <span class="confidence mid">中</span>
+                    </summary>
+                    <div class="review-line">
+                      <span class="tree-level small">小項目</span>
+                      <strong>共通仮設</strong>
+                      <p>RC7階 標準 / 1式 / 根拠: 仕様書 p.3</p>
+                      <em>¥42,800,000</em>
+                    </div>
+                  </details>
+
+                  <details open>
+                    <summary>
+                      <span class="tree-level medium">中項目</span>
+                      <strong>躯体工事</strong>
+                      <em>¥225,508,000</em>
+                      <span class="confidence mid">中</span>
+                    </summary>
+                    <div class="review-line">
+                      <span class="tree-level small">小項目</span>
+                      <strong>コンクリート</strong>
+                      <p>普通 24N / 2,120m3 / 根拠: 構造図 p.8</p>
+                      <em>¥66,780,000</em>
+                    </div>
+                    <div class="review-line warning-line">
+                      <span class="tree-level small">小項目</span>
+                      <strong>型枠</strong>
+                      <p>普通型枠 / 12,800m2 / 開口率の確認が必要</p>
+                      <em>¥104,960,000</em>
+                    </div>
+                    <div class="review-line warning-line">
+                      <span class="tree-level small">小項目</span>
+                      <strong>鉄筋</strong>
+                      <p>SD345 / 286t / AI推定。構造計算条件の追加待ち</p>
+                      <em>¥53,768,000</em>
+                    </div>
+                  </details>
+
+                  <details open>
+                    <summary>
+                      <span class="tree-level medium">中項目</span>
+                      <strong>仕上工事</strong>
+                      <em>¥50,064,000</em>
+                      <span class="confidence high">高</span>
+                    </summary>
+                    <div class="review-line">
+                      <span class="tree-level small">小項目</span>
+                      <strong>外壁仕上</strong>
+                      <p>タイル + 吹付 / 2,980m2 / 根拠: 仕様書 p.12</p>
+                      <em>¥50,064,000</em>
+                    </div>
+                  </details>
+                </details>
+
+                <details open>
+                  <summary>
+                    <span class="tree-level large">大項目</span>
+                    <strong>設備工事</strong>
+                    <em>¥221,560,000</em>
+                    <span class="status draft">要確認 2</span>
+                  </summary>
+                  <details open>
+                    <summary>
+                      <span class="tree-level medium">中項目</span>
+                      <strong>電気・機械設備</strong>
+                      <em>¥221,560,000</em>
+                      <span class="confidence low">低</span>
+                    </summary>
+                    <div class="review-line warning-line">
+                      <span class="tree-level small">小項目</span>
+                      <strong>設備一式</strong>
+                      <p>標準概算 / 3,820m2 / 設備仕様未受領のため概算単価</p>
+                      <em>¥221,560,000</em>
+                    </div>
+                  </details>
+                </details>
+
+                <details open>
+                  <summary>
+                    <span class="tree-level large">大項目</span>
+                    <strong>外構工事</strong>
+                    <em>¥58,300,000</em>
+                    <span class="status draft">要確認 1</span>
+                  </summary>
+                  <details open>
+                    <summary>
+                      <span class="tree-level medium">中項目</span>
+                      <strong>舗装・植栽・駐車場</strong>
+                      <em>¥58,300,000</em>
+                      <span class="confidence low">低</span>
+                    </summary>
+                    <div class="review-line warning-line">
+                      <span class="tree-level small">小項目</span>
+                      <strong>機械式駐車場</strong>
+                      <p>20台想定 / 顧客要望から仮設定。台数確定が必要</p>
+                      <em>¥38,000,000</em>
+                    </div>
+                    <div class="review-line">
+                      <span class="tree-level small">小項目</span>
+                      <strong>舗装・植栽</strong>
+                      <p>1式 / 配置図と過去類似案件から推定</p>
+                      <em>¥20,300,000</em>
+                    </div>
+                  </details>
+                </details>
+
+                <details open>
+                  <summary>
+                    <span class="tree-level large">大項目</span>
+                    <strong>諸経費</strong>
+                    <em>¥86,268,000</em>
+                    <span class="confidence mid">中</span>
+                  </summary>
+                  <div class="review-line">
+                    <span class="tree-level small">小項目</span>
+                    <strong>現場管理・一般管理</strong>
+                    <p>社内係数 / 直接工事費比率で算定</p>
+                    <em>¥86,268,000</em>
+                  </div>
+                </details>
+              </div>
+            </section>
+
+            <aside class="panel compact-panel">
+              <h2>レビューコメント</h2>
+              <div class="comment-list">
+                <article>
+                  <strong>積算部 佐藤</strong>
+                  <p>鉄筋数量はAI推定のため、構造図一式が揃った段階で再確認。</p>
+                </article>
+                <article>
+                  <strong>工事部 田中</strong>
+                  <p>前面道路の幅員が狭い。仮設費と搬入条件を現調後に補正したい。</p>
+                </article>
+                <article>
+                  <strong>営業部 山本</strong>
+                  <p>希望予算との差額があるため、VE候補を顧客説明用に整理。</p>
+                </article>
+              </div>
+
+              <div class="note-box">
+                <strong>レビュー方針</strong>
+                <p>小項目の根拠と信頼度を確認し、中項目単位で差戻し・承認できる設計にすると実務で使いやすくなります。</p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="knowledge">
+          <div class="content-grid knowledge-layout">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>積算ナレッジ</h2>
+                  <p>過去工事ごとに、見積書・図面・写真・仕様書をまとめて蓄積し、類似工事の概算精度を高める</p>
+                </div>
+                <button class="primary-button" type="button">過去工事を登録</button>
+              </div>
+
+              <div class="knowledge-score">
+                <article>
+                  <span>登録済み工事</span>
+                  <strong>1,248件</strong>
+                  <p>建築 812件 / 土木 436件</p>
+                </article>
+                <article>
+                  <span>資料パッケージ</span>
+                  <strong>8,930点</strong>
+                  <p>見積書・図面・写真・仕様書</p>
+                </article>
+                <article>
+                  <span>レビュー待ち</span>
+                  <strong>23件</strong>
+                  <p>工種分類や資料紐づけの確認待ち</p>
+                </article>
+              </div>
+
+              <div class="knowledge-upload-bundle">
+                <div class="bundle-copy">
+                  <span>過去工事データ登録</span>
+                  <strong>1工事 = 1ナレッジパッケージ</strong>
+                  <p>実際の見積書、図面、仕様書、現場写真、完成後の原価・変更契約をまとめてアップロード。AIが工種、数量、単価、施工条件を整理して、類似案件検索に使える形へ変換します。</p>
+                </div>
+                <div class="bundle-drops">
+                  <button class="mini-drop" type="button">見積書<br><small>Excel / PDF</small></button>
+                  <button class="mini-drop" type="button">図面<br><small>PDF / 画像</small></button>
+                  <button class="mini-drop" type="button">写真<br><small>現場 / 完成</small></button>
+                  <button class="mini-drop" type="button">補足資料<br><small>仕様書 / 原価</small></button>
+                </div>
+              </div>
+
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>過去工事</th>
+                      <th>工事種別</th>
+                      <th>地域</th>
+                      <th>規模</th>
+                      <th>登録資料</th>
+                      <th>実績金額</th>
+                      <th>類似度</th>
+                      <th>反映候補</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>中央町RC賃貸マンション</td>
+                      <td>RC造マンション</td>
+                      <td>長野県松本市</td>
+                      <td>6階 / 36戸</td>
+                      <td>見積・図面・写真</td>
+                      <td>¥592,000,000</td>
+                      <td><span class="confidence high">89%</span></td>
+                      <td>躯体単価・外構条件</td>
+                    </tr>
+                    <tr>
+                      <td>南原共同住宅新築</td>
+                      <td>RC造マンション</td>
+                      <td>長野県塩尻市</td>
+                      <td>7階 / 42戸</td>
+                      <td>見積・仕様・写真</td>
+                      <td>¥713,000,000</td>
+                      <td><span class="confidence high">84%</span></td>
+                      <td>設備概算係数</td>
+                    </tr>
+                    <tr>
+                      <td>県道48号 橋梁補修</td>
+                      <td>橋梁補修</td>
+                      <td>長野県安曇野市</td>
+                      <td>橋長 34m</td>
+                      <td>見積・図面・現場写真</td>
+                      <td>¥168,000,000</td>
+                      <td><span class="confidence mid">76%</span></td>
+                      <td>交通規制・仮設</td>
+                    </tr>
+                    <tr>
+                      <td>北部造成第2工区</td>
+                      <td>造成工事</td>
+                      <td>長野県松本市</td>
+                      <td>8,400m2</td>
+                      <td>見積・写真・原価</td>
+                      <td>¥126,000,000</td>
+                      <td><span class="confidence mid">68%</span></td>
+                      <td>土工・残土処分</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <aside class="panel compact-panel">
+              <h2>工事データ取込</h2>
+              <div class="knowledge-flow">
+                <div>
+                  <strong>1. 工事登録</strong>
+                  <p>工事名、地域、工事種別、年度、規模を入力</p>
+                </div>
+                <div>
+                  <strong>2. 資料一式アップロード</strong>
+                  <p>見積書、図面、仕様書、写真、原価資料をまとめて登録</p>
+                </div>
+                <div>
+                  <strong>3. AI整理</strong>
+                  <p>工種・品目・数量・単価・施工条件・写真タグを抽出</p>
+                </div>
+                <div>
+                  <strong>4. ナレッジ化</strong>
+                  <p>類似工事検索、根拠表示、概算単価補正に利用</p>
+                </div>
+              </div>
+              <div class="note-box">
+                <strong>重要</strong>
+                <p>AIに直接覚え込ませるより、工事単位で検索・参照できるナレッジDBとして持つ方が、根拠を説明しやすく安全です。</p>
+              </div>
+            </aside>
+          </div>
+
+          <div class="content-grid two-col below">
+            <section class="panel">
+              <h2>現在案件への反映案</h2>
+              <ul class="plain-list">
+                <li>近隣RC案件3件の躯体単価平均から、コンクリート単価を+2.1%補正。</li>
+                <li>同規模マンションの設備費比率から、設備概算の信頼度を低から中へ改善可能。</li>
+                <li>機械式駐車場込み案件の過去実績を参照し、外構工事を約900万円上振れ補正。</li>
+              </ul>
+            </section>
+            <section class="panel">
+              <h2>ナレッジ化する項目</h2>
+              <ul class="plain-list">
+                <li>工事種別、構造、規模、地域、年度、発注区分。</li>
+                <li>実際の見積書、図面、仕様書、現場写真、完成写真。</li>
+                <li>実行予算、最終原価、利益率、変更契約、担当者コメント。</li>
+              </ul>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="master">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>単価マスタ</h2>
+                <p>標準単価・地域補正・自社単価を管理</p>
+              </div>
+              <button class="primary-button" type="button">単価追加</button>
+            </div>
+            <div class="master-grid">
+              <article>
+                <span>地域補正</span>
+                <strong>長野県 中信</strong>
+                <p>労務 1.04 / 資材 1.02 / 運搬 1.08</p>
+              </article>
+              <article>
+                <span>自社係数</span>
+                <strong>建築 標準</strong>
+                <p>現場管理 8.5% / 一般管理 9.0% / 予備 3.0%</p>
+              </article>
+              <article>
+                <span>最終更新</span>
+                <strong>2026-05-01</strong>
+                <p>積算部 管理者</p>
+              </article>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>工種</th>
+                    <th>品目</th>
+                    <th>仕様</th>
+                    <th>単位</th>
+                    <th>標準単価</th>
+                    <th>自社単価</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>躯体</td>
+                    <td>コンクリート</td>
+                    <td>普通 24N</td>
+                    <td>m3</td>
+                    <td>¥30,800</td>
+                    <td>¥31,500</td>
+                  </tr>
+                  <tr>
+                    <td>躯体</td>
+                    <td>型枠</td>
+                    <td>普通型枠</td>
+                    <td>m2</td>
+                    <td>¥7,900</td>
+                    <td>¥8,200</td>
+                  </tr>
+                  <tr>
+                    <td>土木</td>
+                    <td>交通規制</td>
+                    <td>片側交互通行</td>
+                    <td>日</td>
+                    <td>¥165,000</td>
+                    <td>¥178,000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="wizard-overlay" id="correction-wizard" aria-hidden="true">
+      <section class="wizard-dialog" role="dialog" aria-modal="true" aria-labelledby="wizard-title">
+        <div class="wizard-header">
+          <div>
+            <p class="eyebrow">Correction Wizard</p>
+            <h2 id="wizard-title">差額修正ウィザード</h2>
+          </div>
+          <button class="icon-button" id="close-wizard" type="button" aria-label="閉じる">
+            <svg viewBox="0 0 24 24"><path d="M6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6L19 6.4 17.6 5 12 10.6z"/></svg>
+          </button>
+        </div>
+
+        <div class="wizard-steps">
+          <span class="active">1. 指摘箇所</span>
+          <span>2. 修正内容</span>
+          <span>3. 理由</span>
+          <span>4. 学習反映</span>
+        </div>
+
+        <div class="wizard-body">
+          <article class="wizard-card active" data-step="1">
+            <h3>大きくズレている箇所</h3>
+            <p>AIが金額差・信頼度・過去類似工事との差分から、修正候補を提示します。</p>
+            <div class="difference-list">
+              <label>
+                <input type="radio" name="diff-target" checked>
+                <span>
+                  <strong>設備工事 / 電気・機械設備</strong>
+                  概算 ¥221,560,000。類似工事平均より +18.4%
+                </span>
+              </label>
+              <label>
+                <input type="radio" name="diff-target">
+                <span>
+                  <strong>外構工事 / 機械式駐車場</strong>
+                  台数未確定。20台想定で +¥9,000,000 の上振れ可能性
+                </span>
+              </label>
+              <label>
+                <input type="radio" name="diff-target">
+                <span>
+                  <strong>躯体工事 / 鉄筋</strong>
+                  AI推定。構造条件未確定で信頼度 中
+                </span>
+              </label>
+            </div>
+          </article>
+
+          <article class="wizard-card" data-step="2">
+            <h3>修正内容</h3>
+            <div class="form-grid">
+              <label>
+                修正前
+                <input type="text" value="設備概算単価 58,000円/m2">
+              </label>
+              <label>
+                修正後
+                <input type="text" value="類似工事比率ベース 52,500円/m2">
+              </label>
+              <label class="wide">
+                修正メモ
+                <textarea>設備仕様が未確定のため、延床面積単価のみではなく、過去の同規模RCマンション3件の設備費比率を参照して補正。</textarea>
+              </label>
+            </div>
+          </article>
+
+          <article class="wizard-card" data-step="3">
+            <h3>修正理由</h3>
+            <p>この理由を残すことで、次回のAI見積で同じ判断を再利用できます。</p>
+            <div class="reason-grid">
+              <label><input type="radio" name="reason" checked> 過去類似工事に合わせた</label>
+              <label><input type="radio" name="reason"> 図面・仕様書が追加された</label>
+              <label><input type="radio" name="reason"> 現場条件を反映した</label>
+              <label><input type="radio" name="reason"> 顧客要望が変わった</label>
+              <label><input type="radio" name="reason"> 社内標準単価に合わせた</label>
+              <label><input type="radio" name="reason"> AIの項目分類が違った</label>
+            </div>
+            <label class="wide">
+              理由の詳細
+              <textarea>設備仕様未確定時は、単純なm2単価より、同地域・同規模の完成工事データの設備費比率を優先した方が実績に近い。</textarea>
+            </label>
+          </article>
+
+          <article class="wizard-card" data-step="4">
+            <h3>次回への反映</h3>
+            <div class="learning-preview">
+              <strong>学習候補として保存される内容</strong>
+              <p>RC造マンション、標準仕様、設備仕様未確定、延床面積3,000から4,500m2の場合、設備概算は過去類似工事の設備費比率も併用して提案する。</p>
+            </div>
+            <div class="checklist">
+              <label><input type="checkbox" checked> この案件の修正履歴に残す</label>
+              <label><input type="checkbox" checked> 積算ナレッジの補正ルール候補にする</label>
+              <label><input type="checkbox"> 全社標準ルールとして管理者レビューへ回す</label>
+            </div>
+          </article>
+        </div>
+
+        <div class="wizard-footer">
+          <button class="secondary-button" id="wizard-prev" type="button">戻る</button>
+          <button class="primary-button" id="wizard-next" type="button">次へ</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">AI解析を開始しました</div>
+    <script>
+      (() => {
+        const titles = {
+          dashboard: "案件一覧",
+          create: "案件作成",
+          upload: "資料アップロード",
+          analysis: "AI解析",
+          estimate: "見積編集",
+          review: "見積レビュー",
+          knowledge: "積算ナレッジ",
+          master: "単価マスタ"
+        };
+
+        const views = [...document.querySelectorAll(".view")];
+        const pageTitle = document.querySelector("#page-title");
+        const toast = document.querySelector("#toast");
+
+        function showView(viewId) {
+          views.forEach((view) => {
+            view.classList.toggle("active", view.id === viewId);
+          });
+
+          document.querySelectorAll(".nav-item").forEach((item) => {
+            item.classList.toggle("active", item.dataset.view === viewId);
+          });
+
+          pageTitle.textContent = titles[viewId] || "概算見積AI";
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function showToast(message) {
+          toast.textContent = message;
+          toast.classList.add("show");
+          window.setTimeout(() => toast.classList.remove("show"), 2200);
+        }
+
+        document.querySelectorAll("[data-view]").forEach((item) => {
+          item.addEventListener("click", () => {
+            const viewId = item.dataset.view;
+            if (viewId) showView(viewId);
+          });
+        });
+
+        document.querySelectorAll("tbody tr[data-view]").forEach((row) => {
+          row.addEventListener("click", () => showView(row.dataset.view));
+        });
+
+        document.querySelector("#start-analysis").addEventListener("click", () => {
+          showToast("AI解析を開始しました");
+          window.setTimeout(() => showView("analysis"), 500);
+        });
+
+        document.querySelector("#export-button").addEventListener("click", () => {
+          showToast("Excel / PDF 出力のプレビューを作成しました");
+        });
+
+        document.querySelector("#add-item-button").addEventListener("click", () => {
+          showToast("新しい見積項目を追加しました");
+        });
+
+        document.querySelector("#edit-hierarchy-button").addEventListener("click", () => {
+          document.querySelector("#hierarchy-editor").scrollIntoView({ behavior: "smooth", block: "center" });
+          showToast("大項目・中項目・小項目を編集できます");
+        });
+
+        document.querySelector("#show-evidence-button").addEventListener("click", () => {
+          document.querySelector("#evidence-panel").scrollIntoView({ behavior: "auto", block: "start" });
+          showToast("図面・仕様書・写真の拾い根拠を表示しました");
+        });
+
+        document.querySelector("#add-small-item").addEventListener("click", () => {
+          showToast("小項目追加時は、理由を学習ログに残します");
+        });
+
+        const wizard = document.querySelector("#correction-wizard");
+        const wizardCards = [...document.querySelectorAll(".wizard-card")];
+        const wizardSteps = [...document.querySelectorAll(".wizard-steps span")];
+        const wizardPrev = document.querySelector("#wizard-prev");
+        const wizardNext = document.querySelector("#wizard-next");
+        let wizardStep = 0;
+
+        function renderWizard() {
+          wizardCards.forEach((card, index) => {
+            card.classList.toggle("active", index === wizardStep);
+          });
+          wizardSteps.forEach((step, index) => {
+            step.classList.toggle("active", index <= wizardStep);
+          });
+          wizardPrev.disabled = wizardStep === 0;
+          wizardNext.textContent = wizardStep === wizardCards.length - 1 ? "修正を保存" : "次へ";
+        }
+
+        function openWizard() {
+          wizardStep = 0;
+          renderWizard();
+          wizard.classList.add("show");
+          wizard.setAttribute("aria-hidden", "false");
+        }
+
+        function closeWizard() {
+          wizard.classList.remove("show");
+          wizard.setAttribute("aria-hidden", "true");
+        }
+
+        document.querySelector("#open-wizard-button").addEventListener("click", openWizard);
+        document.querySelector("#close-wizard").addEventListener("click", closeWizard);
+        wizardPrev.addEventListener("click", () => {
+          wizardStep = Math.max(0, wizardStep - 1);
+          renderWizard();
+        });
+        wizardNext.addEventListener("click", () => {
+          if (wizardStep < wizardCards.length - 1) {
+            wizardStep += 1;
+            renderWizard();
+            return;
+          }
+
+          closeWizard();
+          showToast("修正理由を学習候補として保存しました");
+        });
+
+        const formatter = new Intl.NumberFormat("ja-JP", {
+          style: "currency",
+          currency: "JPY",
+          maximumFractionDigits: 0
+        });
+
+        function recalcEstimate() {
+          let total = 0;
+          document.querySelectorAll("#estimate-body tr").forEach((row) => {
+            const qty = Number(row.querySelector(".qty").value || 0);
+            const unitPrice = Number(row.querySelector(".unit-price").value || 0);
+            const lineTotal = qty * unitPrice;
+            total += lineTotal;
+            row.querySelector(".line-total").textContent = formatter.format(lineTotal);
+          });
+
+          document.querySelector("#total-amount").textContent = formatter.format(total);
+        }
+
+        document.querySelectorAll(".qty, .unit-price").forEach((input) => {
+          input.addEventListener("input", recalcEstimate);
+        });
+
+        recalcEstimate();
+      })();
+    </script>
+  </body>
+</html>
