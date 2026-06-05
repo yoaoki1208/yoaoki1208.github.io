@@ -272,15 +272,7 @@
       </section>
     </main>
     <script>
-      const accessHash = "af3465d25356d3a4b8d6969223f1c0c7d572c573738d529c591d8f9a99870979";
-
-      async function sha256(value) {
-        const bytes = new TextEncoder().encode(value.trim());
-        const digest = await crypto.subtle.digest("SHA-256", bytes);
-        return Array.from(new Uint8Array(digest))
-          .map((byte) => byte.toString(16).padStart(2, "0"))
-          .join("");
-      }
+      const accessCode = "OASIS-KENZO-2026";
 
       function unlock() {
         document.body.classList.remove("locked");
@@ -292,11 +284,11 @@
         unlock();
       }
 
-      document.getElementById("accessForm").addEventListener("submit", async (event) => {
+      document.getElementById("accessForm").addEventListener("submit", (event) => {
         event.preventDefault();
         const input = document.getElementById("accessCode");
         const error = document.getElementById("accessError");
-        if ((await sha256(input.value)) === accessHash) {
+        if (input.value.trim() === accessCode) {
           unlock();
           return;
         }
