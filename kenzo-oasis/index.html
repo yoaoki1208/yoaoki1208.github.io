@@ -3,213 +3,404 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OASIS | KENZO HR Evaluation</title>
+    <title>OASIS | KENZO HR Dashboard</title>
     <meta name="robots" content="noindex,nofollow" />
     <style>
       :root {
-        color-scheme: light;
-        --ink: #172033;
-        --muted: #657083;
-        --line: #dfe5ee;
+        --bg: #f6f7f4;
         --panel: #ffffff;
-        --bg: #f4f7fb;
-        --green: #0f8a67;
-        --blue: #2458d3;
-        --amber: #9a6500;
+        --ink: #1c2426;
+        --muted: #657174;
+        --line: #d9e0df;
+        --green: #27745d;
+        --green-soft: #dceee7;
+        --red: #bd3d37;
+        --red-soft: #f4dddd;
+        --amber: #b37418;
+        --amber-soft: #f4e7cf;
+        --blue: #2d609d;
+        --blue-soft: #dbe8f5;
+        --violet: #6958a8;
+        --violet-soft: #e7e2f4;
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
 
       body {
         margin: 0;
-        min-height: 100vh;
         background: var(--bg);
         color: var(--ink);
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       }
 
-      main {
-        display: grid;
+      a { color: inherit; text-decoration: none; }
+
+      .app {
         min-height: 100vh;
-        place-items: center;
-        padding: 32px;
-      }
-
-      .panel {
-        width: min(920px, 100%);
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--panel);
-        box-shadow: 0 18px 50px rgba(18, 30, 53, 0.08);
-        overflow: hidden;
-      }
-
-      .hero {
-        padding: 40px;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .eyebrow {
-        color: var(--green);
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 0;
-        text-transform: uppercase;
-      }
-
-      h1 {
-        margin: 10px 0 12px;
-        font-size: 42px;
-        line-height: 1.1;
-        letter-spacing: 0;
-      }
-
-      p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 16px;
-        line-height: 1.7;
-      }
-
-      .body {
         display: grid;
-        gap: 0;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 248px minmax(0, 1fr);
       }
 
-      .card {
-        padding: 28px 32px;
-        border-right: 1px solid var(--line);
-      }
-
-      .card:last-child {
-        border-right: 0;
-      }
-
-      h2 {
-        margin: 0 0 12px;
-        font-size: 18px;
-        letter-spacing: 0;
-      }
-
-      ul {
-        margin: 14px 0 0;
-        padding-left: 20px;
-        color: var(--muted);
-        line-height: 1.8;
-      }
-
-      .notice {
-        margin-top: 22px;
-        padding: 14px 16px;
-        border: 1px solid #f0d58b;
-        border-radius: 8px;
-        background: #fff8df;
-        color: var(--amber);
-        font-size: 14px;
-        line-height: 1.6;
-      }
-
-      .actions {
+      .sidebar {
+        background: #182325;
+        color: #e9eeee;
+        padding: 18px 14px;
         display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 24px;
+        flex-direction: column;
+        gap: 18px;
       }
 
-      .button {
-        display: inline-flex;
-        min-height: 42px;
+      .brand {
+        height: 52px;
+        display: flex;
         align-items: center;
-        justify-content: center;
-        border-radius: 8px;
-        padding: 0 16px;
-        border: 1px solid var(--line);
-        color: var(--ink);
-        font-weight: 700;
-        text-decoration: none;
+        gap: 10px;
+        padding: 0 10px;
       }
 
-      .button.primary {
-        border-color: var(--blue);
-        background: var(--blue);
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 6px;
+        background: #d9f06c;
+        color: #182325;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+      }
+
+      .brand span, .meta, .small { color: var(--muted); font-size: 12px; }
+
+      .nav { display: grid; gap: 4px; }
+
+      .nav a {
+        height: 38px;
+        border-radius: 6px;
+        color: #dbe2e2;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 10px;
+        font-size: 13px;
+      }
+
+      .nav a.active { background: #2f3b3d; color: #ffffff; }
+      .nav code { width: 18px; text-align: center; color: #b7c4c5; }
+
+      .side-footer {
+        margin-top: auto;
+        border-top: 1px solid #344244;
+        padding: 14px 10px 0;
+        display: grid;
+        gap: 8px;
+        font-size: 12px;
+        color: #b7c4c5;
+      }
+
+      .main { min-width: 0; }
+
+      .topbar {
+        background: var(--panel);
+        border-bottom: 1px solid var(--line);
+        padding: 16px 22px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      h1, h2, h3 { margin: 0; }
+      h1 { font-size: 24px; line-height: 1.2; }
+      h2 { font-size: 16px; }
+      h3 { font-size: 14px; }
+
+      .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+      .btn {
+        min-height: 34px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--panel);
+        color: var(--ink);
+        padding: 0 12px;
+        font-size: 13px;
+      }
+
+      .btn.primary {
+        background: var(--green);
+        border-color: var(--green);
         color: #ffffff;
       }
 
-      footer {
-        padding: 18px 40px;
-        border-top: 1px solid var(--line);
-        color: var(--muted);
+      .filters {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(120px, 1fr));
+        gap: 8px;
+      }
+
+      select, input {
+        height: 34px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #ffffff;
+        padding: 0 10px;
+        font-size: 13px;
+        color: var(--ink);
+        width: 100%;
+      }
+
+      .content { padding: 18px 22px 24px; display: grid; gap: 16px; }
+
+      .notice {
+        border: 1px solid #f0d58b;
+        border-radius: 8px;
+        background: #fff8df;
+        color: #8a5b00;
+        padding: 12px 14px;
         font-size: 13px;
       }
 
-      @media (max-width: 760px) {
-        main {
-          padding: 16px;
-        }
+      .kpis {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(120px, 1fr));
+        gap: 12px;
+      }
 
-        .hero {
-          padding: 28px;
-        }
+      .kpi, .section, .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+      }
 
-        h1 {
-          font-size: 34px;
-        }
+      .kpi {
+        min-height: 96px;
+        padding: 12px;
+        display: grid;
+        align-content: space-between;
+      }
 
-        .body {
-          grid-template-columns: 1fr;
-        }
+      .kpi label { color: var(--muted); font-size: 12px; }
+      .kpi strong { font-size: 28px; line-height: 1; }
 
-        .card {
-          border-right: 0;
-          border-bottom: 1px solid var(--line);
-        }
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(340px, 0.65fr);
+        gap: 16px;
+        align-items: start;
+      }
+
+      .section { overflow: hidden; }
+
+      .section-head {
+        min-height: 42px;
+        border-bottom: 1px solid var(--line);
+        padding: 0 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-size: 13px;
+      }
+
+      th, td {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: middle;
+      }
+
+      th {
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 12px;
+      }
+
+      tr:last-child td { border-bottom: 0; }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        min-height: 22px;
+        border-radius: 999px;
+        padding: 0 8px;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .green { background: var(--green-soft); color: var(--green); }
+      .red { background: var(--red-soft); color: var(--red); }
+      .amber { background: var(--amber-soft); color: var(--amber); }
+      .blue { background: var(--blue-soft); color: var(--blue); }
+      .violet { background: var(--violet-soft); color: var(--violet); }
+
+      .bar {
+        height: 7px;
+        border-radius: 999px;
+        background: #edf0f0;
+        overflow: hidden;
+        margin-top: 6px;
+      }
+
+      .bar span { display: block; height: 100%; background: var(--green); }
+      .bar.red span { background: var(--red); }
+      .bar.amber span { background: var(--amber); }
+
+      .side-list { display: grid; }
+      .side-item { padding: 14px; border-bottom: 1px solid var(--line); display: grid; gap: 6px; }
+      .side-item:last-child { border-bottom: 0; }
+
+      .axis {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        padding: 14px;
+      }
+
+      .axis .card { padding: 14px; display: grid; gap: 8px; }
+      .num { font-size: 30px; font-weight: 800; }
+
+      @media (max-width: 980px) {
+        .app { grid-template-columns: 1fr; }
+        .sidebar { display: none; }
+        .filters, .kpis, .grid, .axis { grid-template-columns: 1fr; }
       }
     </style>
   </head>
   <body>
-    <main>
-      <section class="panel" aria-labelledby="title">
-        <div class="hero">
-          <div class="eyebrow">KENZO Internal HR System</div>
-          <h1 id="title">OASIS</h1>
-          <p>
-            OASISは、日報、個別進捗管理、GitHub、Slack、Notion、議事録などをもとに、
-            半期評価・日次フィードバック・アラート確認を行う社内人事評価システムです。
-          </p>
-          <div class="notice">
-            このGitHub Pagesは非機密の入口ページです。社員評価データ、個人情報、APIキー、実スコアは掲載しません。
-            本体はGoogleログインと許可メール制限のある認証付きWebアプリで運用します。
-          </div>
-          <div class="actions">
-            <a class="button primary" href="#" aria-disabled="true">認証付きOASISへ</a>
-            <a class="button" href="https://github.com/yoaoki1208/oasis">Private app repository</a>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">K</div>
+          <div>
+            <strong>OASIS</strong><br />
+            <span>Private feedback system</span>
           </div>
         </div>
-        <div class="body">
-          <div class="card">
-            <h2>評価の主軸</h2>
-            <ul>
-              <li>業務量: 部署・職種ごとの日々のアウトプット量</li>
-              <li>積極性: 自発的な動き、前向きな発言、仕事を取りに行く姿勢</li>
-              <li>再現性: Notionやマニュアルへのナレッジ化</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h2>運用方針</h2>
-            <ul>
-              <li>正社員、業務委託、アルバイトを区別して評価</li>
-              <li>CompetencyランクはG1からG8で管理</li>
-              <li>業務委託はSlackオンライン時間ではなく成果物で評価</li>
-            </ul>
-          </div>
+        <nav class="nav" aria-label="Main navigation">
+          <a class="active" href="#"><code>D</code>Dashboard</a>
+          <a href="employee.html"><code>E</code>Employees</a>
+          <a href="#"><code>A</code>Alerts</a>
+          <a href="#"><code>R</code>Rankings</a>
+          <a href="#"><code>G</code>GitHub</a>
+          <a href="#"><code>N</code>Notion</a>
+          <a href="#"><code>S</code>Slack</a>
+          <a href="#"><code>M</code>Meetings</a>
+          <a href="#"><code>C</code>Settings</a>
+        </nav>
+        <div class="side-footer">
+          <div>GitHub Pages preview</div>
+          <div>Last sync 2026-06-05</div>
         </div>
-        <footer>
-          Limited distribution notice: this page is not an access control layer. Confidential OASIS data must stay behind server-side authentication.
-        </footer>
-      </section>
-    </main>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="title-row">
+            <div>
+              <h1>OASIS 経営HRダッシュボード</h1>
+              <div class="meta">社員が評価を通じて次のステップへ進むための場所 / 2026年上期 / 経営・人事向け</div>
+            </div>
+            <div class="actions">
+              <button class="btn">根拠ログ</button>
+              <button class="btn">評価基準</button>
+              <button class="btn primary">本日レビュー</button>
+            </div>
+          </div>
+          <div class="filters">
+            <select><option>今日</option><option>今週</option><option>今月</option><option>半期</option></select>
+            <select><option>全部署</option><option>開発</option><option>営業</option><option>CS</option></select>
+            <select><option>全雇用形態</option><option>正社員</option><option>業務委託</option><option>アルバイト</option></select>
+            <select><option>全ランク</option><option>G1</option><option>G2</option><option>G3</option><option>G4</option><option>G5</option><option>G6</option><option>G7</option><option>G8</option></select>
+            <select><option>全評価軸</option><option>業務量</option><option>積極性</option><option>再現性</option></select>
+            <input placeholder="社員名・GitHub・Slack" />
+          </div>
+        </header>
+
+        <section class="content">
+          <div class="notice">公開プレビュー: 実データ、APIキー、社員評価の確定値は掲載していません。本番版はGoogleログイン制限付きで運用します。</div>
+
+          <div class="kpis">
+            <div class="kpi"><label>評価対象</label><strong>13</strong><span class="meta">休暇除外 1 / 業務委託 3</span></div>
+            <div class="kpi"><label>要対応アラート</label><strong>4</strong><span class="meta">前日比 +2</span></div>
+            <div class="kpi"><label>平均90点未満</label><strong>3</strong><span class="meta">月次確認対象</span></div>
+            <div class="kpi"><label>未提出/未更新</label><strong>2</strong><span class="meta">日報 1 / 進捗 1</span></div>
+            <div class="kpi"><label>大幅オフライン</label><strong>1</strong><span class="meta">業務委託除外済</span></div>
+            <div class="kpi"><label>昇格候補</label><strong>2</strong><span class="meta">A以上継続</span></div>
+            <div class="kpi"><label>Notion貢献</label><strong>18</strong><span class="meta">今週の作成/更新</span></div>
+          </div>
+
+          <div class="grid">
+            <section class="section">
+              <div class="section-head"><h2>今日の要確認者</h2><span class="meta">優先度順</span></div>
+              <table>
+                <thead>
+                  <tr><th>社員</th><th>部署</th><th>区分</th><th>アラート</th><th>根拠</th><th>総合</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a href="employee.html"><strong>遠山</strong></a><br /><span class="meta">開発 / G1</span></td>
+                    <td>開発</td><td><span class="badge blue">正社員</span></td><td><span class="badge red">反復指摘</span></td>
+                    <td>進捗表の成果URL不足、会社コメント対応の証跡なし</td>
+                    <td><strong>82</strong><div class="bar red"><span style="width:82%"></span></div></td>
+                  </tr>
+                  <tr>
+                    <td><a href="employee.html"><strong>小林俊之</strong></a><br /><span class="meta">業務委託</span></td>
+                    <td>開発</td><td><span class="badge violet">業務委託</span></td><td><span class="badge amber">報告粒度</span></td>
+                    <td>稼働時間ではなく、PR URLと完了範囲を確認</td>
+                    <td><strong>88</strong><div class="bar amber"><span style="width:88%"></span></div></td>
+                  </tr>
+                  <tr>
+                    <td><a href="employee.html"><strong>松里</strong></a><br /><span class="meta">業務委託 / CS</span></td>
+                    <td>CS</td><td><span class="badge violet">業務委託</span></td><td><span class="badge green">再現性 高</span></td>
+                    <td>CSマニュアル、問い合わせ分類、Notion化が進行</td>
+                    <td><strong>94</strong><div class="bar"><span style="width:94%"></span></div></td>
+                  </tr>
+                  <tr>
+                    <td><a href="employee.html"><strong>的場</strong></a><br /><span class="meta">業務委託</span></td>
+                    <td>開発</td><td><span class="badge violet">業務委託</span></td><td><span class="badge amber">証跡待ち</span></td>
+                    <td>オンライン状態は補正。GitHub/進捗表で成果確認</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+
+            <aside class="section">
+              <div class="section-head"><h2>部署別状態</h2><span class="meta">月次平均</span></div>
+              <div class="side-list">
+                <div class="side-item"><strong>開発 <span class="badge amber">89.4</span></strong><span class="small">GitHub PR、レビュー、Notion設計メモを中心に評価</span></div>
+                <div class="side-item"><strong>営業 <span class="badge blue">91.2</span></strong><span class="small">活動量、商談化、顧客理解、改善メモを確認</span></div>
+                <div class="side-item"><strong>CS <span class="badge green">93.1</span></strong><span class="small">問い合わせ対応とマニュアル化を重視</span></div>
+              </div>
+              <div class="section-head"><h2>Slack稼働シグナル</h2><span class="meta">標準9h/休憩1h</span></div>
+              <div class="side-list">
+                <div class="side-item"><strong>正社員</strong><span class="small">勤務時間中の大幅オフラインは、日報・成果物・会議予定と突合</span><span class="badge amber">注意 1</span></div>
+                <div class="side-item"><strong>業務委託</strong><span class="small">オンライン時間では評価しない。成果、納期、報告粒度で評価</span><span class="badge violet">除外</span></div>
+              </div>
+            </aside>
+          </div>
+
+          <section class="section">
+            <div class="section-head"><h2>3軸スコア</h2><span class="meta">部署/Competencyランク補正後</span></div>
+            <div class="axis">
+              <div class="card"><h3>業務量 <span class="badge blue">35%</span></h3><div class="num">90.6</div><div class="bar"><span style="width:90%"></span></div></div>
+              <div class="card"><h3>積極性 <span class="badge green">35%</span></h3><div class="num">91.8</div><div class="bar"><span style="width:92%"></span></div></div>
+              <div class="card"><h3>再現性 <span class="badge violet">20%</span></h3><div class="num">87.9</div><div class="bar amber"><span style="width:88%"></span></div></div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
   </body>
 </html>
