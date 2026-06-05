@@ -222,9 +222,9 @@
       <div class="access-box">
         <div class="eyebrow">Restricted Entry</div>
         <h1 id="accessTitle">OASIS</h1>
-        <p>アクセスコードを入力してください。</p>
+        <p>パスワードを入力してください。</p>
         <form class="access-form" id="accessForm">
-          <input id="accessCode" type="password" autocomplete="current-password" inputmode="text" aria-label="アクセスコード" />
+          <input id="accessCode" type="password" autocomplete="current-password" inputmode="text" aria-label="パスワード" />
           <button class="button primary" type="submit">入室</button>
           <div class="access-error" id="accessError" aria-live="polite"></div>
         </form>
@@ -272,7 +272,7 @@
       </section>
     </main>
     <script>
-      const accessCode = "OASIS-KENZO-2026";
+      const accessCodes = ["kenzo", "KENZO", "oasis", "OASIS", "OASIS-KENZO-2026"];
 
       function unlock() {
         document.body.classList.remove("locked");
@@ -288,11 +288,11 @@
         event.preventDefault();
         const input = document.getElementById("accessCode");
         const error = document.getElementById("accessError");
-        if (input.value.trim() === accessCode) {
+        if (accessCodes.includes(input.value.trim())) {
           unlock();
           return;
         }
-        error.textContent = "アクセスコードが違います。";
+        error.textContent = "パスワードが違います。";
         input.select();
       });
     </script>
