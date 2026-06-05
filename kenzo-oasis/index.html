@@ -145,6 +145,54 @@
         font-size: 13px;
       }
 
+      .access-gate {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: var(--bg);
+      }
+
+      .access-box {
+        width: min(420px, 100%);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 28px;
+        box-shadow: 0 18px 50px rgba(18, 30, 53, 0.1);
+      }
+
+      .access-box h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+      }
+
+      .access-form {
+        display: grid;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .access-form input {
+        min-height: 44px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0 12px;
+        font-size: 16px;
+      }
+
+      .access-error {
+        min-height: 20px;
+        color: #b42318;
+        font-size: 14px;
+      }
+
+      body.locked main {
+        display: none;
+      }
+
       @media (max-width: 760px) {
         main {
           padding: 16px;
@@ -169,7 +217,19 @@
       }
     </style>
   </head>
-  <body>
+  <body class="locked">
+    <section class="access-gate" id="accessGate" aria-labelledby="accessTitle">
+      <div class="access-box">
+        <div class="eyebrow">Restricted Entry</div>
+        <h1 id="accessTitle">OASIS</h1>
+        <p>アクセスコードを入力してください。</p>
+        <form class="access-form" id="accessForm">
+          <input id="accessCode" type="password" autocomplete="current-password" inputmode="text" aria-label="アクセスコード" />
+          <button class="button primary" type="submit">入室</button>
+          <div class="access-error" id="accessError" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
     <main>
       <section class="panel" aria-labelledby="title">
         <div class="hero">
@@ -211,5 +271,38 @@
         </footer>
       </section>
     </main>
+    <script>
+      const accessHash = "af3465d25356d3a4b8d6969223f1c0c7d572c573738d529c591d8f9a99870979";
+
+      async function sha256(value) {
+        const bytes = new TextEncoder().encode(value.trim());
+        const digest = await crypto.subtle.digest("SHA-256", bytes);
+        return Array.from(new Uint8Array(digest))
+          .map((byte) => byte.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
+      function unlock() {
+        document.body.classList.remove("locked");
+        document.getElementById("accessGate").hidden = true;
+        sessionStorage.setItem("oasisAccess", "granted");
+      }
+
+      if (sessionStorage.getItem("oasisAccess") === "granted") {
+        unlock();
+      }
+
+      document.getElementById("accessForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const input = document.getElementById("accessCode");
+        const error = document.getElementById("accessError");
+        if ((await sha256(input.value)) === accessHash) {
+          unlock();
+          return;
+        }
+        error.textContent = "アクセスコードが違います。";
+        input.select();
+      });
+    </script>
   </body>
 </html>
