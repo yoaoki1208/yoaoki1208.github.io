@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OASIS | Employee</title>
+    <title>OASIS | Employees</title>
     <link rel="stylesheet" href="preview.css" />
   </head>
   <body>
@@ -12,45 +12,53 @@
         <a href="index.html">Dashboard</a><a class="active" href="employee.html">Employees</a><a href="alerts.html">Alerts</a><a href="rankings.html">Rankings</a><a href="github.html">GitHub</a><a href="notion.html">Notion</a><a href="slack.html">Slack</a><a href="meetings.html">Meetings</a><a href="settings.html">Settings</a>
       </nav>
       <header>
-        <h1>社員評価ページ</h1>
-        <p>本人フィードバック、根拠、半期面談、ランク変更コメントを一画面で確認します。</p>
+        <h1>社員評価一覧</h1>
+        <p>全社員を一覧で確認し、部署、雇用形態、Competencyランク、日次AIレビュー、半期面談コメントを横断管理します。</p>
       </header>
+
       <section class="cards">
-        <div class="card"><span>社員</span><strong>西川</strong></div>
-        <div class="card"><span>部署/ランク</span><strong>開発 G2</strong></div>
-        <div class="card"><span>半期総合</span><strong>96</strong></div>
-        <div class="card"><span>推奨</span><strong>G3候補</strong></div>
+        <div class="card"><span>評価対象</span><strong>13</strong></div>
+        <div class="card"><span>正社員/アルバイト</span><strong>10</strong></div>
+        <div class="card"><span>業務委託</span><strong>3</strong></div>
+        <div class="card"><span>昇格候補</span><strong>2</strong></div>
       </section>
+
       <section class="panel">
-        <h2>3軸評価</h2>
+        <h2>社員別サマリー</h2>
         <table>
-          <thead><tr><th>評価軸</th><th>スコア</th><th>根拠</th><th>次回見る点</th></tr></thead>
+          <thead>
+            <tr>
+              <th>社員</th>
+              <th>部署</th>
+              <th>雇用形態</th>
+              <th>ランク/役割</th>
+              <th>総合</th>
+              <th>状態</th>
+              <th>AIレビュー要約</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>業務量</td><td>94</td><td>PR、バグ修正、レビュー、進捗表の成果証跡が安定</td><td>担当範囲と成果URLを継続して明記</td></tr>
-            <tr><td>積極性</td><td>97</td><td>課題の巻き取り、レビュー支援、前向きな改善提案が継続</td><td>周囲への支援内容も記録</td></tr>
-            <tr><td>再現性</td><td>95</td><td>PR本文、確認方法、Notion/Docs連携が高水準</td><td>手順化できる内容をNotionへ残す</td></tr>
+            <tr><td><strong>小林淳</strong></td><td>開発</td><td>正社員</td><td>G8 / CTO</td><td>--</td><td><span class="badge blue">経営/技術責任</span></td><td>作業量ではなく、技術判断、設計品質、育成、仕組化で評価。</td></tr>
+            <tr><td><strong>西川</strong></td><td>開発</td><td>正社員</td><td>G2 / リーダー</td><td>96</td><td><span class="badge green">G3候補</span></td><td>成果、支援、再現性が安定。半期面談で次の責任範囲を確認。</td></tr>
+            <tr><td><strong>遠山</strong></td><td>開発</td><td>正社員</td><td>G1</td><td>82</td><td><span class="badge red">反復指摘</span></td><td>成果URLと会社コメント対応の証跡を厚くする必要あり。</td></tr>
+            <tr><td><strong>赤羽</strong></td><td>営業/CS</td><td>正社員</td><td>G1</td><td>確認中</td><td><span class="badge amber">根拠確認</span></td><td>ランキング上位理由は成果物、顧客対応、報告粒度を再点検。</td></tr>
+            <tr><td><strong>浦部</strong></td><td>営業/CS</td><td>正社員</td><td>G1</td><td>確認中</td><td><span class="badge amber">根拠確認</span></td><td>活動量と成果の対応関係を確認。定量根拠が薄ければ補正。</td></tr>
+            <tr><td><strong>下脇</strong></td><td>営業/CS</td><td>正社員</td><td>G1</td><td>確認中</td><td><span class="badge amber">根拠確認</span></td><td>日報、進捗表、商談/CS記録の整合性を確認。</td></tr>
+            <tr><td><strong>松里</strong></td><td>CS</td><td>業務委託</td><td>業務委託</td><td>94</td><td><span class="badge green">再現性 高</span></td><td>問い合わせ分類、マニュアル化、引き継ぎ品質を中心に評価。</td></tr>
+            <tr><td><strong>小林俊之</strong></td><td>開発</td><td>業務委託</td><td>業務委託</td><td>88</td><td><span class="badge amber">報告粒度</span></td><td>オンライン時間ではなく、PR URL、完了範囲、納期で評価。</td></tr>
+            <tr><td><strong>的場</strong></td><td>開発</td><td>業務委託</td><td>業務委託</td><td>--</td><td><span class="badge amber">証跡待ち</span></td><td>成果物、GitHub、進捗表の証跡が揃い次第評価。</td></tr>
           </tbody>
         </table>
       </section>
+
       <section class="panel">
-        <h2>半期面談アドバイス</h2>
+        <h2>詳細ビューで見る内容</h2>
         <table>
+          <thead><tr><th>項目</th><th>内容</th></tr></thead>
           <tbody>
-            <tr><td>強み</td><td>実装成果だけでなく、レビュー、周囲の支援、仕様理解の言語化が継続しています。</td></tr>
-            <tr><td>懸念</td><td>属人的に巻き取っている作業が増えると本人に負荷が集中します。</td></tr>
-            <tr><td>ランク変更</td><td>G2からG3へのランクアップ候補。次の半年では育成、標準化、予実管理を期待値に置きます。</td></tr>
-          </tbody>
-        </table>
-      </section>
-      <section class="panel">
-        <h2>根拠ソース</h2>
-        <table>
-          <thead><tr><th>ソース</th><th>見るもの</th><th>扱い</th></tr></thead>
-          <tbody>
-            <tr><td>GitHub</td><td>PR、commit、review、bugfix、Docs更新</td><td>読み取り専用で評価根拠化</td></tr>
-            <tr><td>Slack</td><td>日報、会社コメント対応、オンライン/オフライン</td><td>業務委託はオンライン時間を原則除外</td></tr>
-            <tr><td>Notion</td><td>ナレッジ、マニュアル、手順書</td><td>再現性評価へ反映</td></tr>
-            <tr><td>Meet / tl;dv</td><td>発言、意思決定、アクション</td><td>積極性と業務量の根拠にする</td></tr>
+            <tr><td>日次AIレビュー</td><td>Slack日報、個別進捗表、会社コメント対応、成果物URL、次回改善点を日次で確認。</td></tr>
+            <tr><td>半期面談アドバイス</td><td>強み、懸念、本人に確認する質問、会社側の支援、ランク変更コメントを表示。</td></tr>
+            <tr><td>根拠ソース</td><td>Google Sheets、Slack、GitHub、Notion、Meet/tl;dvを突合。休暇と業務委託は補正。</td></tr>
           </tbody>
         </table>
       </section>
