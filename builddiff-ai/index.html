@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BuildDiff AI Mockup</title>
+    <link rel="stylesheet" href="./styles.css?v=9" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <button class="icon-button brand-mark" aria-label="メニュー">
+            <span></span>
+            <span></span>
+          </button>
+          <div>
+            <strong>BuildDiff AI</strong>
+            <small>建設変更レビューRAG</small>
+          </div>
+        </div>
+
+        <nav class="view-switch" aria-label="表示切替">
+          <button class="active" data-view="workspace">レビュー</button>
+          <button data-view="summary">サマリ</button>
+          <button data-view="knowledge">ナレッジ</button>
+        </nav>
+
+        <div class="top-actions">
+          <button class="ghost-button">共有</button>
+          <button class="primary-button">レポート作成</button>
+        </div>
+      </header>
+
+      <section class="upload-screen active" id="uploadScreen">
+        <div class="upload-hero">
+          <span class="eyebrow">Construction RAG Diff</span>
+          <h1>新旧資料を入れるだけで、変更点と根拠資料をAIがレビューします。</h1>
+          <p>図面・仕様書・見積書・議事録を横断し、差分の意味、影響範囲、確認タスクまで一気通貫で整理します。</p>
+        </div>
+
+        <div class="upload-workbench">
+          <section class="upload-column before-upload">
+            <div class="upload-label">
+              <span class="dot red"></span>
+              <div>
+                <strong>Before</strong>
+                <small>改訂前のPDF・図面・仕様書</small>
+              </div>
+            </div>
+            <button class="large-drop" id="beforeUpload">
+              <span class="upload-icon">↑</span>
+              <strong>ここにBefore資料をドロップ</strong>
+              <small>複数PDF対応 / 図面・仕様書・見積書</small>
+              <em>ファイルを選択</em>
+            </button>
+            <div class="file-preview" id="beforePreview">
+              <span>基本設計図_RevA.pdf</span>
+              <small>24 pages / 18.4 MB</small>
+            </div>
+          </section>
+
+          <div class="flow-arrow">→</div>
+
+          <section class="upload-column after-upload">
+            <div class="upload-label">
+              <span class="dot green"></span>
+              <div>
+                <strong>After</strong>
+                <small>改訂後のPDF・図面・仕様書</small>
+              </div>
+            </div>
+            <button class="large-drop" id="afterUpload">
+              <span class="upload-icon">↑</span>
+              <strong>ここにAfter資料をドロップ</strong>
+              <small>複数PDF対応 / 図面・仕様書・見積書</small>
+              <em>ファイルを選択</em>
+            </button>
+            <div class="file-preview" id="afterPreview">
+              <span>実施設計図_RevB.pdf</span>
+              <small>23 pages / 21.7 MB</small>
+            </div>
+          </section>
+        </div>
+
+        <div class="upload-options">
+          <label>
+            <span>AIレビュー観点</span>
+            <select>
+              <option>図面・仕様・見積・議事録を横断</option>
+              <option>図面変更を重点チェック</option>
+              <option>契約・金額リスクを重点チェック</option>
+            </select>
+          </label>
+          <label>
+            <span>解析深度</span>
+            <select>
+              <option>標準レビュー</option>
+              <option>高速プレビュー</option>
+              <option>詳細監査</option>
+            </select>
+          </label>
+          <button class="ghost-button" id="loadSampleButton">サンプルを投入</button>
+          <button class="primary-button start-review" id="startReviewButton">AI解析を開始</button>
+        </div>
+      </section>
+
+      <main id="reviewWorkspace">
+        <aside class="left-rail">
+          <section class="compare-card">
+            <div class="section-title">
+              <span>比較対象</span>
+              <button class="mini-button" id="sampleButton">サンプル</button>
+            </div>
+
+            <div class="drop-grid">
+              <button class="drop-zone before-zone" id="beforeZone">
+                <span class="dot red"></span>
+                <strong>Before</strong>
+                <small>基本設計図 Rev.A</small>
+                <em>PDFを追加</em>
+              </button>
+              <button class="drop-zone after-zone" id="afterZone">
+                <span class="dot green"></span>
+                <strong>After</strong>
+                <small>実施設計図 Rev.B</small>
+                <em>PDFを追加</em>
+              </button>
+            </div>
+
+            <div class="control-row">
+              <label>
+                <span>レビュー観点</span>
+                <select id="reviewMode">
+                  <option>図面・仕様・見積を横断</option>
+                  <option>図面中心</option>
+                  <option>契約・仕様中心</option>
+                  <option>金額・数量中心</option>
+                </select>
+              </label>
+            </div>
+
+            <button class="analyze-button" id="analyzeButton">
+              <span class="spark"></span>
+              AI解析を開始
+            </button>
+          </section>
+
+          <section class="progress-card" id="progressCard">
+            <div class="progress-head">
+              <span>解析ステータス</span>
+              <strong id="progressValue">82%</strong>
+            </div>
+            <div class="progress-track"><span id="progressBar"></span></div>
+            <ul>
+              <li class="done">PDF構造解析</li>
+              <li class="done">ページ整列</li>
+              <li class="done">差分イベント化</li>
+              <li class="active">RAG根拠検索</li>
+              <li>AIレビュー生成</li>
+            </ul>
+          </section>
+
+          <section class="diff-list">
+            <div class="section-title">
+              <span>重要な変更</span>
+              <strong>7件</strong>
+            </div>
+            <button class="diff-item active" data-diff="0">
+              <span class="severity high">高</span>
+              <strong>会議室Bの拡張</strong>
+              <small>A-01 / 間仕切り・寸法・空調影響</small>
+            </button>
+            <button class="diff-item" data-diff="1">
+              <span class="severity high">高</span>
+              <strong>鉄筋工事 金額変更</strong>
+              <small>仕様書3.1 / +24,200,000円</small>
+            </button>
+            <button class="diff-item" data-diff="2">
+              <span class="severity medium">中</span>
+              <strong>玄関扉の開き勝手変更</strong>
+              <small>A-01 / 避難動線を確認</small>
+            </button>
+            <button class="diff-item" data-diff="3">
+              <span class="severity medium">中</span>
+              <strong>BIM連携要件の追加</strong>
+              <small>仕様書1.2 / 監督員定義を簡素化</small>
+            </button>
+          </section>
+        </aside>
+
+        <section class="content-stage">
+          <section class="workspace-view app-view active" id="workspaceView">
+            <div class="viewer-toolbar">
+              <div class="pager">
+                <button class="icon-button" aria-label="前のページ">‹</button>
+                <strong>A-01</strong>
+                <span>1 / 24</span>
+                <button class="icon-button" aria-label="次のページ">›</button>
+              </div>
+              <div class="segmented">
+                <button>並列</button>
+                <button class="active">重ね合わせ</button>
+                <button>スイープ</button>
+              </div>
+              <label class="range-control">
+                <span>ズーム</span>
+                <input type="range" min="60" max="140" value="100" />
+                <strong>100%</strong>
+              </label>
+            </div>
+
+            <div class="canvas-wrap">
+              <div class="drawing-card">
+                <div class="drawing-grid"></div>
+                <div class="plan-frame">
+                  <div class="title-block">
+                    <strong>1F PLAN</strong>
+                    <span>S=1:100 / KENZO 新本社ビル</span>
+                  </div>
+                  <div class="north-mark">N</div>
+                  <div class="room office">事務室</div>
+                  <div class="room meeting-a">会議室A</div>
+                  <div class="room meeting-b">会議室B<br /><span>拡張</span></div>
+                  <div class="room restroom">便所</div>
+                  <div class="room storage">倉庫</div>
+                  <div class="room pantry">給湯室</div>
+                  <div class="room corridor">廊下</div>
+                  <div class="fixture desk d1"></div>
+                  <div class="fixture desk d2"></div>
+                  <div class="fixture desk d3"></div>
+                  <div class="fixture desk d4"></div>
+                  <div class="fixture desk d5"></div>
+                  <div class="fixture desk d6"></div>
+                  <div class="fixture table main-table"></div>
+                  <div class="fixture round-table"></div>
+                  <div class="fixture sink"></div>
+                  <div class="door door-one"></div>
+                  <div class="door door-two"></div>
+                  <div class="door door-three"></div>
+                  <div class="window window-one"></div>
+                  <div class="window window-two"></div>
+                  <div class="window window-three"></div>
+                  <div class="wall red-wall"></div>
+                  <div class="wall blue-wall"></div>
+                  <div class="dimension full-width">14400</div>
+                  <div class="dimension top">5100</div>
+                  <div class="dimension left">9000</div>
+                  <div class="dimension small-dim">4200</div>
+                  <div class="ocr-box ocr-one">OCR: 会議室B</div>
+                  <div class="ocr-box ocr-two">DIM: 5100</div>
+                  <div class="ocr-box ocr-three">OBJ: 間仕切り壁</div>
+                  <div class="scan-line"></div>
+                  <div class="heat heat-one"></div>
+                  <div class="heat heat-two"></div>
+                  <div class="change-pin pin-one">1</div>
+                  <div class="change-pin pin-two">2</div>
+                </div>
+                <div class="legend">
+                  <span><i class="before-line"></i>Before</span>
+                  <span><i class="after-line"></i>After</span>
+                  <span><i class="common-line"></i>共通</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="summary-view app-view" id="summaryView">
+            <div class="summary-hero">
+              <div>
+                <span class="eyebrow">AI Review Summary</span>
+                <h1>変更の要点は7件。契約・金額影響は2件です。</h1>
+              </div>
+              <button class="primary-button">承認用レポート</button>
+            </div>
+            <div class="metric-grid">
+              <article><span>要確認</span><strong>7</strong><small>人が確認すべき差分</small></article>
+              <article><span>金額影響</span><strong>+4,600万</strong><small>見積・仕様書より抽出</small></article>
+              <article><span>関連資料</span><strong>18</strong><small>図面・議事録・RFI</small></article>
+              <article><span>AI信頼度</span><strong>86%</strong><small>根拠一致率ベース</small></article>
+            </div>
+            <div class="review-table">
+              <div class="table-row table-head">
+                <span>重要度</span><span>変更内容</span><span>RAG根拠</span><span>次アクション</span>
+              </div>
+              <div class="table-row">
+                <span class="severity high">高</span><strong>会議室Bの拡張</strong><span>A-01 / 議事録#08 / 見積M-12</span><button>確認</button>
+              </div>
+              <div class="table-row">
+                <span class="severity high">高</span><strong>鉄筋工事 数量・金額変更</strong><span>仕様書3.1 / 内訳書p.12</span><button>確認</button>
+              </div>
+              <div class="table-row">
+                <span class="severity medium">中</span><strong>玄関扉の開き勝手変更</strong><span>A-01 / 防災計画p.6</span><button>確認</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="knowledge-view app-view" id="knowledgeView">
+            <div class="knowledge-search">
+              <span class="eyebrow">Project Knowledge</span>
+              <h1>案件資料を横断して根拠を探す</h1>
+              <div class="search-box">
+                <input value="会議室B 拡張 空調 見積 影響" aria-label="ナレッジ検索" />
+                <button class="primary-button">検索</button>
+              </div>
+            </div>
+            <div class="source-grid">
+              <article><strong>第8回 定例会議</strong><span>施主から会議室収容人数の増加要望</span><small>一致度 94%</small></article>
+              <article><strong>見積内訳 M-12</strong><span>間仕切り工事は反映済み。空調増額は未記載</span><small>一致度 88%</small></article>
+              <article><strong>空調設備図 M-03</strong><span>会議室B系統の能力再計算が必要</span><small>一致度 81%</small></article>
+            </div>
+          </section>
+        </section>
+
+        <aside class="ai-panel">
+          <section class="ai-card">
+            <div class="ai-status">
+              <span class="spark"></span>
+              <strong>AIレビュー</strong>
+              <em id="confidence">信頼度 86%</em>
+            </div>
+            <h2 id="aiTitle">会議室Bの拡張は施工・設備・見積に影響します</h2>
+            <p id="aiText">
+              西側の間仕切りが900mm移動し、会議室Bの幅が4,200mmから5,100mmへ拡張されています。RAG検索では第8回定例会議の収容人数増加要望と整合しますが、空調能力と照明数量の見積反映が未確認です。
+            </p>
+            <div class="risk-stack">
+              <span>金額影響</span>
+              <span>設備影響</span>
+              <span>施工範囲</span>
+            </div>
+          </section>
+
+          <section class="evidence-card">
+            <div class="section-title">
+              <span>根拠資料</span>
+              <strong>4件</strong>
+            </div>
+            <button>
+              <strong>A-01 1階平面図</strong>
+              <small>間仕切り位置・寸法変更</small>
+            </button>
+            <button>
+              <strong>第8回 定例会議</strong>
+              <small>会議室収容人数の増加要望</small>
+            </button>
+            <button>
+              <strong>見積内訳 M-12</strong>
+              <small>空調・照明の増額未確認</small>
+            </button>
+          </section>
+
+          <section class="todo-card">
+            <div class="section-title">
+              <span>確認タスク</span>
+              <button class="mini-button">追加</button>
+            </div>
+            <label><input type="checkbox" /> 空調能力の再計算有無を確認</label>
+            <label><input type="checkbox" /> 照明数量の増減が見積に反映済みか確認</label>
+            <label><input type="checkbox" /> 変更指示書の対象か判断</label>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="./app.js?v=9"></script>
+  </body>
+</html>
