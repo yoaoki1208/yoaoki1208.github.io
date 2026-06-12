@@ -20,7 +20,12 @@ tr:last-child td { border-bottom: 0; }
 .amber { background: #f4e7cf; color: #b37418; }
 .green { background: #dceee7; color: #27745d; }
 .blue { background: #dbe8f5; color: #2d609d; }
-.violet { background: #e7e2f4; color: #6958a8; }
+.presence { display: inline-flex; align-items: center; gap: 6px; min-height: 24px; border: 1px solid #d9e0df; border-radius: 999px; padding: 0 9px; font-size: 12px; font-weight: 700; }
+.presence::before { content: ""; width: 8px; height: 8px; border-radius: 50%; border: 1px solid #9aa6a8; }
+.presence.online { background: #dceee7; border-color: #9bcab8; color: #27745d; }
+.presence.online::before { background: #27745d; border-color: #27745d; }
+.presence.offline { background: #ffffff; border-color: #d9e0df; color: #1c2426; }
+.presence.offline::before { background: #ffffff; }
 .cards { display: grid; grid-template-columns: repeat(4, minmax(140px, 1fr)); gap: 12px; }
 .card { padding: 14px; display: grid; gap: 8px; }
 .card span { color: #657174; font-size: 12px; }
