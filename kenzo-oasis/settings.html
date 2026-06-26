@@ -3,16 +3,17 @@
   <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>OASIS | Settings</title><link rel="stylesheet" href="preview.css" /></head>
   <body><main class="page">
     <nav class="tabs"><a href="index.html">Dashboard</a><a href="employee.html">Employees</a><a href="alerts.html">Alerts</a><a href="rankings.html">Rankings</a><a href="github.html">GitHub</a><a href="notion.html">Notion</a><a href="slack.html">Slack</a><a href="meetings.html">Meetings</a><a class="active" href="settings.html">Settings</a></nav>
-    <header><h1>設定 / データ取得</h1><p>日次・週次・月次・半期評価の取得元と自動化設定です。Slack presenceは常時取得が復旧済みです。</p></header>
+    <header><h1>設定 / データ取得</h1><p>全ソースを5分ごとに取得し、日次・週次・月次・半期評価へ集計します。Slack presenceは常時取得が復旧済みです。</p></header>
     <section class="cards"><div class="card"><span>日次</span><strong>20:00</strong></div><div class="card"><span>週次</span><strong>月曜</strong></div><div class="card"><span>月次</span><strong>1日</strong></div><div class="card"><span>半期</span><strong>6か月</strong></div></section>
-    <section class="panel"><h2>毎日取得するソース</h2><table><thead><tr><th>ソース</th><th>目的</th><th>状態</th><th>不足/確認</th></tr></thead><tbody>
+    <section class="panel"><h2>5分ごとに取得するソース</h2><table><thead><tr><th>ソース</th><th>目的</th><th>状態</th><th>不足/確認</th></tr></thead><tbody>
       <tr><td>Slack presence</td><td>オンライン/オフライン、初回オンライン、非稼働候補</td><td><span class="badge green">接続済み</span></td><td>13名取得済み。1分間隔のLaunchAgentが稼働中。</td></tr>
       <tr><td>Google Sheets 個別進捗管理</td><td>成果、成果物URL、会社コメント対応、次回改善点</td><td><span class="badge amber">API認証待ち</span></td><td>シートID設定済み。残り: GOOGLE_SERVICE_ACCOUNT_JSON</td></tr>
       <tr><td>Google Sheets 開発部WBS</td><td>担当タスク、優先度、難易度、予定/実績工数、進捗率</td><td><span class="badge amber">API認証待ち</span></td><td>シートID設定済み。残り: GOOGLE_SERVICE_ACCOUNT_JSON</td></tr>
       <tr><td>Slack 日報 / #attendance</td><td>日報、休暇、半休、外出、会社コメント対応</td><td><span class="badge green">接続済み</span></td><td>#日報 C09T8FRT93K / #attendance C09SP7K57S7</td></tr>
-      <tr><td>GitHub</td><td>PR、commit、review、bugfix、Docs更新</td><td><span class="badge amber">API認証待ち</span></td><td>org/repo設定済み。残り: GITHUB_TOKEN</td></tr>
+      <tr><td>GitHub</td><td>PR、commit、review、bugfix、Docs更新</td><td><span class="badge amber">API認証待ち</span></td><td>org/repo設定済み。残り: OASIS_GITHUB_TOKEN</td></tr>
       <tr><td>Notion</td><td>ナレッジ、マニュアル、手順書</td><td><span class="badge amber">API認証待ち</span></td><td>Codexコネクタ読取可。OASIS本番は NOTION_TOKEN / NOTION_DATABASE_IDS が必要</td></tr>
-      <tr><td>Meet / tl;dv</td><td>発言、意思決定、アクション</td><td><span class="badge amber">API認証待ち</span></td><td>残り: GOOGLE_MEET_NOTES_SOURCE / TLDV_API_TOKEN</td></tr>
+      <tr><td>Meet / tl;dv</td><td>発言、意思決定、アクション</td><td><span class="badge amber">API認証待ち</span></td><td>残り: GOOGLE_MEET_NOTES_SOURCE / TLDV_API_TOKEN / TLDV_API_URL</td></tr>
     </tbody></table></section>
+    <section class="panel"><h2>スマホアプリ</h2><p>OASIS本体はPWA対応済み。スマホブラウザで開き、ホーム画面に追加するとアプリとして利用できます。</p></section>
   </main></body>
 </html>
