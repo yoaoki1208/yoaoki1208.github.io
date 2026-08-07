@@ -1,213 +1,136 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>概算見積AI</title>
-  <style>
-    :root{--bg:#eef2f0;--panel:#fff;--ink:#17211d;--muted:#68746f;--line:#d8dfda;--accent:#0f766e;--accent2:#24566b;--warn:#b45309;--danger:#b91c1c;--soft:#effaf6;--shadow:0 16px 42px rgba(28,39,35,.1)}
-    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","YuGothic","Segoe UI",sans-serif;letter-spacing:0}button,input,select,textarea{font:inherit}button{cursor:pointer}h1,h2,h3,p{margin-top:0}h1{font-size:30px;line-height:1.25}h2{font-size:20px;margin-bottom:6px}p{color:var(--muted);line-height:1.65}.app{min-height:100vh;display:grid;grid-template-columns:248px minmax(0,1fr)}aside{position:sticky;top:0;height:100vh;padding:22px 16px;background:#15211d;color:#f7fbf8}.brand{display:flex;gap:12px;align-items:center;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.14)}.mark{width:42px;height:42px;display:grid;place-items:center;border-radius:8px;background:#f6c95d;color:#16211d;font-weight:900}.brand strong,.brand span{display:block}.brand span{margin-top:2px;color:rgba(247,251,248,.64);font-size:12px}nav{display:grid;gap:8px;margin-top:22px}.nav{height:44px;padding:0 12px;border:0;border-radius:8px;background:transparent;color:rgba(247,251,248,.78);text-align:left;font-weight:800}.nav.active,.nav:hover{background:rgba(255,255,255,.11);color:#fff}.side-note{margin-top:28px;padding:14px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:rgba(255,255,255,.06)}.side-note span{display:block;color:rgba(247,251,248,.66);font-size:12px}.side-note strong{display:block;margin-top:8px;font-size:20px}main{min-width:0;padding:26px}.topbar{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:22px}.eyebrow{margin:0 0 4px;color:var(--accent);font-size:12px;font-weight:900;text-transform:uppercase}.pill{padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);font-weight:800}.view{display:none}.view.active{display:block}.grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px}.wide{display:grid;grid-template-columns:minmax(360px,.9fr) minmax(0,1.35fr);gap:18px}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}.metric,.panel{border:1px solid rgba(216,223,218,.92);border-radius:8px;background:var(--panel);box-shadow:var(--shadow)}.metric{min-height:118px;padding:18px;display:flex;flex-direction:column;justify-content:space-between}.metric span,.metric small{color:var(--muted);font-size:12px}.metric strong{font-size:30px;line-height:1}.panel{padding:18px;min-width:0}.panel-head,.case-head,.detail-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:16px}.primary,.secondary,.link-btn{min-height:40px;padding:0 14px;border-radius:8px;border:1px solid transparent;font-weight:900;white-space:nowrap}.primary{background:var(--accent);color:#fff}.primary:hover{background:#115e59}.secondary{background:#fff;border-color:var(--line);color:var(--ink)}.link-btn{border:0;background:transparent;color:var(--accent);padding:0}.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}label span{display:block;margin-bottom:7px;font-weight:900}em.req{margin-left:6px;padding:2px 7px;border-radius:999px;background:#fee2e2;color:var(--danger);font-style:normal;font-size:12px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}input,select{height:42px;padding:0 12px}textarea{min-height:106px;padding:12px;resize:vertical}.upload-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.upload-box{padding:14px;border:1px dashed #8bc4ba;border-radius:8px;background:#f8fdfb}.upload-box strong,.upload-box small{display:block}.upload-box small{margin:7px 0;color:var(--muted);line-height:1.5}.upload-box input{height:auto;padding:9px}.selected{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.5}.note{margin-top:14px;padding:13px;border:1px solid rgba(180,83,9,.25);border-radius:8px;background:#fff7e6;color:#5c3a00}.file-list,.cards,.detail-list,.evidence-list{display:grid;gap:10px}.file-row,.card,.detail-box,.evidence-card{padding:13px;border:1px solid var(--line);border-radius:8px;background:#fff}.file-row{display:grid;grid-template-columns:100px minmax(0,1fr) auto;gap:12px;align-items:center}.tag,.status,.confidence{display:inline-flex;justify-content:center;align-items:center;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900}.tag{background:#e3edf8;color:#1f4f73}.status.done,.confidence.high{background:#d7f2ed;color:#0f766e}.status.run,.confidence.mid{background:#fff1c7;color:#8a5b00}.status.bad,.confidence.low{background:#fce1e1;color:#b91c1c}table{width:100%;border-collapse:collapse;background:#fff}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#f8faf7;color:#41514a;font-size:13px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:8px}.estimate-table input{min-width:82px;height:34px;padding:0 8px}.estimate-table .name{min-width:130px}.estimate-table .num{text-align:right}.amount{font-weight:900;white-space:nowrap}.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}.cover{margin-bottom:14px;padding:14px;border:1px solid var(--line);border-radius:8px;background:#fbfcfa}.cover-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.similar-list{display:grid;gap:10px}.similar-item{padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--soft)}.similar-item strong,.similar-item span{display:block}.similar-item span{color:var(--accent);font-size:12px;font-weight:900}.tabs{display:flex;flex-wrap:wrap;gap:8px}.tabs button{min-height:38px;border:1px solid var(--line);border-radius:8px;background:#fff;font-weight:900}.tabs button.active{background:var(--accent);border-color:var(--accent);color:#fff}.toast{position:fixed;right:24px;bottom:24px;transform:translateY(16px);opacity:0;pointer-events:none;padding:13px 16px;border-radius:8px;background:#15211d;color:#fff;box-shadow:var(--shadow);transition:.2s}.toast.show{opacity:1;transform:translateY(0)}@media(max-width:1120px){.grid,.wide{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:760px){.app{grid-template-columns:1fr}aside{position:static;height:auto}.metrics,.form,.upload-grid,.cover-grid{grid-template-columns:1fr}.panel-head,.topbar,.case-head,.detail-head{flex-direction:column}.file-row{grid-template-columns:1fr}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>概算見積AI</title>
+<style>
+:root{--bg:#eef2f0;--ink:#17211d;--muted:#68746f;--line:#d8dfda;--main:#0f766e;--soft:#f7faf8;--warn:#b45309;--red:#b91c1c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;letter-spacing:0}button,input,select,textarea{font:inherit}button{cursor:pointer}h1{font-size:30px;margin:0 0 8px}h2{font-size:22px;margin:0 0 6px}h3{margin:18px 0 10px}.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}.side{background:#14211d;color:#fff;padding:20px;position:sticky;top:0;height:100vh}.brand{font-size:20px;font-weight:900;margin-bottom:22px}.brand small{display:block;color:#b6c4bd;font-size:12px;margin-top:4px}.nav{display:block;width:100%;height:44px;margin:7px 0;padding:0 12px;border:0;border-radius:8px;background:transparent;color:#dce7e2;text-align:left;font-weight:800}.nav.active,.nav:hover{background:rgba(255,255,255,.12);color:#fff}main{padding:26px}.head{display:flex;justify-content:space-between;gap:16px;margin-bottom:18px}.badge{display:inline-flex;align-items:center;border-radius:999px;background:#fff0bd;color:#805000;padding:8px 12px;font-weight:900}.view{display:none}.view.active{display:block}.grid{display:grid;grid-template-columns:1fr 360px;gap:16px}.two,.metrics,.uploads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.metrics{grid-template-columns:repeat(4,1fr);margin-bottom:16px}.panel,.metric,.card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:18px}.metric strong{display:block;font-size:28px;margin-top:12px}.muted,p{color:var(--muted);line-height:1.6}.primary,.secondary{min-height:42px;border-radius:8px;font-weight:900;padding:0 14px}.primary{background:var(--main);border:1px solid var(--main);color:#fff}.secondary{background:#fff;border:1px solid var(--line);color:var(--ink)}label span{display:block;font-weight:900;margin:10px 0 7px}.req{margin-left:6px;border-radius:999px;background:#fee2e2;color:var(--red);padding:2px 7px;font-style:normal;font-size:12px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}input,select{height:44px;padding:0 12px}textarea{min-height:110px;padding:12px}.upload{border:1px dashed #85bdb5;background:#f8fdfb;border-radius:8px;padding:14px}.upload strong,.upload small{display:block}.upload small{color:var(--muted);margin:6px 0}.upload input{height:auto;padding:8px}.selected{font-size:12px;color:var(--muted);margin-top:8px}.list{display:grid;gap:10px}.row{display:grid;grid-template-columns:130px 1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;background:#fff;padding:10px}.tag,.state{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:900}.tag{background:#e3edf8;color:#24566b}.state{background:#d7f2ed;color:#0f766e}.warn{background:#fff7e6;border:1px solid #f0d19a;border-radius:8px;padding:12px;color:#5f4100}table{width:100%;border-collapse:collapse;background:#fff}th,td{border-bottom:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}th{background:var(--soft);font-size:13px}.table{overflow:auto;border:1px solid var(--line);border-radius:8px}.est input{min-width:80px;height:34px}.amount{font-weight:900;white-space:nowrap}.toast{position:fixed;right:22px;bottom:22px;background:#14211d;color:#fff;border-radius:8px;padding:12px 14px;opacity:0;transform:translateY(10px);transition:.2s}.toast.show{opacity:1;transform:none}@media(max-width:980px){.app,.grid,.two,.metrics,.uploads{grid-template-columns:1fr}.side{position:static;height:auto}}
+</style>
 </head>
 <body>
 <div class="app">
-  <aside>
-    <div class="brand"><div class="mark">積</div><div><strong>概算見積AI</strong><span>建築・土木の概算見積</span></div></div>
-    <nav>
-      <button class="nav active" data-view="dashboard" type="button">案件一覧</button>
-      <button class="nav" data-view="create" type="button">案件作成</button>
-      <button class="nav" data-view="upload" type="button">資料アップロード</button>
-      <button class="nav" data-view="analysis" type="button">AI解析</button>
-      <button class="nav" data-view="estimate" type="button">見積編集</button>
-      <button class="nav" data-view="knowledge" type="button">積算ナレッジ</button>
-    </nav>
-    <div class="side-note"><span>公開版</span><strong>GitHub Pages</strong></div>
-  </aside>
-  <main>
-    <header class="topbar"><div><p class="eyebrow">Estimate AI</p><h1 id="page-title">案件一覧</h1></div><div class="pill">積算部</div></header>
+<aside class="side">
+<div class="brand">概算見積AI<small>建築・土木の概算見積</small></div>
+<button class="nav active" data-view="dash">案件一覧</button>
+<button class="nav" data-view="case">案件作成</button>
+<button class="nav" data-view="upload">資料アップロード</button>
+<button class="nav" data-view="analysis">AI解析</button>
+<button class="nav" data-view="estimate">見積編集</button>
+<button class="nav" data-view="knowledge">積算ナレッジ</button>
+</aside>
+<main>
+<header class="head"><div><p class="muted">ESTIMATE AI</p><h1 id="title">案件一覧</h1></div><span class="badge">GitHub Pages版</span></header>
 
-    <section class="view active" id="dashboard">
-      <div class="metrics">
-        <article class="metric"><span>登録済みナレッジ</span><strong id="metric-knowledge">4</strong><small>素材データ + 完成見積書</small></article>
-        <article class="metric"><span>選択資料</span><strong id="metric-files">0</strong><small>図面・仕様書・発注条件</small></article>
-        <article class="metric"><span>生成済み明細</span><strong id="metric-rows">0</strong><small>大項目・中項目・小項目</small></article>
-        <article class="metric"><span>概算合計</span><strong id="metric-total">-</strong><small>編集内容を反映</small></article>
-      </div>
-      <div class="grid">
-        <section class="panel">
-          <div class="panel-head"><div><h2>案件一覧</h2><p>新規案件を作成し、資料アップロードから概算見積書を作成します。</p></div><button class="primary" data-view="create" type="button">新規案件</button></div>
-          <div class="table-wrap"><table><thead><tr><th>案件名</th><th>種別</th><th>状態</th><th>概算金額</th></tr></thead><tbody>
-            <tr><td>東町RCマンション新築</td><td>RC造マンション</td><td><span class="status done">初案あり</span></td><td>¥684,500,000</td></tr>
-            <tr><td>西工場S造倉庫</td><td>S造建築</td><td><span class="status run">資料待ち</span></td><td>-</td></tr>
-          </tbody></table></div>
-        </section>
-        <aside class="panel">
-          <h2>できること</h2>
-          <div class="evidence-list">
-            <article class="evidence-card"><span class="tag">1</span><strong>資料を選択</strong><p>図面、特記仕様書、発注条件、数量表などをブラウザ内で読み込みます。</p></article>
-            <article class="evidence-card"><span class="tag">2</span><strong>過去データ参照</strong><p>4件のナレッジから類似工事を選び、見積構成と単価を補正します。</p></article>
-            <article class="evidence-card"><span class="tag">3</span><strong>見積書出力</strong><p>編集後の明細からExcelで開ける見積書を出力します。</p></article>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="view" id="create">
-      <section class="panel">
-        <div class="panel-head"><div><h2>案件基本情報</h2><p>見積書作成に必ず必要な項目だけ入力</p></div></div>
-        <div class="form">
-          <label><span>案件名 <em class="req">必須</em></span><input id="case-name" placeholder="例: ○○マンション新築工事"></label>
-          <label><span>施工地域 <em class="req">必須</em></span><input id="case-location" placeholder="例: 香川県高松市"></label>
-          <label><span>工事分類 <em class="req">必須</em></span><select id="case-category"><option>建築</option><option>土木</option></select></label>
-          <label><span>工事種別 <em class="req">必須</em></span><select id="case-type"><option>RC造マンション新築</option><option>S造工場新築</option><option>S造建築新築</option><option>橋梁補修工事</option><option>道路改良工事</option></select></label>
-          <label style="grid-column:1/-1"><span>要望・条件</span><textarea id="case-note" placeholder="予算、VE条件、含めたい工事範囲、階数、戸数、延床面積など"></textarea></label>
-        </div>
-        <p style="margin:14px 0 0"><button class="primary" data-view="upload" type="button">資料アップロードへ</button></p>
-      </section>
-    </section>
-
-    <section class="view" id="upload">
-      <section class="panel">
-        <div class="panel-head"><div><h2>資料アップロード</h2><p>共通必須は図面・特記仕様書。発注条件は公共/民間で分かれます。</p></div><button class="primary" id="start-analysis" type="button">解析して見積初案を作成</button></div>
-        <div class="upload-grid">
-          <label class="upload-box"><strong>図面（意匠・構造・設備） <em class="req">必須</em></strong><small>PDF / 画像 / CAD変換PDF</small><input data-kind="図面" type="file" multiple><div class="selected">未選択</div></label>
-          <label class="upload-box"><strong>特記仕様書 <em class="req">必須</em></strong><small>PDF / Word / Excel</small><input data-kind="特記仕様書" type="file" multiple><div class="selected">未選択</div></label>
-          <label class="upload-box"><strong>発注条件 <em class="req">必須</em></strong><small>公共: 公告・入札説明書 / 民間: RFQ</small><input data-kind="発注条件" type="file" multiple><div class="selected">未選択</div></label>
-          <label class="upload-box"><strong>数量表</strong><small>数量総括表・数量計算書など</small><input data-kind="数量表" type="file" multiple><div class="selected">未選択</div></label>
-          <label class="upload-box"><strong>仕上表・建具表</strong><small>仕上表、建具表、内部/外部拾い</small><input data-kind="仕上・建具" type="file" multiple><div class="selected">未選択</div></label>
-          <label class="upload-box"><strong>工程表・現場条件・質疑回答</strong><small>精度向上資料</small><input data-kind="補足資料" type="file" multiple><div class="selected">未選択</div></label>
-        </div>
-        <div class="note">GitHub Pages版では、ファイル本体は外部送信せずブラウザ内で扱います。ファイル名・種別・入力条件・過去ナレッジを参照して概算見積初案を生成します。</div>
-        <div class="file-list" id="file-list" style="margin-top:14px"></div>
-      </section>
-    </section>
-
-    <section class="view" id="analysis">
-      <div class="grid">
-        <section class="panel">
-          <div class="panel-head"><div><h2>AI解析結果</h2><p>アップロード資料と過去ナレッジから見積条件を整理</p></div><span class="status done" id="analysis-status">解析待ち</span></div>
-          <div class="cards" id="analysis-cards"></div>
-          <div class="note" id="analysis-note">資料をアップロードして解析を開始してください。</div>
-          <p style="margin:14px 0 0"><button class="primary" data-view="estimate" type="button">見積初案を確認</button></p>
-        </section>
-        <aside class="panel"><h2>類似工事</h2><div class="similar-list" id="similar-list"></div></aside>
-      </div>
-    </section>
-
-    <section class="view" id="estimate">
-      <section class="panel">
-        <div class="panel-head"><div><h2>概算見積編集</h2><p>大項目・中項目・小項目・数量・単価・根拠を編集できます。</p></div><div class="pill" id="total-amount">-</div></div>
-        <div class="toolbar"><button class="secondary" id="add-row" type="button">項目追加</button><button class="secondary" data-view="analysis" type="button">解析結果へ</button><button class="primary" id="export-excel" type="button">見積書Excel出力</button></div>
-        <div class="cover">
-          <div class="cover-grid">
-            <label>案件名<input id="cover-name"></label><label>所在地<input id="cover-location"></label><label>見積日<input id="cover-date" value="2026-08-07"></label>
-            <label>宛先<input id="cover-client" value="御中"></label><label>担当<input id="cover-owner" value="積算部"></label><label>概算金額<input id="cover-total"></label>
-          </div>
-          <textarea id="cover-note">本見積はアップロード資料、過去積算ナレッジ、入力条件から作成した概算見積です。確定見積ではなく、図面・仕様確定後に再確認が必要です。</textarea>
-        </div>
-        <div class="table-wrap estimate-table"><table><thead><tr><th>大項目</th><th>中項目</th><th>小項目</th><th>仕様</th><th>数量</th><th>単位</th><th>単価</th><th>金額</th><th>信頼度</th><th>根拠</th></tr></thead><tbody id="estimate-body"></tbody></table></div>
-        <div class="grid" style="margin-top:14px">
-          <section class="panel" style="box-shadow:none"><h3>拾い根拠</h3><div class="evidence-list" id="evidence-list"></div></section>
-          <section class="panel" style="box-shadow:none"><h3>レビュー</h3><div class="detail-list" id="review-list"></div></section>
-        </div>
-      </section>
-    </section>
-
-    <section class="view" id="knowledge">
-      <div class="wide">
-        <section class="panel"><div class="panel-head"><div><h2>積算ナレッジ</h2><p>素材データと積算後の完成見積書を工事単位でセット化</p></div><button class="primary" id="scroll-register" type="button">ナレッジ登録</button></div><div class="cards" id="knowledge-list"></div></section>
-        <section class="panel"><div class="detail-head"><div><p class="eyebrow">ナレッジ詳細</p><h2 id="knowledge-title">工事を選択してください</h2><p id="knowledge-summary"></p></div><span class="status done" id="knowledge-score">待機中</span></div><div class="detail-list" id="knowledge-detail"></div></section>
-      </div>
-      <section class="panel" id="knowledge-register" style="margin-top:18px">
-        <div class="panel-head"><div><h2>積算ナレッジデータ登録</h2><p>過去工事の素材データと完成見積書をセットで登録</p></div><span class="status run" id="register-status">未登録</span></div>
-        <div class="form">
-          <label><span>工事コード <em class="req">必須</em></span><input id="reg-code" placeholder="例: RC-26-001"></label>
-          <label><span>工事名 <em class="req">必須</em></span><input id="reg-name"></label>
-          <label><span>工事種別 <em class="req">必須</em></span><select id="reg-type"><option>RC造マンション新築</option><option>S造工場新築</option><option>S造建築新築</option><option>橋梁補修工事</option><option>道路改良工事</option></select></label>
-          <label><span>地域</span><input id="reg-location"></label>
-          <label style="grid-column:1/-1"><span>資料メモ</span><textarea id="reg-summary" placeholder="提出見積、意匠図、構造図、数量根拠、仕上拾いなど"></textarea></label>
-        </div>
-        <p style="margin:14px 0 0"><button class="primary" id="save-knowledge" type="button">ナレッジ登録</button></p>
-      </section>
-    </section>
-  </main>
+<section id="dash" class="view active">
+<div class="metrics">
+<div class="metric">登録済みナレッジ<strong id="mKnow">4</strong><p>素材データ + 完成見積書</p></div>
+<div class="metric">選択資料<strong id="mFiles">0</strong><p>図面・仕様書・発注条件</p></div>
+<div class="metric">見積明細<strong id="mRows">0</strong><p>大項目・中項目・小項目</p></div>
+<div class="metric">概算合計<strong id="mTotal">-</strong><p>編集内容を反映</p></div>
 </div>
-<div class="toast" id="toast">保存しました</div>
+<div class="grid"><div class="panel"><div class="head"><div><h2>案件一覧</h2><p>新規案件を作成し、資料アップロードから概算見積書を作成します。</p></div><button class="primary" data-view="case">新規案件</button></div><div class="table"><table><thead><tr><th>案件名</th><th>種別</th><th>状態</th><th>概算金額</th></tr></thead><tbody><tr><td>東町RCマンション新築</td><td>RC造マンション</td><td><span class="state">初案あり</span></td><td>¥684,500,000</td></tr><tr><td>西工場S造倉庫</td><td>S造建築</td><td><span class="tag">資料待ち</span></td><td>-</td></tr></tbody></table></div></div><div class="panel"><h2>操作</h2><p>1. 案件作成<br>2. 資料アップロード<br>3. AI解析<br>4. 見積編集・Excel出力</p><button class="primary" data-view="upload">資料アップロードへ</button></div></div>
+</section>
+
+<section id="case" class="view panel">
+<h2>案件基本情報</h2><p>見積初案に最低限必要な情報です。</p>
+<div class="two">
+<label><span>案件名 <em class="req">必須</em></span><input id="caseName" placeholder="例: ○○マンション新築工事"></label>
+<label><span>所在地 <em class="req">必須</em></span><input id="casePlace" placeholder="例: 香川県高松市"></label>
+<label><span>工事分類 <em class="req">必須</em></span><select id="caseCat"><option>建築</option><option>土木</option></select></label>
+<label><span>工事種別 <em class="req">必須</em></span><select id="caseType"><option>RC造マンション新築</option><option>S造工場新築</option><option>S造建築新築</option><option>橋梁補修工事</option><option>道路改良工事</option></select></label>
+</div>
+<label><span>要望・条件</span><textarea id="caseNote" placeholder="予算、階数、戸数、延床面積、VE条件、含めたい工事範囲など"></textarea></label>
+<button class="primary" data-view="upload">資料アップロードへ</button>
+</section>
+
+<section id="upload" class="view panel">
+<div class="head"><div><h2>資料アップロード</h2><p>見積作成用の新規案件資料です。複数ファイルを選択できます。</p></div><button class="primary" id="analyze">解析して見積初案を作成</button></div>
+<div class="uploads">
+<label class="upload"><strong>図面（意匠・構造・設備） <em class="req">必須</em></strong><small>PDF / 画像 / CAD変換PDF</small><input data-kind="図面" type="file" multiple><div class="selected">未選択</div></label>
+<label class="upload"><strong>特記仕様書 <em class="req">必須</em></strong><small>PDF / Word / Excel</small><input data-kind="特記仕様書" type="file" multiple><div class="selected">未選択</div></label>
+<label class="upload"><strong>発注条件 <em class="req">必須</em></strong><small>公共: 公告・入札説明書 / 民間: RFQ</small><input data-kind="発注条件" type="file" multiple><div class="selected">未選択</div></label>
+<label class="upload"><strong>数量表</strong><small>数量総括表・数量計算書</small><input data-kind="数量表" type="file" multiple><div class="selected">未選択</div></label>
+<label class="upload"><strong>仕上表・建具表</strong><small>仕上拾い、建具拾い、内部/外部拾い</small><input data-kind="仕上・建具" type="file" multiple><div class="selected">未選択</div></label>
+<label class="upload"><strong>工程表・現場条件・質疑回答</strong><small>精度向上資料</small><input data-kind="補足資料" type="file" multiple><div class="selected">未選択</div></label>
+</div>
+<div class="warn">公開版ではファイル本体は外部送信しません。実解析版ではAPIサーバー側でPDF・Excel・図面を解析します。</div>
+<div class="list" id="fileList"></div>
+</section>
+
+<section id="analysis" class="view">
+<div class="grid"><div class="panel"><h2>AI解析結果</h2><p id="analysisText">資料アップロード後に表示します。</p><div class="list" id="analysisCards"></div><button class="primary" data-view="estimate">見積初案を確認</button></div><div class="panel"><h2>類似工事</h2><div class="list" id="similarList"></div></div></div>
+</section>
+
+<section id="estimate" class="view panel">
+<div class="head"><div><h2>概算見積編集</h2><p>大項目・中項目・小項目まで編集できます。</p></div><strong id="totalLabel">-</strong></div>
+<div class="two"><label><span>案件名</span><input id="coverName"></label><label><span>所在地</span><input id="coverPlace"></label></div>
+<p><button class="secondary" id="addRow">項目追加</button> <button class="primary" id="exportXls">見積書Excel出力</button></p>
+<div class="table est"><table><thead><tr><th>大項目</th><th>中項目</th><th>小項目</th><th>仕様</th><th>数量</th><th>単位</th><th>単価</th><th>金額</th><th>根拠</th></tr></thead><tbody id="estBody"></tbody></table></div>
+<h3>拾い根拠・レビュー</h3><div class="list" id="evidence"></div>
+</section>
+
+<section id="knowledge" class="view">
+<div class="grid"><div class="panel"><div class="head"><div><h2>積算ナレッジ</h2><p>過去工事の素材データと完成見積書のセット</p></div><button class="primary" id="toRegister">新規登録</button></div><div class="list" id="knowList"></div></div><div class="panel"><h2>ナレッジ詳細</h2><div id="knowDetail"></div></div></div>
+<div class="panel" id="register" style="margin-top:16px">
+<div class="head"><div><h2>積算ナレッジ新規登録</h2><p>素材データと積算後の完成見積書を工事単位で登録します。</p></div><span class="badge" id="regState">未登録</span></div>
+<div class="two">
+<label><span>工事コード <em class="req">必須</em></span><input id="regCode" placeholder="例: RC-26-001"></label>
+<label><span>工事名 <em class="req">必須</em></span><input id="regName"></label>
+<label><span>工事種別 <em class="req">必須</em></span><select id="regType"><option>RC造マンション新築</option><option>S造工場新築</option><option>S造建築新築</option><option>橋梁補修工事</option><option>道路改良工事</option></select></label>
+<label><span>地域</span><input id="regPlace"></label>
+</div>
+<label><span>資料メモ</span><textarea id="regMemo" placeholder="提出見積、意匠図、構造図、数量根拠、仕上拾いなど"></textarea></label>
+<h3>登録資料アップロード</h3>
+<div class="uploads">
+<label class="upload"><strong>積算後の完成見積書 <em class="req">必須</em></strong><small>Excel / PDF。表紙・内訳書・明細を含む完成版</small><input data-reg="完成見積書" type="file" multiple><div class="selected">未選択</div></label>
+<label class="upload"><strong>図面（意匠・構造・設備） <em class="req">必須</em></strong><small>PDF / 画像 / CAD変換PDF。複数ファイル可</small><input data-reg="図面" type="file" multiple><div class="selected">未選択</div></label>
+<label class="upload"><strong>特記仕様書 <em class="req">必須</em></strong><small>PDF / Word / Excel</small><input data-reg="特記仕様書" type="file" multiple><div class="selected">未選択</div></label>
+<label class="upload"><strong>発注条件 <em class="req">必須</em></strong><small>公共: 公告・入札説明書 / 民間: RFQ</small><input data-reg="発注条件" type="file" multiple><div class="selected">未選択</div></label>
+<label class="upload"><strong>数量根拠・拾い資料</strong><small>躯体数量、土工事数量、仕上拾い、建具拾いなど</small><input data-reg="数量根拠・拾い資料" type="file" multiple><div class="selected">未選択</div></label>
+<label class="upload"><strong>写真・その他資料</strong><small>現場写真、工程表、質疑回答、原価資料など</small><input data-reg="写真・その他資料" type="file" multiple><div class="selected">未選択</div></label>
+</div>
+<div class="list" id="regFiles"></div>
+<button class="primary" id="saveKnow">新規登録</button>
+</div>
+</section>
+</main>
+</div><div class="toast" id="toast"></div>
 <script>
-const yen=new Intl.NumberFormat("ja-JP",{style:"currency",currency:"JPY",maximumFractionDigits:0});
-const titleMap={dashboard:"案件一覧",create:"案件作成",upload:"資料アップロード",analysis:"AI解析",estimate:"見積編集",knowledge:"積算ナレッジ"};
-const knowledgeData=[
- {id:"RC-24-005",name:"高松市番町分譲マンション新築工事",type:"RC造マンション新築",location:"香川県高松市番町",score:82,summary:"提出見積、意匠図、構造図、躯体数量、土工事数量",files:["提出見積","意匠図","構造図","躯体数量","土工事数量","内部拾い"],unit:"RC造分譲マンションの躯体・土工数量レンジ"},
- {id:"RC-25-028",name:"ロイヤルガーデン番町ザ・プレミアム新築工事",type:"RC造マンション新築",location:"香川県高松市番町",score:88,summary:"提出見積、意匠図、構造図、躯体数量、仕上拾い",files:["提出見積","意匠図","構造図","躯体数量","土工事数量","仕上拾い"],unit:"高層RCの躯体・仕上・建具数量"},
- {id:"S-25-046",name:"上中野2丁目プロジェクト新築工事",type:"S造建築新築",location:"上中野2丁目",score:84,summary:"提出見積、意匠図、構造図、躯体数量、外構/外部/建具/内部拾い",files:["提出見積","意匠図","構造図","躯体数量","外構拾い","建具拾い","内部拾い"],unit:"S造新築の躯体・外構・仕上数量"},
- {id:"S-25-012",name:"北四国グラビア印刷 新工場計画",type:"S造工場新築",location:"香川県三豊市",score:87,summary:"見積書、意匠図、構造図、躯体数量、項目別集計表",files:["見積書","意匠図","構造図","躯体数量","土工事数量","項目別集計表"],unit:"S造工場の鉄骨・土間・設備条件"}
+const q=s=>document.querySelector(s),qa=s=>[...document.querySelectorAll(s)],yen=n=>new Intl.NumberFormat("ja-JP",{style:"currency",currency:"JPY",maximumFractionDigits:0}).format(n);
+const titles={dash:"案件一覧",case:"案件作成",upload:"資料アップロード",analysis:"AI解析",estimate:"見積編集",knowledge:"積算ナレッジ"};
+const baseKnow=[
+{id:"RC-24-005",name:"高松市番町分譲マンション新築工事",type:"RC造マンション新築",place:"香川県高松市番町",summary:"提出見積、意匠図、構造図、躯体数量、土工事数量",files:["提出見積","意匠図","構造図","躯体数量","土工事数量"]},
+{id:"RC-25-028",name:"ロイヤルガーデン番町ザ・プレミアム新築工事",type:"RC造マンション新築",place:"香川県高松市番町",summary:"提出見積、意匠図、構造図、躯体数量、仕上拾い",files:["提出見積","意匠図","構造図","躯体数量","仕上拾い"]},
+{id:"S-25-046",name:"上中野2丁目プロジェクト新築工事",type:"S造建築新築",place:"上中野2丁目",summary:"提出見積、意匠図、構造図、躯体数量、外構/外部/建具/内部拾い",files:["提出見積","意匠図","構造図","躯体数量","外構拾い","建具拾い","内部拾い"]},
+{id:"S-25-012",name:"北四国グラビア印刷 新工場計画",type:"S造工場新築",place:"香川県三豊市",summary:"見積書、意匠図、構造図、躯体数量、項目別集計表",files:["見積書","意匠図","構造図","躯体数量","項目別集計表"]}
 ];
-let selected={};let estimateRows=[];let similarProjects=[];
-function $(s){return document.querySelector(s)}function $all(s){return [...document.querySelectorAll(s)]}
-function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2200)}
-function showView(id){$all(".view").forEach(v=>v.classList.toggle("active",v.id===id));$all(".nav").forEach(b=>b.classList.toggle("active",b.dataset.view===id));$("#page-title").textContent=titleMap[id]||"概算見積AI";scrollTo({top:0,behavior:"smooth"})}
-function fileNames(){return Object.values(selected).flat().map(f=>f.name)}
-function requiredMissing(){return["図面","特記仕様書","発注条件"].filter(k=>!(selected[k]||[]).length)}
-function renderFiles(){const names=fileNames();$("#metric-files").textContent=names.length;const missing=requiredMissing();$("#file-list").innerHTML=Object.entries(selected).flatMap(([kind,files])=>files.map(file=>`<div class="file-row"><span class="tag">${kind}</span><strong>${file.name}</strong><em>${(file.size/1024/1024).toFixed(1)}MB</em></div>`)).join("")+(missing.length?`<div class="file-row"><span class="tag">不足</span><strong>${missing.join("・")}を追加してください</strong><em>必須</em></div>`:"");}
-function profile(){const text=[$("#case-name").value,$("#case-location").value,$("#case-category").value,$("#case-type").value,$("#case-note").value,fileNames().join(" ")].join(" ");let type=$("#case-type").value;if(/RC|マンション|共同住宅/.test(text))type="RC造マンション新築";else if(/工場|倉庫|S造|鉄骨/.test(text))type=/工場/.test(text)?"S造工場新築":"S造建築新築";else if(/橋梁|橋/.test(text))type="橋梁補修工事";else if(/道路|舗装/.test(text))type="道路改良工事";return{name:$("#case-name").value.trim()||"新規概算見積",location:$("#case-location").value.trim()||"未入力",category:$("#case-category").value,type,note:$("#case-note").value.trim(),text};}
-function scoreProject(p,prof){let s=40;if(p.type===prof.type)s+=35;if(prof.text.includes("RC")&&p.type.includes("RC"))s+=20;if(prof.text.includes("S造")&&p.type.includes("S造"))s+=20;if(prof.text.includes("工場")&&p.type.includes("工場"))s+=18;if(prof.location&&p.location.includes(prof.location.slice(0,2)))s+=8;s+=Math.min(12,fileNames().length*2);return Math.min(98,s)}
-function pickSimilar(prof){return knowledgeData.map(p=>({...p,similarity:scoreProject(p,prof)})).sort((a,b)=>b.similarity-a.similarity).slice(0,3)}
-function row(major,middle,small,spec,qty,unit,price,conf,evidence){return{major,middle,small,spec,quantity:qty,unit,unitPrice:price,amount:qty*price,confidence:conf,evidence}}
-function buildRows(prof,sim){const base=`過去ナレッジ: ${sim.map(p=>`${p.id} ${p.name} 類似度${p.similarity}%`).join(" / ")}`;if(prof.type.includes("RC"))return[
- row("建築工事","直接仮設工事","仮囲い・足場","RCマンション標準",1,"式",42800000,.72,`図面・特記仕様書、${base}`),
- row("建築工事","土工事","根切り・埋戻し","基礎・ピット部",1320,"m3",2600,.78,`躯体数量・土工事数量を参照、${base}`),
- row("建築工事","杭工事","既製杭・地盤改良","地盤資料未受領の仮定",1,"式",38500000,.48,"地盤条件未確定。追加資料で再判定"),
- row("建築工事","コンクリート工事","普通コンクリート","24N-30N",1840,"m3",34000,.82,`構造図・躯体数量を参照、${base}`),
- row("建築工事","型枠工事","普通型枠","地上躯体",11800,"m2",8500,.74,`構造図の柱・梁・スラブ範囲、${base}`),
- row("建築工事","鉄筋工事","鉄筋加工組立","SD295A・SD345",226,"t",188000,.70,`構造図、過去RC案件の鉄筋量レンジ、${base}`),
- row("建築工事","仕上工事","外部・内部仕上","標準仕様",1,"式",118000000,.68,"特記仕様書、仕上表があれば精度向上"),
- row("建築工事","建具工事","外部・内部建具","標準建具",1,"式",34600000,.62,"建具表未選択の場合は類似案件比率"),
- row("設備工事","電気・機械設備","設備一式","標準概算",3820,"m2",58000,.52,"設備図・仕様未確定。類似工事比率で概算"),
- row("外構工事","外構・駐車場","外構一式","舗装・植栽・駐車場",1,"式",58300000,.50,"配置図・要望条件から概算"),
- row("諸経費","現場管理・一般管理","諸経費一式","直接工事費比率",1,"式",86268000,.66,"社内係数、過去案件比率")
-];if(prof.type.includes("S造"))return[
- row("建築工事","直接仮設工事","共通仮設","S造新築",1,"式",28500000,.70,base),
- row("建築工事","土工事","根切り・埋戻し","基礎部",980,"m3",2400,.74,base),
- row("建築工事","基礎工事","基礎コンクリート","独立基礎・地中梁",620,"m3",36000,.76,base),
- row("建築工事","鉄骨工事","鉄骨製作建方","S造本体",310,"t",365000,.72,base),
- row("建築工事","屋根・外壁工事","折板・外壁材","工場/倉庫標準",4200,"m2",18500,.68,base),
- row("建築工事","土間工事","土間コンクリート","工場床",2800,"m2",12500,.70,base),
- row("建築工事","建具工事","シャッター・鋼製建具","外部建具",1,"式",22600000,.62,"建具表があれば精度向上"),
- row("設備工事","電気・機械設備","設備一式","工場標準",1,"式",92000000,.50,"設備仕様未確定。過去S造工場比率"),
- row("外構工事","外構工事","舗装・排水","構内舗装含む",1,"式",38400000,.58,base),
- row("諸経費","現場管理・一般管理","諸経費一式","直接工事費比率",1,"式",63500000,.66,base)
-];return[
- row("土木工事","準備工","準備・交通規制","現場条件による",1,"式",8500000,.60,"発注条件・現場条件資料"),
- row("土木工事","土工","掘削・埋戻し","概算数量",1,"式",18600000,.56,"数量表があれば精度向上"),
- row("土木工事",prof.type.includes("橋")?"橋梁工":"道路工","主要工種一式",prof.type,1,"式",82000000,.52,"図面と類似土木案件比率"),
- row("土木工事","仮設工","仮設・安全施設","施工条件による",1,"式",22400000,.48,"現場説明書・交通条件の確認が必要"),
- row("諸経費","共通仮設・現場管理","諸経費一式","直接工事費比率",1,"式",26500000,.64,"公共積算体系の率を仮置き")
-]}
-function conf(v){return v>=.78?["高","high"]:v>=.58?["中","mid"]:["低","low"]}
-function renderEstimate(){const body=$("#estimate-body");body.innerHTML=estimateRows.map((r,i)=>{const c=conf(r.confidence);return`<tr><td><input class="name major" value="${r.major}"></td><td><input class="name middle" value="${r.middle}"></td><td><input class="name small" value="${r.small}"></td><td><input class="name spec" value="${r.spec}"></td><td><input class="num qty" type="number" value="${r.quantity}"></td><td><input class="unit" value="${r.unit}"></td><td><input class="num unit-price" type="number" value="${r.unitPrice}"></td><td class="amount">${yen.format(r.amount)}</td><td><span class="confidence ${c[1]}">${c[0]}</span></td><td><button class="link-btn evidence" data-index="${i}" type="button">根拠</button></td></tr>`}).join("");recalc();renderEvidence();renderReview();$("#metric-rows").textContent=estimateRows.length}
-function currentRows(){return $all("#estimate-body tr").map((tr,i)=>{const q=Number(tr.querySelector(".qty").value||0),p=Number(tr.querySelector(".unit-price").value||0);return{major:tr.querySelector(".major").value,middle:tr.querySelector(".middle").value,small:tr.querySelector(".small").value,spec:tr.querySelector(".spec").value,quantity:q,unit:tr.querySelector(".unit").value,unitPrice:p,amount:q*p,confidence:tr.querySelector(".confidence").textContent,evidence:estimateRows[i]?.evidence||"手入力"}})}
-function recalc(){const rows=currentRows();let total=0;rows.forEach((r,i)=>{total+=r.amount;const cell=$all("#estimate-body .amount")[i];if(cell)cell.textContent=yen.format(r.amount)});$("#total-amount").textContent=yen.format(total);$("#cover-total").value=yen.format(total);$("#metric-total").textContent=yen.format(total)}
-function renderEvidence(){const list=$("#evidence-list");list.innerHTML=estimateRows.slice(0,8).map(r=>`<article class="evidence-card"><span class="tag">${r.middle}</span><strong>${r.small}</strong><p>${r.evidence}</p></article>`).join("")}
-function renderReview(){const rows=currentRows();const groups={};rows.forEach(r=>{groups[r.major]??=[];groups[r.major].push(r)});$("#review-list").innerHTML=Object.entries(groups).map(([k,rs])=>`<div class="detail-box"><span class="tag">大項目</span><strong>${k} ${yen.format(rs.reduce((s,r)=>s+r.amount,0))}</strong><p>${rs.map(r=>`${r.middle}/${r.small}`).join("、")}</p></div>`).join("")}
-function renderAnalysis(prof,sim){$("#analysis-status").textContent="解析完了";$("#analysis-cards").innerHTML=`<article class="card"><span class="tag">工事概要</span><strong>${prof.type}</strong><p>${prof.name} / ${prof.location}</p></article><article class="card"><span class="tag">資料</span><strong>${fileNames().length}点を選択</strong><p>${Object.keys(selected).filter(k=>(selected[k]||[]).length).join("、")}</p></article><article class="card"><span class="tag">拾い方針</span><strong>過去見積の章立てを参照</strong><p>大項目・中項目・小項目まで初案化し、根拠を明細に紐づけます。</p></article><article class="card"><span class="tag">不足/注意</span><strong>${requiredMissing().length?"必須資料不足":"必須資料あり"}</strong><p>数量表、仕上表、建具表、工程表、現場条件資料があると精度が上がります。</p></article>`;$("#similar-list").innerHTML=sim.map(p=>`<div class="similar-item"><span>${p.id} / 類似度 ${p.similarity}%</span><strong>${p.name}</strong><p>${p.summary}<br>${p.unit}</p></div>`).join("");$("#analysis-note").textContent=`${sim[0]?.name||"過去工事"}を主参照し、${estimateRows.length}行の概算見積明細を作成しました。`}
-function generateEstimate(){const missing=requiredMissing();if(missing.length){toast(`${missing.join("・")}を追加してください`);renderFiles();return false}const prof=profile();similarProjects=pickSimilar(prof);estimateRows=buildRows(prof,similarProjects);$("#cover-name").value=prof.name;$("#cover-location").value=prof.location;renderEstimate();renderAnalysis(prof,similarProjects);updateMetrics();return true}
-function updateMetrics(){$("#metric-knowledge").textContent=knowledgeData.length;$("#metric-files").textContent=fileNames().length;$("#metric-rows").textContent=estimateRows.length}
-function renderKnowledge(active=knowledgeData[0].id){$("#knowledge-list").innerHTML=knowledgeData.map(p=>`<article class="card"><span class="tag">${p.id}</span><strong>${p.name}</strong><p>${p.summary}</p><button class="secondary" data-knowledge="${p.id}" type="button">詳細を見る</button></article>`).join("");showKnowledge(active)}
-function showKnowledge(id){const p=knowledgeData.find(x=>x.id===id)||knowledgeData[0];$("#knowledge-title").textContent=p.name;$("#knowledge-summary").textContent=p.summary;$("#knowledge-score").textContent=`品質 ${p.score}%`;$("#knowledge-detail").innerHTML=`<div class="detail-box"><span class="tag">工事種別</span><strong>${p.type}</strong><p>${p.location}</p></div><div class="detail-box"><span class="tag">登録資料</span><strong>${p.files.length}点</strong><p>${p.files.join("、")}</p></div><div class="detail-box"><span class="tag">反映候補</span><strong>${p.unit}</strong><p>類似工事検索、根拠表示、概算単価補正に利用します。</p></div>`}
-function escapeHtml(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
-function sheetTable(title,rows){return`<h2>${escapeHtml(title)}</h2><table border="1">${rows.map(r=>`<tr>${r.map(c=>`<td>${escapeHtml(c)}</td>`).join("")}</tr>`).join("")}</table>`}
-function exportExcel(){const rows=currentRows();if(!rows.length){toast("見積明細がありません");return}const total=rows.reduce((s,r)=>s+r.amount,0);const cover=[["案件名",$("#cover-name").value],["所在地",$("#cover-location").value],["見積日",$("#cover-date").value],["宛先",$("#cover-client").value],["担当",$("#cover-owner").value],["概算金額",yen.format(total)],["備考",$("#cover-note").value]];const summary=[["大項目","金額"],...Object.entries(rows.reduce((g,r)=>{g[r.major]=(g[r.major]||0)+r.amount;return g},{})).map(([k,v])=>[k,v])];const detail=[["大項目","中項目","小項目","仕様","数量","単位","単価","金額","信頼度","根拠"],...rows.map(r=>[r.major,r.middle,r.small,r.spec,r.quantity,r.unit,r.unitPrice,r.amount,r.confidence,r.evidence])];const evidence=[["項目","根拠"],...rows.map(r=>[`${r.major}/${r.middle}/${r.small}`,r.evidence])];const html=`<html><head><meta charset="utf-8"></head><body>${sheetTable("表紙",cover)}${sheetTable("工事内訳書",summary)}${sheetTable("明細",detail)}${sheetTable("エビデンス",evidence)}</body></html>`;const blob=new Blob([html],{type:"application/vnd.ms-excel;charset=utf-8"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=`${$("#cover-name").value||"概算見積書"}_概算見積書.xls`;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);toast("見積書Excelを出力しました")}
-$all("[data-view]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
-$all('input[type="file"][data-kind]').forEach(input=>input.addEventListener("change",()=>{selected[input.dataset.kind]=[...input.files];input.closest(".upload-box").querySelector(".selected").textContent=selected[input.dataset.kind].map(f=>f.name).join(" / ")||"未選択";renderFiles();updateMetrics()}));
-$("#start-analysis").addEventListener("click",()=>{if(generateEstimate()){toast("過去ナレッジを参照して見積初案を作成しました");showView("analysis")}});
-$("#estimate-body").addEventListener("input",()=>{recalc();renderReview()});
-$("#estimate-body").addEventListener("click",e=>{const b=e.target.closest(".evidence");if(!b)return;const r=estimateRows[Number(b.dataset.index)];$("#evidence-list").innerHTML=`<article class="evidence-card"><span class="tag">対象根拠</span><strong>${r.major} / ${r.middle} / ${r.small}</strong><p>${r.evidence}</p></article>`+$("#evidence-list").innerHTML;toast("根拠を表示しました")});
-$("#add-row").addEventListener("click",()=>{estimateRows.push(row("建築工事","追加工事","新規小項目","",1,"式",0,.4,"手入力。修正理由を残してください"));renderEstimate();toast("項目を追加しました")});
-$("#export-excel").addEventListener("click",exportExcel);
-$("#knowledge-list").addEventListener("click",e=>{const b=e.target.closest("[data-knowledge]");if(b)showKnowledge(b.dataset.knowledge)});
-$("#scroll-register").addEventListener("click",()=>$("#knowledge-register").scrollIntoView({behavior:"smooth",block:"start"}));
-$("#save-knowledge").addEventListener("click",()=>{const code=$("#reg-code").value.trim(),name=$("#reg-name").value.trim();if(!code||!name){toast("工事コード・工事名を入力してください");return}knowledgeData.unshift({id:code,name,type:$("#reg-type").value,location:$("#reg-location").value||"未入力",score:70,summary:$("#reg-summary").value||"新規登録されたナレッジ",files:["完成見積書","図面","特記仕様書","発注条件"],unit:"新規ナレッジとして類似工事検索に利用"});$("#register-status").textContent="登録済み";$("#register-status").className="status done";renderKnowledge(code);updateMetrics();toast("ナレッジを登録しました")});
-renderFiles();renderKnowledge();updateMetrics();
+let know=[...baseKnow,...JSON.parse(localStorage.getItem("godaKnow")||"[]")],files={},regFiles={},rows=[];
+function toast(t){q("#toast").textContent=t;q("#toast").classList.add("show");setTimeout(()=>q("#toast").classList.remove("show"),2200)}
+function show(v){qa(".view").forEach(x=>x.classList.toggle("active",x.id===v));qa(".nav").forEach(x=>x.classList.toggle("active",x.dataset.view===v));q("#title").textContent=titles[v]}
+function names(o){return Object.values(o).flat().map(f=>f.name)}
+function missing(o,a){return a.filter(k=>!(o[k]||[]).length)}
+function renderFileList(){q("#mFiles").textContent=names(files).length;q("#fileList").innerHTML=Object.entries(files).flatMap(([k,fs])=>fs.map(f=>`<div class=row><span class=tag>${k}</span><b>${f.name}</b><span>${(f.size/1048576).toFixed(1)}MB</span></div>`)).join("")}
+function renderRegFiles(){let miss=missing(regFiles,["完成見積書","図面","特記仕様書","発注条件"]);q("#regFiles").innerHTML=Object.entries(regFiles).flatMap(([k,fs])=>fs.map(f=>`<div class=row><span class=tag>${k}</span><b>${f.name}</b><span>${(f.size/1048576).toFixed(1)}MB</span></div>`)).join("")+(miss.length?`<div class=row><span class=tag>不足</span><b>${miss.join("・")}を追加してください</b><span>必須</span></div>`:"")}
+function profile(){let text=[q("#caseName").value,q("#casePlace").value,q("#caseType").value,q("#caseNote").value,names(files).join(" ")].join(" ");let type=q("#caseType").value;if(/RC|マンション/.test(text))type="RC造マンション新築";if(/工場|倉庫|S造/.test(text))type=/工場/.test(text)?"S造工場新築":"S造建築新築";return{name:q("#caseName").value||"新規概算見積",place:q("#casePlace").value||"未入力",type,text}}
+function similar(p){return know.map(k=>({...k,score:(k.type==p.type?80:45)+(names(files).length*3)})).sort((a,b)=>b.score-a.score).slice(0,3)}
+function makeRows(p,sim){let ev=`図面・特記仕様書・発注条件、過去ナレッジ: ${sim.map(x=>x.id+" 類似度"+x.score+"%").join(" / ")}`;let rc=p.type.includes("RC");return rc?[
+["建築工事","直接仮設工事","仮囲い・足場","RC標準",1,"式",42800000,ev],["建築工事","土工事","根切り・埋戻し","基礎部",1320,"m3",2600,ev],["建築工事","杭工事","既製杭・地盤改良","仮定",1,"式",38500000,"地盤条件未確定"],["建築工事","コンクリート工事","普通コンクリート","24N-30N",1840,"m3",34000,ev],["建築工事","型枠工事","普通型枠","地上躯体",11800,"m2",8500,ev],["建築工事","鉄筋工事","鉄筋加工組立","SD295A/345",226,"t",188000,ev],["建築工事","仕上工事","外部・内部仕上","標準仕様",1,"式",118000000,"仕上表があれば精度向上"],["設備工事","電気・機械設備","設備一式","標準概算",3820,"m2",58000,"設備図・仕様確認が必要"],["諸経費","現場管理・一般管理","諸経費一式","比率",1,"式",86268000,"過去案件比率"]]
+:[["建築工事","直接仮設工事","共通仮設","S造標準",1,"式",28500000,ev],["建築工事","土工事","根切り・埋戻し","基礎部",980,"m3",2400,ev],["建築工事","基礎工事","基礎コンクリート","独立基礎",620,"m3",36000,ev],["建築工事","鉄骨工事","鉄骨製作建方","S造本体",310,"t",365000,ev],["建築工事","屋根・外壁工事","折板・外壁材","工場標準",4200,"m2",18500,ev],["設備工事","電気・機械設備","設備一式","標準概算",1,"式",92000000,"設備仕様確認が必要"],["諸経費","現場管理・一般管理","諸経費一式","比率",1,"式",63500000,ev]]}
+function renderRows(){q("#estBody").innerHTML=rows.map((r,i)=>`<tr>${[0,1,2,3].map(j=>`<td><input data-i=${i} data-j=${j} value="${r[j]}"></td>`).join("")}<td><input type=number data-i=${i} data-j=4 value="${r[4]}"></td><td><input data-i=${i} data-j=5 value="${r[5]}"></td><td><input type=number data-i=${i} data-j=6 value="${r[6]}"></td><td class=amount>${yen(r[4]*r[6])}</td><td><button class=secondary data-ev=${i}>根拠</button></td></tr>`).join("");calc();q("#mRows").textContent=rows.length;q("#evidence").innerHTML=rows.slice(0,6).map(r=>`<div class=card><span class=tag>${r[1]}</span><b>${r[2]}</b><p>${r[7]}</p></div>`).join("")}
+function calc(){let total=0;rows.forEach((r,i)=>{r[4]=+r[4]||0;r[6]=+r[6]||0;let a=r[4]*r[6];total+=a;let c=qa(".amount")[i];if(c)c.textContent=yen(a)});q("#totalLabel").textContent=yen(total);q("#mTotal").textContent=yen(total)}
+function analyze(){let miss=missing(files,["図面","特記仕様書","発注条件"]);if(miss.length){toast(miss.join("・")+"を追加してください");renderFileList();return}let p=profile(),sim=similar(p);rows=makeRows(p,sim);q("#coverName").value=p.name;q("#coverPlace").value=p.place;q("#analysisText").textContent=`${names(files).length}点の資料と過去ナレッジを参照し、${rows.length}行の見積初案を作成しました。`;q("#analysisCards").innerHTML=`<div class=card><span class=tag>工事概要</span><b>${p.type}</b><p>${p.name} / ${p.place}</p></div><div class=card><span class=tag>拾い方針</span><b>大項目・中項目・小項目まで作成</b><p>数量表、仕上表、建具表があるほど精度が上がります。</p></div>`;q("#similarList").innerHTML=sim.map(x=>`<div class=card><span class=tag>${x.id} / 類似度 ${x.score}%</span><b>${x.name}</b><p>${x.summary}</p></div>`).join("");renderRows();show("analysis");toast("見積初案を作成しました")}
+function renderKnow(id=know[0].id){q("#mKnow").textContent=know.length;q("#knowList").innerHTML=know.map(k=>`<div class=card><span class=tag>${k.id}</span><b>${k.name}</b><p>${k.summary}</p><button class=secondary data-k=${k.id}>詳細を見る</button></div>`).join("");detail(id)}
+function detail(id){let k=know.find(x=>x.id==id)||know[0];q("#knowDetail").innerHTML=`<div class=card><span class=tag>${k.type}</span><h2>${k.name}</h2><p>${k.place}</p><b>登録資料 ${k.files.length}点</b><p>${k.files.join("、")}</p><b>利用目的</b><p>類似工事検索、根拠表示、概算単価補正に利用します。</p></div>`}
+function exportXls(){if(!rows.length){toast("見積明細がありません");return}let total=rows.reduce((s,r)=>s+r[4]*r[6],0),html=`<meta charset=utf-8><h2>表紙</h2><table border=1><tr><td>案件名</td><td>${q("#coverName").value}</td></tr><tr><td>所在地</td><td>${q("#coverPlace").value}</td></tr><tr><td>概算金額</td><td>${yen(total)}</td></tr></table><h2>明細</h2><table border=1><tr><td>大項目</td><td>中項目</td><td>小項目</td><td>仕様</td><td>数量</td><td>単位</td><td>単価</td><td>金額</td><td>根拠</td></tr>${rows.map(r=>`<tr>${[0,1,2,3,4,5,6].map(i=>`<td>${r[i]}</td>`).join("")}<td>${r[4]*r[6]}</td><td>${r[7]}</td></tr>`).join("")}</table>`;let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([html],{type:"application/vnd.ms-excel"}));a.download=(q("#coverName").value||"概算見積書")+"_概算見積書.xls";a.click();toast("見積書Excelを出力しました")}
+qa("[data-view]").forEach(b=>b.onclick=()=>show(b.dataset.view));
+qa("[data-kind]").forEach(i=>i.onchange=()=>{files[i.dataset.kind]=[...i.files];i.nextElementSibling.textContent=files[i.dataset.kind].map(f=>f.name).join(" / ")||"未選択";renderFileList()});
+qa("[data-reg]").forEach(i=>i.onchange=()=>{regFiles[i.dataset.reg]=[...i.files];i.nextElementSibling.textContent=regFiles[i.dataset.reg].map(f=>f.name).join(" / ")||"未選択";renderRegFiles()});
+q("#analyze").onclick=analyze;q("#addRow").onclick=()=>{rows.push(["建築工事","追加工事","新規小項目","",1,"式",0,"手入力"]);renderRows()};q("#estBody").oninput=e=>{let i=e.target.dataset.i,j=e.target.dataset.j;if(i!=null){rows[i][j]=e.target.value;calc()}};q("#estBody").onclick=e=>{let i=e.target.dataset.ev;if(i!=null){q("#evidence").innerHTML=`<div class=card><span class=tag>対象根拠</span><b>${rows[i][1]} / ${rows[i][2]}</b><p>${rows[i][7]}</p></div>`+q("#evidence").innerHTML}};q("#exportXls").onclick=exportXls;
+q("#knowList").onclick=e=>{let b=e.target.closest("[data-k]");if(b)detail(b.dataset.k)};q("#toRegister").onclick=()=>q("#register").scrollIntoView({behavior:"smooth"});
+q("#saveKnow").onclick=()=>{let miss=missing(regFiles,["完成見積書","図面","特記仕様書","発注条件"]);if(!q("#regCode").value||!q("#regName").value){toast("工事コード・工事名を入力してください");return}if(miss.length){toast(miss.join("・")+"をアップロードしてください");renderRegFiles();return}let f=Object.entries(regFiles).flatMap(([k,fs])=>fs.map(x=>`${k}: ${x.name}`)),item={id:q("#regCode").value,name:q("#regName").value,type:q("#regType").value,place:q("#regPlace").value||"未入力",summary:q("#regMemo").value||"新規登録されたナレッジ",files:f};know.unshift(item);localStorage.setItem("godaKnow",JSON.stringify(know.slice(baseKnow.length)));q("#regState").textContent="登録済み";renderKnow(item.id);toast("ナレッジを新規登録しました")};
+renderKnow();renderFileList();renderRegFiles();
 </script>
 </body>
 </html>
