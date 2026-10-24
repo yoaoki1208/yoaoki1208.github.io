@@ -1,48 +1,1187 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>和合館工学舎 会員案件マッチング</title>
-<style>
-:root{--ink:#18211d;--muted:#66736b;--line:#dfe7e2;--paper:#f7f8f4;--white:#fff;--green:#1f6a4a;--mint:#e7f2ec;--red:#a63f35;--red2:#fff0ec;--amber:#bb6b1e;--amber2:#fff3df;--blue:#2f5f8e;--blue2:#eaf1f8;--r:8px;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);line-height:1.6}button,input,select,textarea{font:inherit}.app{display:grid;grid-template-columns:270px 1fr;min-height:100vh}.side{position:sticky;top:0;height:100vh;background:#fff;border-right:1px solid var(--line);padding:22px 16px;overflow:auto}.brand{display:flex;gap:12px;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--line)}.brand img{width:116px}.brand span{font-size:12px;color:var(--muted);line-height:1.35}.nt{margin:18px 8px 7px;color:var(--muted);font-size:12px;font-weight:800}.nav{width:100%;min-height:40px;border:0;border-radius:var(--r);padding:9px 10px;background:transparent;text-align:left;display:flex;gap:8px;align-items:center;cursor:pointer}.nav:hover,.nav.active{background:var(--green);color:#fff}.badge{margin-left:auto;min-width:24px;height:22px;padding:0 7px;border-radius:999px;background:var(--mint);color:#164a36;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}.active .badge{background:#ffffff33;color:#fff}.main{min-width:0}.top{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 24px;background:#f7f8f4ee;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}.search{flex:1;max-width:560px}.search input,.field input,.field select,.field textarea{width:100%;min-height:42px;border:1px solid var(--line);border-radius:var(--r);padding:9px 11px;background:#fff}.actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.btn{min-height:40px;border:1px solid var(--line);border-radius:var(--r);background:#fff;padding:8px 13px;font-weight:800;cursor:pointer}.btn.primary{background:var(--green);border-color:var(--green);color:#fff}.content{max-width:1240px;margin:0 auto;padding:28px}.view{display:none}.view.active{display:block}.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:34px;box-shadow:0 18px 50px #19201d17}.hero h1{font-size:clamp(31px,5vw,54px);line-height:1.12;margin:0}.hero p,.muted{color:var(--muted)}.hero img{max-height:300px;margin:auto}.metrics,.grid{display:grid;gap:14px}.metrics{grid-template-columns:repeat(4,1fr);margin-top:18px}.metric,.card,.panel,.table{background:#fff;border:1px solid var(--line);border-radius:var(--r)}.metric{padding:18px;text-align:left;color:inherit;cursor:pointer}.metric:hover{border-color:var(--green);box-shadow:0 10px 30px #1f6a4a20}.metric strong{display:block;font-size:30px;line-height:1}.metric span{font-size:13px;color:var(--muted)}.head{display:flex;justify-content:space-between;gap:14px;align-items:end;margin:32px 0 14px}.head h2{margin:0;font-size:24px}.head p{margin:4px 0 0;color:var(--muted);font-size:14px}.grid.two{grid-template-columns:repeat(2,1fr)}.grid.three{grid-template-columns:repeat(3,1fr)}.card,.panel{padding:18px}.card h3,.panel h3{margin:8px 0}.meta{display:flex;gap:7px;flex-wrap:wrap}.pill{display:inline-flex;align-items:center;min-height:26px;padding:3px 9px;border-radius:999px;background:#f1f5f2;color:var(--muted);font-size:12px;font-weight:800}.pill.green{background:var(--mint);color:#164a36}.pill.red{background:var(--red2);color:var(--red)}.pill.amber{background:var(--amber2);color:var(--amber)}.pill.blue{background:var(--blue2);color:var(--blue)}.foot{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:16px}.filters,.form{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.filters{grid-template-columns:repeat(5,1fr);margin-bottom:14px}.field label{display:block;color:var(--muted);font-size:12px;font-weight:800;margin-bottom:5px}.field textarea{min-height:110px}.wide{grid-column:1/-1}.detail,.msg{display:grid;grid-template-columns:1.45fr 360px;gap:16px}.msg{grid-template-columns:340px 1fr 280px}.row{display:grid;grid-template-columns:120px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}.row dt{color:var(--muted);font-weight:800}.row dd{margin:0}.thread{border:1px solid var(--line);border-radius:var(--r);padding:12px;background:#fff;cursor:pointer;margin-bottom:10px}.thread.active{border-color:var(--green);box-shadow:0 0 0 2px var(--mint)}.threadTop{display:flex;justify-content:space-between;gap:8px}.chatHead{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px}.stream{min-height:380px;max-height:500px;overflow:auto;display:grid;align-content:start;gap:12px}.bubble{max-width:78%;padding:12px 14px;border-radius:var(--r);background:#f0f4f1}.bubble.me{margin-left:auto;background:var(--green);color:#fff}.bubble small{display:block;margin-top:6px;color:var(--muted);font-size:11px}.bubble.me small{color:#ffffffb8}.attach{display:flex;gap:9px;align-items:center;margin-top:8px;padding:9px;border:1px solid var(--line);border-radius:var(--r);background:#f8faf7}.table{overflow:auto}.table table{width:100%;border-collapse:collapse;min-width:760px}.table th,.table td{padding:12px;border-bottom:1px solid var(--line);text-align:left}.table th{font-size:12px;color:var(--muted);background:#f6f8f5}.mobile{display:none}
-@media(max-width:1040px){.app{display:block}.side{display:none}.mobile{display:flex;gap:8px;overflow:auto;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line)}.top{top:57px;flex-wrap:wrap}.content{padding:18px}.hero,.detail,.msg{grid-template-columns:1fr}.metrics,.grid.three{grid-template-columns:repeat(2,1fr)}.filters{grid-template-columns:repeat(2,1fr)}}@media(max-width:640px){.hero,.content{padding:16px}.metrics,.grid.two,.grid.three,.filters,.form{grid-template-columns:1fr}.bubble{max-width:100%}.row{grid-template-columns:1fr}.search{order:2;max-width:none;flex-basis:100%}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>和合館工学舎 会員案件マッチング</title>
+  <style>
+    :root {
+      --ink: #19201d;
+      --muted: #637169;
+      --line: #dfe7e2;
+      --paper: #f7f8f4;
+      --white: #ffffff;
+      --green: #1f6a4a;
+      --green-dark: #164a36;
+      --mint: #e7f2ec;
+      --amber: #bb6b1e;
+      --amber-soft: #fff3df;
+      --blue: #2f5f8e;
+      --blue-soft: #eaf1f8;
+      --red: #a63f35;
+      --red-soft: #fff0ec;
+      --shadow: 0 18px 50px rgba(25, 32, 29, .09);
+      --radius: 8px;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.6;
+    }
+    img { max-width: 100%; display: block; }
+    button, input, select, textarea { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 24px 18px;
+      background: var(--white);
+      border-right: 1px solid var(--line);
+      overflow: auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px 8px 22px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand img { width: 118px; }
+    .brand span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .nav-section {
+      margin-top: 20px;
+    }
+    .nav-title {
+      margin: 0 0 8px 8px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: .06em;
+    }
+    .nav-button {
+      width: 100%;
+      min-height: 40px;
+      border: 0;
+      border-radius: var(--radius);
+      padding: 9px 10px;
+      background: transparent;
+      color: var(--ink);
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      text-align: left;
+      cursor: pointer;
+    }
+    .nav-button:hover { background: #f2f5f1; }
+    .nav-button.active {
+      background: var(--green);
+      color: var(--white);
+    }
+    .nav-button svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+    .badge {
+      display: inline-flex;
+      min-width: 24px;
+      height: 22px;
+      padding: 0 7px;
+      border-radius: 999px;
+      align-items: center;
+      justify-content: center;
+      background: var(--mint);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .active .badge { background: rgba(255,255,255,.2); color: var(--white); }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 28px;
+      background: rgba(247, 248, 244, .94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .search {
+      flex: 1;
+      max-width: 560px;
+      position: relative;
+    }
+    .search svg {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      stroke: var(--muted);
+      fill: none;
+      stroke-width: 2;
+    }
+    .search input {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px 10px 42px;
+      background: var(--white);
+      color: var(--ink);
+    }
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      white-space: nowrap;
+    }
+    .btn {
+      min-height: 40px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--ink);
+      padding: 8px 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .btn svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+    .btn.primary {
+      background: var(--green);
+      border-color: var(--green);
+      color: var(--white);
+    }
+    .btn.ghost { background: transparent; }
+    .btn.warning {
+      background: var(--amber);
+      border-color: var(--amber);
+      color: var(--white);
+    }
+
+    .content {
+      width: min(1240px, 100%);
+      margin: 0 auto;
+      padding: 28px;
+    }
+    .view { display: none; }
+    .view.active { display: block; }
+
+    .hero {
+      min-height: 360px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, .95fr);
+      gap: 28px;
+      align-items: center;
+      padding: 34px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+    .hero p {
+      margin: 18px 0 24px;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 680px;
+    }
+    .hero-visual {
+      min-height: 280px;
+      display: grid;
+      place-items: center;
+      border-left: 1px solid var(--line);
+      padding-left: 24px;
+    }
+    .hero-visual img { max-height: 315px; }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .metric, .card, .panel, .table-wrap {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .metric {
+      padding: 18px;
+    }
+    button.metric {
+      width: 100%;
+      text-align: left;
+      color: inherit;
+      cursor: pointer;
+      transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+    button.metric:hover {
+      border-color: var(--green);
+      box-shadow: 0 10px 30px rgba(31, 106, 74, .12);
+      transform: translateY(-1px);
+    }
+    button.metric:focus-visible {
+      outline: 3px solid var(--mint);
+      outline-offset: 2px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 30px;
+      line-height: 1;
+    }
+    .metric span { color: var(--muted); font-size: 13px; }
+
+    .section-head {
+      margin: 34px 0 14px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .section-head h2 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+    .section-head p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+    .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card {
+      padding: 18px;
+      min-width: 0;
+    }
+    .card h3 {
+      margin: 8px 0 8px;
+      font-size: 18px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+    .card p { color: var(--muted); margin: 0; }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 26px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: #f1f5f2;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .pill.red { background: var(--red-soft); color: var(--red); }
+    .pill.amber { background: var(--amber-soft); color: var(--amber); }
+    .pill.green { background: var(--mint); color: var(--green-dark); }
+    .pill.blue { background: var(--blue-soft); color: var(--blue); }
+    .card-footer {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .price {
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      padding: 9px 10px;
+      color: var(--ink);
+    }
+    .field textarea { min-height: 112px; resize: vertical; }
+
+    .detail {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) 360px;
+      gap: 18px;
+      align-items: start;
+    }
+    .panel { padding: 20px; }
+    .panel h2, .panel h3 { margin-top: 0; letter-spacing: 0; }
+    .info-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+    }
+    .info-row {
+      display: grid;
+      grid-template-columns: 130px minmax(0, 1fr);
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .info-row dt { color: var(--muted); font-weight: 700; }
+    .info-row dd { margin: 0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+    .table-wrap {
+      overflow: auto;
+    }
+    th, td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      background: #f6f8f5;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .form-grid .wide { grid-column: 1 / -1; }
+
+    .message-layout {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 16px;
+    }
+    .message-center {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr) 280px;
+      gap: 16px;
+      align-items: start;
+    }
+    .message-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .thread-list {
+      display: grid;
+      gap: 10px;
+    }
+    .thread-item {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      background: var(--white);
+      cursor: pointer;
+    }
+    .thread-item.active { border-color: var(--green); box-shadow: 0 0 0 2px var(--mint); }
+    .thread-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+    .thread-top strong { line-height: 1.35; }
+    .thread-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .chat {
+      display: grid;
+      gap: 12px;
+    }
+    .chat-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 14px;
+    }
+    .chat-head h3 { margin-bottom: 2px; }
+    .chat-stream {
+      min-height: 390px;
+      max-height: 500px;
+      overflow: auto;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+      padding-right: 4px;
+    }
+    .bubble {
+      max-width: 76%;
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      background: #f0f4f1;
+    }
+    .bubble.me {
+      margin-left: auto;
+      background: var(--green);
+      color: var(--white);
+    }
+    .bubble small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .bubble.me small { color: rgba(255,255,255,.74); }
+    .composer {
+      margin-top: 14px;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+    .composer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .attachment {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #f8faf7;
+      margin-top: 8px;
+    }
+    .attachment svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--green);
+      fill: none;
+      stroke-width: 2;
+      flex: 0 0 auto;
+    }
+
+    .admin-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .notice-preview {
+      border-left: 4px solid var(--green);
+      padding-left: 12px;
+    }
+
+    .mobile-tabs {
+      display: none;
+      gap: 8px;
+      overflow: auto;
+      padding: 10px 16px;
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+    }
+    .mobile-tabs .btn { flex: 0 0 auto; }
+
+    @media (max-width: 1040px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .mobile-tabs { display: flex; }
+      .topbar { top: 57px; padding: 12px 18px; flex-wrap: wrap; }
+      .content { padding: 20px 16px; }
+      .hero, .detail, .message-layout, .message-center { grid-template-columns: 1fr; }
+      .hero-visual { border-left: 0; border-top: 1px solid var(--line); padding: 20px 0 0; }
+      .metrics, .grid.three, .admin-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .top-actions { width: 100%; justify-content: space-between; }
+      .search { order: 2; max-width: none; flex-basis: 100%; }
+      .hero { padding: 22px; }
+      .metrics, .grid.two, .grid.three, .admin-strip, .filters, .form-grid { grid-template-columns: 1fr; }
+      .info-row { grid-template-columns: 1fr; gap: 2px; }
+      .bubble { max-width: 100%; }
+      .form-grid .wide { grid-column: auto; }
+    }
+  </style>
 </head>
 <body>
-<div class="app">
-<aside class="side"><div class="brand"><img src="https://wagokan.or.jp/img/common/logo_wagokan.svg" alt="和合館工学舎"><span>会員案件<br>マッチング</span></div><div id="nav"></div></aside>
-<main class="main">
-<div class="mobile" id="mobile"></div>
-<header class="top"><div class="search"><input placeholder="地域、工種、資格、緊急度で検索"></div><div class="actions"><button class="btn" data-go="messages">トーク5</button><button class="btn primary" data-go="post">募集を作成</button></div></header>
-<div class="content">
-<section class="view active" id="home">
-<div class="hero"><div><div class="meta"><span class="pill green">会員限定</span><span class="pill red">災害応援</span><span class="pill amber">案件譲渡</span></div><h1>地域建設業の応援要請を、会員同士で確実につなぐ。</h1><p>災害対応、急な人員不足、他県工事の協力先探し、受注案件の一部譲渡まで。会員企業が条件と信頼情報を確認しながら相談できます。</p><div class="actions"><button class="btn primary" data-go="projects">案件を見る</button><button class="btn" data-go="companies">企業を探す</button><button class="btn" data-go="messages">会社間トーク</button></div></div><img src="https://wagokan.or.jp/img/home/visual.svg" alt=""></div>
-<div class="metrics"><button class="metric" data-go="projects"><strong>24</strong><span>募集中の案件</span></button><button class="metric" data-go="projects"><strong>8</strong><span>緊急応援案件</span></button><button class="metric" data-go="companies"><strong>126</strong><span>登録会員企業</span></button><button class="metric" data-go="messages"><strong>5</strong><span>未読トーク</span></button></div>
-<div class="head"><div><h2>優先対応が必要な案件</h2><p>災害・工期逼迫・県外施工など、早い判断が必要な募集を上位表示します。</p></div><button class="btn" data-go="projects">一覧へ</button></div><div class="grid three" id="featured"></div>
-</section>
-<section class="view" id="projects"><div class="head"><div><h2>案件一覧</h2><p>公開範囲、緊急度、工種、地域で絞り込めます。</p></div><button class="btn primary" data-go="post">募集を作成</button></div><div class="filters"><div class="field"><label>地域</label><select><option>すべて</option><option>宮城県</option><option>岩手県</option></select></div><div class="field"><label>工種</label><select><option>すべて</option><option>土木</option><option>建築</option><option>舗装</option></select></div><div class="field"><label>緊急度</label><select><option>すべて</option><option>至急</option><option>今週中</option></select></div><div class="field"><label>契約形態</label><select><option>応援</option><option>協力施工</option><option>案件譲渡</option></select></div><div class="field"><label>公開範囲</label><select><option>会員全体</option><option>承認制</option></select></div></div><div class="grid two" id="plist"></div></section>
-<section class="view" id="companies"><div class="head"><div><h2>企業一覧</h2><p>保有資格、対応エリア、応援実績から協力先を探せます。</p></div><button class="btn" data-go="register">新規会員登録</button></div><div class="grid three" id="clist"></div></section>
-<section class="view" id="detail"><div class="detail"><article class="panel"><div class="meta"><span class="pill red">至急</span><span class="pill green">会員限定</span><span class="pill amber">災害応援</span></div><h2>大雨被害に伴う河川護岸復旧の応援要請</h2><p class="muted">宮城県北部の応急復旧に伴い、施工管理者と重機オペレーターの応援を募集します。</p><dl><div class="row"><dt>募集企業</dt><dd>青葉建設株式会社</dd></div><div class="row"><dt>現場</dt><dd>宮城県大崎市周辺</dd></div><div class="row"><dt>期間</dt><dd>2026/07/06 - 2026/07/31</dd></div><div class="row"><dt>必要体制</dt><dd>施工管理1名、重機オペレーター2名、作業員4名</dd></div></dl></article><aside class="panel"><h3>応募前確認</h3><dl><div class="row"><dt>期限</dt><dd>2026/07/03 17:00</dd></div><div class="row"><dt>金額</dt><dd>個別協議</dd></div><div class="row"><dt>応募数</dt><dd>5社</dd></div></dl><div class="foot"><button class="btn primary" data-go="apply">応募</button><button class="btn" data-go="messages">会社へ相談</button></div></aside></div></section>
-<section class="view" id="messages"><div class="head"><div><h2>会社間トーク</h2><p>LINEのように会社ごとのトークルームで直接やり取りし、必要な時だけ案件・見積・資料を会話に紐づけます。</p></div><button class="btn primary">新規トーク</button></div><div class="msg"><aside class="panel"><div class="actions"><button class="btn primary">すべて</button><button class="btn">未読</button><button class="btn">要対応</button></div><div class="field" style="margin:12px 0"><label>トーク検索</label><input placeholder="企業名、担当者、案件名"></div><div class="thread active"><div class="threadTop"><strong>青葉建設株式会社</strong><span class="badge">2</span></div><p>明日10時の打合せでお願いします。</p><div class="meta"><span class="pill green">会社間DM</span><span class="pill red">案件あり</span></div></div><div class="thread"><div class="threadTop"><strong>北日本ロード株式会社</strong><span class="badge">1</span></div><p>来週の舗装班の空き状況を共有いただけますか。</p><div class="meta"><span class="pill amber">見積相談</span></div></div><div class="thread"><div class="threadTop"><strong>東北測量設計</strong><span class="badge">1</span></div><p>ICT出来形管理の相談です。</p><div class="meta"><span class="pill blue">案件化前</span></div></div></aside><section class="panel"><div class="chatHead"><div><h3>青葉建設株式会社</h3><div class="meta"><span class="pill green">会社間DM</span><span class="pill">担当: 伊藤</span><span class="pill red">関連案件あり</span></div></div><button class="btn">案件を紐づけ</button></div><div class="stream"><div class="bubble">来週、作業班の空きはありますか。案件化する前に大まかな可否だけ確認したいです。<small>仙台基礎工業 佐藤 / 10:12</small></div><div class="bubble me">7/8以降であれば施工管理1名と作業員3名は調整可能です。<small>青葉建設 伊藤 / 10:18 / 既読</small></div><div class="bubble">宮城県大崎市の河川護岸復旧です。正式な募集記事はこれから作ります。<small>仙台基礎工業 佐藤 / 10:24</small></div><div class="bubble me">関連案件として仮登録しておきます。現地写真と平面図を確認し、明日10時に打合せしましょう。<small>青葉建設 伊藤 / 10:31 / 未読</small><div class="attach">現地写真_護岸復旧.pdf</div></div></div><div class="field" style="margin-top:12px"><label>メッセージ作成</label><textarea placeholder="会員企業へ送る内容を入力"></textarea></div><div class="foot"><span class="pill green">必要に応じて案件へ紐づけ</span><button class="btn primary">送信</button></div></section><aside class="panel"><h3>トーク相手</h3><dl><div class="row"><dt>企業</dt><dd>青葉建設株式会社</dd></div><div class="row"><dt>所在地</dt><dd>宮城県仙台市</dd></div><div class="row"><dt>工種</dt><dd>河川、道路、災害復旧</dd></div></dl><h3>関連案件</h3><div class="attach">大雨被害に伴う河川護岸復旧</div><div class="attach">新しい案件を紐づけ</div></aside></div></section>
-<section class="view" id="post"><div class="head"><div><h2>募集記事作成</h2><p>応募者が判断できる条件を明確にします。</p></div></div><div class="panel form"><div class="field wide"><label>募集タイトル</label><input value="大雨被害に伴う河川護岸復旧の応援要請"></div><div class="field"><label>種別</label><select><option>災害応援</option><option>協力施工</option><option>案件譲渡</option></select></div><div class="field"><label>緊急度</label><select><option>至急</option><option>今週中</option></select></div><div class="field"><label>地域</label><input value="宮城県大崎市周辺"></div><div class="field"><label>期限</label><input type="date" value="2026-07-03"></div><div class="field wide"><label>募集内容</label><textarea>応急復旧に伴い、施工管理者と作業班を募集します。</textarea></div></div></section>
-<section class="view" id="apply"><div class="head"><div><h2>応募</h2><p>対応可能範囲と初回提案を送信します。</p></div></div><div class="panel form"><div class="field"><label>応募企業</label><input value="仙台基礎工業株式会社"></div><div class="field"><label>担当者</label><input value="佐藤 健"></div><div class="field"><label>対応人数</label><input value="施工管理1名、作業員3名"></div><div class="field"><label>開始日</label><input type="date" value="2026-07-07"></div><div class="field wide"><label>提案内容</label><textarea>河川工事の応援経験があります。</textarea></div></div></section>
-<section class="view" id="register"><div class="head"><div><h2>新規会員登録</h2><p>運営確認後、案件閲覧・応募・募集作成が有効になります。</p></div></div><div class="panel form"><div class="field"><label>企業名</label><input></div><div class="field"><label>所在地</label><input></div><div class="field"><label>担当者</label><input></div><div class="field"><label>メール</label><input></div><div class="field wide"><label>保有資格・実績</label><textarea></textarea></div></div></section>
-<section class="view" id="admin"><div class="head"><div><h2>運営管理画面</h2><p>お知らせ、イベント、緊急案件の掲出を管理します。</p></div></div><div class="metrics"><div class="metric"><strong>6</strong><span>承認待ち会員</span></div><div class="metric"><strong>3</strong><span>掲載確認待ち案件</span></div><div class="metric"><strong>12</strong><span>今月の成立相談</span></div></div><div class="grid two" style="margin-top:14px"><div class="panel"><h3>お知らせ</h3><p>災害復旧応援案件の掲載基準を更新しました。</p></div><div class="panel"><h3>イベント</h3><p>県外工事の協力会社探索セミナーを開催予定です。</p></div></div></section>
-<section class="view" id="guide"><div class="head"><div><h2>使い方</h2><p>募集、応募、会社間トークで条件調整します。</p></div></div><div class="grid three"><div class="card"><span class="pill green">1</span><h3>募集を作成</h3><p>地域、工種、期間、公開範囲を指定します。</p></div><div class="card"><span class="pill green">2</span><h3>会員が応募</h3><p>対応可能人数と実績を添えて応募します。</p></div><div class="card"><span class="pill green">3</span><h3>トークで調整</h3><p>会社間DMで条件を確認します。</p></div></div></section>
-</div></main></div>
-<script>
-const navs=[["フロント",[["home","トップ",""],["projects","案件一覧","24"],["companies","企業一覧",""],["detail","案件詳細",""],["apply","応募",""],["messages","会社間トーク","5"],["register","会員登録",""],["guide","使い方",""]]],["募集者",[["post","募集記事作成",""],["messages","応募者連絡","5"]]],["運営",[["admin","お知らせ・イベント","9"]]]];
-const projects=[["大雨被害に伴う河川護岸復旧の応援要請","災害応援","宮城県大崎市","至急","個別協議","red"],["県外受注に伴う橋梁補修工事の協力会社募集","協力施工","山形県酒田市","今週中","800万円目安","amber"],["公共施設改修の建築施工管理者を短期募集","応援","福島県郡山市","相談可","月額協議","green"],["道路維持補修の夜間舗装班を募集","応援","岩手県盛岡市","至急","単価協議","red"]];
-const companies=[["青葉建設株式会社","宮城・山形","河川、道路、災害復旧","応援実績18件"],["仙台基礎工業株式会社","東北全域","基礎、土工、重機手配","重機手配可"],["北日本ロード株式会社","岩手・宮城","舗装、維持補修、夜間施工","資格者32名"],["東北測量設計","宮城・福島","測量、出来形管理、ICT施工","ICT対応"],["杜の都設備株式会社","宮城県内","設備、公共施設改修","建築連携可"],["南東北建築工房","福島・宮城","建築施工管理、改修","短期応援可"]];
-nav.innerHTML=navs.map(g=>`<div class=nt>${g[0]}</div>`+g[1].map(x=>`<button class="nav ${x[0]=="home"?"active":""}" data-go="${x[0]}">${x[1]}${x[2]?`<span class=badge>${x[2]}</span>`:""}</button>`).join("")).join("");
-mobile.innerHTML=navs[0][1].slice(0,6).map(x=>`<button class=btn data-go="${x[0]}">${x[1]}</button>`).join("");
-function pcard(p,i){return`<article class=card><div class=meta><span class="pill ${p[5]}">${p[3]}</span><span class="pill green">会員限定</span><span class=pill>${p[1]}</span></div><h3>${p[0]}</h3><p class=muted>${p[2]} / 土木・施工管理</p><div class=foot><strong>${p[4]}</strong><button class=btn data-go=detail>${i?"確認":"詳細"}</button></div></article>`}
-featured.innerHTML=projects.slice(0,3).map(pcard).join("");plist.innerHTML=projects.map(pcard).join("");
-clist.innerHTML=companies.map(c=>`<article class=card><div class=meta><span class="pill green">${c[1]}</span><span class="pill blue">${c[3]}</span></div><h3>${c[0]}</h3><p class=muted>${c[2]}</p><div class=foot><span class=pill>会員確認済</span><button class=btn data-go=messages>相談</button></div></article>`).join("");
-function show(id){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id==id));document.querySelectorAll(".nav").forEach(b=>b.classList.toggle("active",b.dataset.go==id));scrollTo({top:0,behavior:"smooth"})}
-document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)show(b.dataset.go)});
-</script>
+  <div style="padding:12px 18px;background:#fff3df;color:#71400e;font-size:14px">画面確認用プロトタイプ：表示内容はサンプルです。実際の応募・送信・会員認証はできません。個人情報は入力しないでください。</div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="https://wagokan.or.jp/img/common/logo_wagokan.svg" alt="一般社団法人 和合館工学舎">
+        <span>会員案件<br>マッチング</span>
+      </div>
+      <div id="desktop-nav"></div>
+    </aside>
+
+    <main class="main">
+      <div class="mobile-tabs" id="mobile-nav"></div>
+      <header class="topbar">
+        <div class="search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input type="search" placeholder="地域、工種、資格、緊急度で検索">
+        </div>
+        <div class="top-actions">
+          <button class="btn ghost" type="button" data-view-target="guide">
+            <svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
+            使い方
+          </button>
+          <button class="btn" type="button" data-view-target="messages">
+            <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path></svg>
+            トーク5
+          </button>
+          <button class="btn primary" type="button" data-view-target="post-create">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+            募集を作成
+          </button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="view active" id="home">
+          <div class="hero">
+            <div>
+              <div class="meta">
+                <span class="pill green">会員限定</span>
+                <span class="pill red">災害応援</span>
+                <span class="pill amber">案件譲渡</span>
+              </div>
+              <h1>地域建設業の応援要請を、会員同士で確実につなぐ。</h1>
+              <p>災害対応、急な人員不足、他県工事の協力先探し、受注案件の一部譲渡まで。和合館工学舎の会員企業が、条件と信頼情報を確認しながら応募・相談できる案件マッチングシステムです。</p>
+            <div class="top-actions">
+              <button class="btn primary" type="button" data-view-target="projects">案件を見る</button>
+              <button class="btn" type="button" data-view-target="companies">企業を探す</button>
+              <button class="btn" type="button" data-view-target="messages">会社間トーク</button>
+            </div>
+            </div>
+            <div class="hero-visual">
+              <img src="https://wagokan.or.jp/img/home/visual.svg" alt="地域を支える技術者のイラスト">
+            </div>
+          </div>
+          <div class="metrics">
+            <button class="metric" type="button" data-view-target="projects"><strong>24</strong><span>募集中の案件</span></button>
+            <button class="metric" type="button" data-view-target="projects"><strong>8</strong><span>緊急応援案件</span></button>
+            <button class="metric" type="button" data-view-target="companies"><strong>126</strong><span>登録会員企業</span></button>
+            <button class="metric" type="button" data-view-target="messages"><strong>5</strong><span>未読トーク</span></button>
+          </div>
+          <div class="section-head">
+            <div><h2>優先対応が必要な案件</h2><p>災害・工期逼迫・県外施工など、早い判断が必要な募集を上位表示します。</p></div>
+            <button class="btn" type="button" data-view-target="projects">一覧へ</button>
+          </div>
+          <div class="grid three" id="featured-projects"></div>
+        </section>
+
+        <section class="view" id="projects">
+          <div class="section-head">
+            <div><h2>案件一覧</h2><p>公開範囲、緊急度、工種、地域で絞り込めます。</p></div>
+            <button class="btn primary" type="button" data-view-target="post-create">募集を作成</button>
+          </div>
+          <div class="filters">
+            <div class="field"><label>地域</label><select><option>すべて</option><option>宮城県</option><option>岩手県</option><option>福島県</option></select></div>
+            <div class="field"><label>工種</label><select><option>すべて</option><option>土木</option><option>建築</option><option>舗装</option><option>測量</option></select></div>
+            <div class="field"><label>緊急度</label><select><option>すべて</option><option>至急</option><option>今週中</option><option>相談可</option></select></div>
+            <div class="field"><label>契約形態</label><select><option>すべて</option><option>応援</option><option>協力施工</option><option>案件譲渡</option></select></div>
+            <div class="field"><label>公開範囲</label><select><option>会員全体</option><option>同県会員</option><option>承認制</option></select></div>
+          </div>
+          <div class="grid two" id="project-list"></div>
+        </section>
+
+        <section class="view" id="companies">
+          <div class="section-head">
+            <div><h2>企業一覧</h2><p>保有資格、対応可能エリア、直近の応援実績から協力先を探せます。</p></div>
+            <button class="btn" type="button" data-view-target="register">新規会員登録</button>
+          </div>
+          <div class="grid three" id="company-list"></div>
+        </section>
+
+        <section class="view" id="project-detail">
+          <div class="detail">
+            <article class="panel">
+              <div class="meta">
+                <span class="pill red">至急</span><span class="pill green">会員限定</span><span class="pill amber">災害応援</span>
+              </div>
+              <h2>大雨被害に伴う河川護岸復旧の応援要請</h2>
+              <p>宮城県北部で発生した大雨被害の応急復旧に伴い、土木施工管理技士および重機オペレーターの応援を募集します。現地調査後、協力範囲と単価を個別協議します。</p>
+              <dl class="info-list">
+                <div class="info-row"><dt>募集企業</dt><dd>青葉建設株式会社</dd></div>
+                <div class="info-row"><dt>現場</dt><dd>宮城県大崎市周辺</dd></div>
+                <div class="info-row"><dt>期間</dt><dd>2026/07/06 - 2026/07/31</dd></div>
+                <div class="info-row"><dt>必要体制</dt><dd>施工管理 1名、重機オペレーター 2名、作業員 4名</dd></div>
+                <div class="info-row"><dt>必要資格</dt><dd>1級または2級土木施工管理技士、車両系建設機械、玉掛け</dd></div>
+                <div class="info-row"><dt>希望条件</dt><dd>河川・法面・災害復旧の経験。初回打合せはオンライン可。</dd></div>
+              </dl>
+            </article>
+            <aside class="panel">
+              <h3>応募前確認</h3>
+              <dl class="info-list">
+                <div class="info-row"><dt>応募期限</dt><dd>2026/07/03 17:00</dd></div>
+                <div class="info-row"><dt>想定金額</dt><dd>個別協議</dd></div>
+                <div class="info-row"><dt>返信目安</dt><dd>3時間以内</dd></div>
+                <div class="info-row"><dt>応募数</dt><dd>5社</dd></div>
+              </dl>
+              <div class="card-footer">
+                <button class="btn primary" type="button" data-view-target="apply">応募する</button>
+                <button class="btn" type="button" data-view-target="messages">会社へ相談</button>
+                <button class="btn" type="button">保存</button>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="apply">
+          <div class="section-head"><div><h2>応募内容の下書き（試作）</h2><p>実際の応募・送信はできません。架空の情報でお試しください。入力はこのブラウザだけに保存されます。</p></div></div>
+          <div class="panel">
+            <h3 id="application-project-title"></h3>
+            <details><summary>この案件の募集条件を確認</summary><dl class="info-list" id="application-project-conditions"></dl></details>
+            <div class="form-grid" style="margin-top:20px">
+              <div class="field"><label for="application-company">応募企業（デモ）</label><input id="application-company" data-draft-field="company" maxlength="200" autocomplete="off" placeholder="例：デモ建設株式会社"></div>
+              <div class="field"><label for="application-contact">担当者（デモ）</label><input id="application-contact" data-draft-field="contact" maxlength="100" autocomplete="off" placeholder="例：デモ担当"></div>
+              <div class="field"><label for="application-capacity">対応可能人数</label><input id="application-capacity" data-draft-field="capacity" maxlength="300" placeholder="例：施工管理1名、作業員3名"></div>
+              <div class="field"><label for="application-start-date">開始可能日</label><input id="application-start-date" data-draft-field="startDate" type="date"></div>
+              <div class="field wide"><label for="application-proposal">提案内容</label><textarea id="application-proposal" data-draft-field="proposal" maxlength="5000" placeholder="デモの提案内容を入力"></textarea></div>
+            </div>
+            <p id="application-draft-status" role="status"></p>
+            <div class="card-footer"><button class="btn" type="button" data-view-target="project-detail">案件詳細へ戻る（入力を保持）</button><button class="btn" type="button" id="application-reset">この案件の入力をリセット</button></div>
+            <div id="application-reset-confirmation" hidden>
+              <p>この案件の下書きだけを削除します。他の案件の入力は残ります。</p>
+              <button class="btn" type="button" id="application-reset-cancel">削除せず戻る</button>
+              <button class="btn" type="button" id="application-reset-confirm">この案件の下書きを削除</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="register">
+          <div class="section-head"><div><h2>新規会員登録</h2><p>運営確認後、案件閲覧・応募・募集作成が有効になります。</p></div></div>
+          <div class="panel form-grid">
+            <div class="field"><label>企業名</label><input placeholder="株式会社〇〇建設"></div>
+            <div class="field"><label>所在地</label><input placeholder="宮城県仙台市..."></div>
+            <div class="field"><label>担当者名</label><input placeholder="氏名"></div>
+            <div class="field"><label>メールアドレス</label><input placeholder="name@example.co.jp"></div>
+            <div class="field"><label>主な工種</label><select><option>土木</option><option>建築</option><option>舗装</option><option>設備</option></select></div>
+            <div class="field"><label>対応エリア</label><input placeholder="東北6県、関東など"></div>
+            <div class="field wide"><label>保有資格・実績</label><textarea placeholder="施工管理技士、災害復旧、維持補修など"></textarea></div>
+          </div>
+        </section>
+
+        <section class="view" id="contact">
+          <div class="section-head"><div><h2>問い合わせ</h2><p>会員登録、案件掲載、運営確認が必要な相談を受け付けます。</p></div></div>
+          <div class="panel form-grid">
+            <div class="field"><label>種別</label><select><option>会員登録について</option><option>案件掲載について</option><option>応募トラブル</option></select></div>
+            <div class="field"><label>返信先</label><input placeholder="name@example.co.jp"></div>
+            <div class="field wide"><label>内容</label><textarea placeholder="お問い合わせ内容を入力してください"></textarea></div>
+          </div>
+        </section>
+
+        <section class="view" id="guide">
+          <div class="section-head"><div><h2>サービス紹介・使い方</h2><p>会員間の信頼を前提に、公開範囲と記録を残して案件相談を進めます。</p></div></div>
+          <div class="grid three">
+            <div class="card"><span class="pill green">1</span><h3>募集を作成</h3><p>地域、工種、期間、必要資格、公開範囲を指定して募集を掲載します。</p></div>
+            <div class="card"><span class="pill green">2</span><h3>会員が応募</h3><p>対応可能人数、開始日、保有資格、過去実績を添えて応募します。</p></div>
+            <div class="card"><span class="pill green">3</span><h3>条件調整</h3><p>メッセージで条件を確認し、面談・現地確認・契約手続きへ進みます。</p></div>
+          </div>
+        </section>
+
+        <section class="view" id="help">
+          <div class="section-head"><div><h2>ヘルプ</h2><p>会員限定サービスのよくある質問です。</p></div></div>
+          <div class="grid two">
+            <div class="card"><h3>案件の公開範囲は変更できますか</h3><p>作成後も会員全体、同県会員、承認制に変更できます。応募済み企業には変更履歴が表示されます。</p></div>
+            <div class="card"><h3>応募企業の審査はありますか</h3><p>登録時に運営が会員情報を確認します。案件ごとの採否は募集企業が判断します。</p></div>
+            <div class="card"><h3>災害時の緊急案件はどう扱われますか</h3><p>緊急ラベル付きで上位表示され、運営から対象会員へ通知できます。</p></div>
+            <div class="card"><h3>契約はシステム内で完結しますか</h3><p>本UIではマッチングと記録管理までを想定し、契約書面は各社間で締結します。</p></div>
+          </div>
+        </section>
+
+        <section class="view" id="terms">
+          <div class="section-head"><div><h2>規約</h2><p>会員間マッチングの利用範囲、情報管理、禁止事項を確認します。</p></div></div>
+          <div class="panel">
+            <h3>利用規約の要点</h3>
+            <p>掲載情報は会員間の協力先探索を目的として利用します。秘密情報、個人情報、契約条件の取り扱いは各社の責任で確認し、運営は必要に応じて掲載内容の修正・停止を行います。</p>
+            <dl class="info-list">
+              <div class="info-row"><dt>情報管理</dt><dd>案件情報は指定された公開範囲内でのみ閲覧できます。</dd></div>
+              <div class="info-row"><dt>禁止事項</dt><dd>虚偽情報、再委託条件の未確認掲載、会員外への無断共有を禁止します。</dd></div>
+              <div class="info-row"><dt>記録</dt><dd>応募、採否、メッセージはトラブル防止のため保存されます。</dd></div>
+            </dl>
+          </div>
+        </section>
+
+        <section class="view" id="post-create">
+          <div class="section-head"><div><h2>募集記事作成</h2><p>応募者が判断できる条件を最初から明確にします。</p></div></div>
+          <div class="panel form-grid">
+            <div class="field wide"><label>募集タイトル</label><input value="大雨被害に伴う河川護岸復旧の応援要請"></div>
+            <div class="field"><label>募集種別</label><select><option>災害応援</option><option>協力施工</option><option>案件譲渡</option></select></div>
+            <div class="field"><label>緊急度</label><select><option>至急</option><option>今週中</option><option>相談可</option></select></div>
+            <div class="field"><label>現場地域</label><input value="宮城県大崎市周辺"></div>
+            <div class="field"><label>応募期限</label><input type="date" value="2026-07-03"></div>
+            <div class="field wide"><label>募集内容</label><textarea>応急復旧に伴い、施工管理者と作業班を募集します。現地調査後に範囲・単価を協議します。</textarea></div>
+            <div class="field wide"><label>必要資格・条件</label><textarea>土木施工管理技士、車両系建設機械、災害復旧経験がある企業を優先します。</textarea></div>
+          </div>
+        </section>
+
+        <section class="view" id="post-edit">
+          <div class="section-head"><div><h2>募集記事編集</h2><p>条件変更は履歴として応募者に共有されます。</p></div></div>
+          <div class="panel">
+            <div class="meta"><span class="pill amber">下書き</span><span class="pill">最終更新 2026/07/01 10:40</span></div>
+            <div class="form-grid" style="margin-top:16px">
+              <div class="field wide"><label>募集タイトル</label><input value="県外受注に伴う橋梁補修工事の協力会社募集"></div>
+              <div class="field"><label>公開範囲</label><select><option>会員全体</option><option>承認制</option></select></div>
+              <div class="field"><label>状態</label><select><option>公開</option><option>下書き</option><option>募集停止</option></select></div>
+              <div class="field wide"><label>変更メモ</label><textarea>施工期間と必要人数を更新。応募済み企業へ通知予定。</textarea></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="recruiter-applicants">
+          <div class="section-head"><div><h2>募集 - 応募者一覧</h2><p>募集者側で応募企業の提案内容と対応状況を確認します。</p></div></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>応募企業</th><th>案件</th><th>提案体制</th><th>状態</th><th>最終連絡</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>仙台基礎工業株式会社</td><td>河川護岸復旧</td><td>施工管理1名、作業員3名</td><td><span class="pill amber">条件確認中</span></td><td>15分前</td><td><button class="btn" data-view-target="recruiter-applicant-detail">詳細</button></td></tr>
+              <tr><td>北日本ロード株式会社</td><td>橋梁補修</td><td>舗装班1組</td><td><span class="pill green">面談設定済</span></td><td>2時間前</td><td><button class="btn" data-view-target="recruiter-applicant-detail">詳細</button></td></tr>
+              <tr><td>東北測量設計</td><td>造成測量</td><td>測量2名</td><td><span class="pill blue">新着</span></td><td>今日</td><td><button class="btn" data-view-target="recruiter-applicant-detail">詳細</button></td></tr>
+            </tbody>
+          </table></div>
+        </section>
+
+        <section class="view" id="recruiter-applicant-detail">
+          <div class="section-head"><div><h2>募集 - 応募者詳細</h2><p>提案確認、条件調整、メッセージのやり取りを行います。</p></div></div>
+          <div class="message-layout">
+            <aside class="panel">
+              <h3>応募情報</h3>
+              <dl class="info-list">
+                <div class="info-row"><dt>企業</dt><dd>仙台基礎工業株式会社</dd></div>
+                <div class="info-row"><dt>体制</dt><dd>施工管理1名、作業員3名</dd></div>
+                <div class="info-row"><dt>開始可能</dt><dd>2026/07/07</dd></div>
+                <div class="info-row"><dt>状態</dt><dd><span class="pill amber">条件確認中</span></dd></div>
+              </dl>
+            </aside>
+            <section class="panel">
+              <h3>メッセージ</h3>
+              <div class="chat">
+                <div class="bubble">現地条件と仮設道路の有無を確認させてください。</div>
+                <div class="bubble me">本日16時に現地写真と平面図を共有します。明日午前のオンライン打合せは可能でしょうか。</div>
+                <div class="bubble">10時からであれば参加可能です。重機搬入の可否も確認します。</div>
+              </div>
+              <div class="field" style="margin-top:16px"><label>返信</label><textarea placeholder="メッセージを入力"></textarea></div>
+              <div class="card-footer"><span></span><button class="btn primary">送信</button></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="applicant-list">
+          <div class="section-head"><div><h2>応募者マイページ - 応募一覧</h2><p>応募した募集の進捗と返信待ちを確認します。</p></div></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>案件</th><th>募集企業</th><th>応募内容</th><th>状態</th><th>次の対応</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>河川護岸復旧</td><td>青葉建設株式会社</td><td>施工管理1名、作業員3名</td><td><span class="pill amber">条件確認中</span></td><td>図面確認</td><td><button class="btn" data-view-target="applicant-detail">詳細</button></td></tr>
+              <tr><td>道路維持補修</td><td>みちのく道路株式会社</td><td>舗装班1組</td><td><span class="pill blue">返信待ち</span></td><td>募集者返信待ち</td><td><button class="btn" data-view-target="applicant-detail">詳細</button></td></tr>
+            </tbody>
+          </table></div>
+        </section>
+
+        <section class="view" id="applicant-detail">
+          <div class="section-head"><div><h2>応募者マイページ - 応募詳細</h2><p>応募後の条件調整とメッセージ履歴です。</p></div></div>
+          <div class="message-layout">
+            <aside class="panel thread-list">
+              <div class="thread-item active"><strong>河川護岸復旧</strong><br><span class="pill amber">条件確認中</span></div>
+              <div class="thread-item"><strong>道路維持補修</strong><br><span class="pill blue">返信待ち</span></div>
+            </aside>
+            <section class="panel">
+              <h3>青葉建設株式会社とのやり取り</h3>
+              <div class="chat">
+                <div class="bubble me">施工管理1名と作業班1組で応募します。7/7から対応可能です。</div>
+                <div class="bubble">ありがとうございます。現地条件と単価の打合せをお願いします。</div>
+                <div class="bubble me">明日10時で調整可能です。参加URLをお送りします。</div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="messages">
+          <div class="section-head">
+            <div><h2>会社間トーク</h2><p>LINEのように会員企業ごとのトークルームで直接やり取りし、必要な時だけ案件・見積・資料を会話に紐づけます。</p></div>
+            <button class="btn primary" type="button">新規トーク</button>
+          </div>
+          <div class="message-center">
+            <aside class="panel">
+              <div class="message-toolbar">
+                <button class="btn primary" type="button">すべて</button>
+                <button class="btn" type="button">未読</button>
+                <button class="btn" type="button">要対応</button>
+              </div>
+              <div class="field" style="margin-bottom:12px">
+                <label>トーク検索</label>
+                <input placeholder="企業名、担当者、案件名で検索">
+              </div>
+              <div class="thread-list">
+                <div class="thread-item active">
+                  <div class="thread-top"><strong>青葉建設株式会社</strong><span class="badge">2</span></div>
+                  <p>明日10時の打合せでお願いします。資料も確認しました。</p>
+                  <div class="thread-meta"><span class="pill green">会社間DM</span><span class="pill red">案件あり</span><span class="pill">15分前</span></div>
+                </div>
+                <div class="thread-item">
+                  <div class="thread-top"><strong>北日本ロード株式会社</strong><span class="badge">1</span></div>
+                  <p>来週の舗装班の空き状況を共有いただけますか。</p>
+                  <div class="thread-meta"><span class="pill green">会社間DM</span><span class="pill amber">見積相談</span><span class="pill">2時間前</span></div>
+                </div>
+                <div class="thread-item">
+                  <div class="thread-top"><strong>東北測量設計</strong><span class="badge">1</span></div>
+                  <p>ICT出来形管理の相談です。案件化前に一度確認したいです。</p>
+                  <div class="thread-meta"><span class="pill green">会社間DM</span><span class="pill blue">案件化前</span><span class="pill">今日</span></div>
+                </div>
+                <div class="thread-item">
+                  <div class="thread-top"><strong>運営事務局</strong><span class="badge">1</span></div>
+                  <p>案件譲渡時の確認事項について返信があります。</p>
+                  <div class="thread-meta"><span class="pill green">運営確認</span><span class="pill">昨日</span></div>
+                </div>
+              </div>
+            </aside>
+
+            <section class="panel">
+              <div class="chat-head">
+                <div>
+                  <h3>青葉建設株式会社</h3>
+                  <div class="meta"><span class="pill green">会社間DM</span><span class="pill">担当: 伊藤</span><span class="pill red">関連案件あり</span></div>
+                </div>
+                <button class="btn" type="button">案件を紐づけ</button>
+              </div>
+              <div class="chat-stream">
+                <div class="bubble">
+                  いつもお世話になっております。来週、作業班の空きはありますか。案件化する前に大まかな可否だけ確認したいです。
+                  <small>仙台基礎工業 佐藤 / 10:12</small>
+                </div>
+                <div class="bubble me">
+                  お世話になっております。7/8以降であれば施工管理1名と作業員3名は調整可能です。現場の場所と工種を教えてください。
+                  <small>青葉建設 伊藤 / 10:18 / 既読</small>
+                </div>
+                <div class="bubble">
+                  宮城県大崎市の河川護岸復旧です。正式な募集記事はこれから作りますが、先に条件感を相談したいです。
+                  <small>仙台基礎工業 佐藤 / 10:24</small>
+                </div>
+                <div class="bubble me">
+                  了解しました。会社間トークに関連案件として仮登録しておきます。現地写真と平面図を確認し、明日10時に30分ほど打合せしましょう。
+                  <small>青葉建設 伊藤 / 10:31 / 未読</small>
+                  <div class="attachment">
+                    <svg viewBox="0 0 24 24"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 1 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+                    <span>現地写真_護岸復旧.pdf</span>
+                  </div>
+                </div>
+              </div>
+              <div class="composer">
+                <div class="quick-replies">
+                  <button class="btn" type="button">打合せ候補を送る</button>
+                  <button class="btn" type="button">見積依頼</button>
+                  <button class="btn" type="button">案件を共有</button>
+                  <button class="btn" type="button">資料添付</button>
+                </div>
+                <div class="field" style="margin-top:10px"><label>メッセージ作成</label><textarea placeholder="会員企業へ送る内容を入力"></textarea></div>
+                <div class="composer-actions">
+                  <span class="pill green">会社間トークとして保存。必要に応じて案件へ紐づけ</span>
+                  <button class="btn primary" type="button">送信</button>
+                </div>
+              </div>
+            </section>
+
+            <aside class="panel">
+              <h3>トーク相手</h3>
+              <dl class="info-list">
+                <div class="info-row"><dt>企業</dt><dd>青葉建設株式会社</dd></div>
+                <div class="info-row"><dt>所在地</dt><dd>宮城県仙台市</dd></div>
+                <div class="info-row"><dt>主な工種</dt><dd>河川、道路、災害復旧</dd></div>
+                <div class="info-row"><dt>担当者</dt><dd>伊藤、鈴木</dd></div>
+              </dl>
+              <h3 style="margin-top:20px">この会社との関連案件</h3>
+              <div class="attachment">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path></svg>
+                <span>大雨被害に伴う河川護岸復旧</span>
+              </div>
+              <div class="attachment">
+                <svg viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+                <span>新しい案件をこのトークに紐づけ</span>
+              </div>
+              <h3 style="margin-top:20px">トークでできること</h3>
+              <div class="grid">
+                <span class="pill green">会社間DM</span>
+                <span class="pill green">既読・未読</span>
+                <span class="pill green">添付資料履歴</span>
+                <span class="pill green">案件の後付け紐づけ</span>
+                <span class="pill green">運営確認メモ</span>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="admin">
+          <div class="section-head"><div><h2>運営管理画面</h2><p>お知らせ、イベント、緊急案件の掲出を管理します。</p></div></div>
+          <div class="admin-strip">
+            <div class="metric"><strong>6</strong><span>承認待ち会員</span></div>
+            <div class="metric"><strong>3</strong><span>掲載確認待ち案件</span></div>
+            <div class="metric"><strong>12</strong><span>今月の成立相談</span></div>
+          </div>
+          <div class="grid two">
+            <div class="panel">
+              <h3>お知らせ</h3>
+              <div class="notice-preview">
+                <strong>災害復旧応援案件の掲載基準を更新しました</strong>
+                <p>緊急案件は運営確認後、会員トップに優先表示されます。</p>
+              </div>
+              <div class="card-footer"><span class="pill green">公開中</span><button class="btn">編集</button></div>
+            </div>
+            <div class="panel">
+              <h3>イベント</h3>
+              <div class="notice-preview">
+                <strong>県外工事の協力会社探索セミナー</strong>
+                <p>2026/07/22 オンライン開催。案件譲渡時の注意点を扱います。</p>
+              </div>
+              <div class="card-footer"><span class="pill amber">予約投稿</span><button class="btn">編集</button></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const navGroups = [
+      { title: "フロント", items: [
+        ["home", "トップ", "home", ""],
+        ["projects", "案件一覧", "list", "24"],
+        ["companies", "企業一覧", "building", ""],
+        ["project-detail", "案件詳細", "file", ""],
+        ["apply", "応募", "send", ""],
+        ["messages", "会社間トーク", "message", "5"],
+        ["register", "新規会員登録", "user", ""],
+        ["contact", "問い合わせ", "mail", ""],
+        ["guide", "使い方", "book", ""],
+        ["help", "ヘルプ", "help", ""],
+        ["terms", "規約", "shield", ""]
+      ]},
+      { title: "募集者マイページ", items: [
+        ["post-create", "募集記事作成", "plus", ""],
+        ["post-edit", "募集記事編集", "edit", ""],
+        ["recruiter-applicants", "応募者一覧", "users", "3"],
+        ["recruiter-applicant-detail", "応募者詳細", "message", ""]
+      ]},
+      { title: "応募者マイページ", items: [
+        ["applicant-list", "応募一覧", "clipboard", "2"],
+        ["applicant-detail", "応募詳細", "message", ""]
+      ]},
+      { title: "運営管理", items: [
+        ["admin", "お知らせ・イベント", "settings", "9"]
+      ]}
+    ];
+
+    const icons = {
+      home: '<path d="M3 10.5 12 3l9 7.5"></path><path d="M5 10v10h14V10"></path>',
+      list: '<path d="M8 6h13"></path><path d="M8 12h13"></path><path d="M8 18h13"></path><path d="M3 6h.01"></path><path d="M3 12h.01"></path><path d="M3 18h.01"></path>',
+      building: '<path d="M4 21V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v16"></path><path d="M9 21v-5h3v5"></path><path d="M8 7h1"></path><path d="M12 7h1"></path><path d="M8 11h1"></path><path d="M12 11h1"></path><path d="M3 21h18"></path>',
+      file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path>',
+      send: '<path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path>',
+      user: '<path d="M20 21a8 8 0 0 0-16 0"></path><circle cx="12" cy="7" r="4"></circle>',
+      mail: '<path d="M4 4h16v16H4z"></path><path d="m22 6-10 7L2 6"></path>',
+      book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"></path>',
+      help: '<circle cx="12" cy="12" r="10"></circle><path d="M9.1 9a3 3 0 1 1 5.8 1c-.8 1.4-2.9 1.8-2.9 4"></path><path d="M12 17h.01"></path>',
+      shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>',
+      plus: '<path d="M12 5v14"></path><path d="M5 12h14"></path>',
+      edit: '<path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>',
+      users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>',
+      message: '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>',
+      clipboard: '<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1"></rect>',
+      settings: '<path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 8a1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 3.6a1.7 1.7 0 0 0 1-1.56V2a2 2 0 1 1 4 0v.09A1.7 1.7 0 0 0 15 3.6a1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 8c.25.6.85 1 1.56 1H21a2 2 0 1 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15Z"></path>'
+    };
+
+    const projects = [
+      { id: "river-recovery", title: "大雨被害に伴う河川護岸復旧の応援要請", type: "災害応援", area: "宮城県大崎市", urgency: "至急", price: "個別協議", tags: ["土木", "重機", "施工管理"], tone: "red" },
+      { id: "bridge-repair", title: "県外受注に伴う橋梁補修工事の協力会社募集", type: "協力施工", area: "山形県酒田市", urgency: "今週中", price: "800万円目安", tags: ["橋梁", "補修", "1級土木"], tone: "amber" },
+      { id: "building-management", title: "公共施設改修の建築施工管理者を短期募集", type: "応援", area: "福島県郡山市", urgency: "相談可", price: "月額協議", tags: ["建築", "施工管理", "短期"], tone: "green" },
+      { id: "night-paving", title: "道路維持補修の夜間舗装班を募集", type: "応援", area: "岩手県盛岡市", urgency: "至急", price: "単価協議", tags: ["舗装", "夜間", "維持補修"], tone: "red" }
+    ];
+
+    const companies = [
+      { name: "青葉建設株式会社", area: "宮城・山形", spec: "河川、道路、災害復旧", score: "応援実績 18件" },
+      { name: "仙台基礎工業株式会社", area: "東北全域", spec: "基礎、土工、重機手配", score: "24時間返信 94%" },
+      { name: "北日本ロード株式会社", area: "岩手・宮城", spec: "舗装、維持補修、夜間施工", score: "資格者 32名" },
+      { name: "東北測量設計", area: "宮城・福島", spec: "測量、出来形管理、ICT施工", score: "ICT対応" },
+      { name: "杜の都設備株式会社", area: "宮城県内", spec: "設備、公共施設改修", score: "建築連携可" },
+      { name: "南東北建築工房", area: "福島・宮城", spec: "建築施工管理、改修", score: "短期応援可" }
+    ];
+
+    function navButton(item, compact = false) {
+      const [id, label, icon, count] = item;
+      return `<button class="nav-button${id === "home" ? " active" : ""}" type="button" data-view-target="${id}" title="${label}">
+        <svg viewBox="0 0 24 24">${icons[icon]}</svg>
+        <span>${label}</span>
+        ${count ? `<span class="badge">${count}</span>` : ""}
+      </button>`;
+    }
+
+    document.getElementById("desktop-nav").innerHTML = navGroups.map(group => `
+      <nav class="nav-section">
+        <p class="nav-title">${group.title}</p>
+        ${group.items.map(item => navButton(item)).join("")}
+      </nav>
+    `).join("");
+    document.getElementById("mobile-nav").innerHTML = navGroups.flatMap(group => group.items.slice(0, 4)).map(item =>
+      `<button class="btn" type="button" data-view-target="${item[0]}">${item[1]}</button>`
+    ).join("");
+
+    function projectCard(project, index) {
+      return `<article class="card" data-project-id="${project.id}">
+        <div class="meta">
+          <span class="pill ${project.tone}">${project.urgency}</span>
+          <span class="pill green">会員限定</span>
+          <span class="pill">${project.type}</span>
+        </div>
+        <h3>${project.title}</h3>
+        <p>${project.area} / ${project.tags.join("・")}</p>
+        <div class="card-footer">
+          <span class="price">${project.price}</span>
+          <button class="btn" type="button" data-view-target="project-detail" data-project-id="${project.id}">${index === 0 ? "詳細" : "確認"}</button>
+        </div>
+      </article>`;
+    }
+
+    document.getElementById("featured-projects").innerHTML = projects.slice(0, 3).map(projectCard).join("");
+    document.getElementById("project-list").innerHTML = projects.map(projectCard).join("");
+    document.getElementById("company-list").innerHTML = companies.map(company => `
+      <article class="card">
+        <div class="meta"><span class="pill green">${company.area}</span><span class="pill blue">${company.score}</span></div>
+        <h3>${company.name}</h3>
+        <p>${company.spec}</p>
+        <div class="card-footer"><span class="pill">会員プロフィール確認済</span><button class="btn" type="button" data-view-target="messages">相談</button></div>
+      </article>
+    `).join("");
+
+    // Preserve the original first-project mock; do not copy its conditions to other projects.
+    const detailView = document.getElementById("project-detail");
+    const detailArticle = detailView.querySelector("article");
+    const originalDescription = detailArticle.querySelector("p").textContent;
+    const originalFields = [...detailView.querySelectorAll(".info-row")].map(row => row.querySelector("dd").textContent);
+    let selectedProjectId = projects[0].id;
+
+    function selectProject(id) {
+      const project = projects.find(item => item.id === id);
+      if (!project) return;
+      selectedProjectId = project.id;
+      detailArticle.dataset.projectId = project.id;
+      detailArticle.querySelector("h2").textContent = project.title;
+      detailArticle.querySelector("p").textContent = project.id === projects[0].id
+        ? originalDescription : "画面確認用の案件です。詳細条件は未設定です。";
+      const pills = detailArticle.querySelectorAll(".meta .pill");
+      pills[0].textContent = project.urgency;
+      pills[0].className = `pill ${project.tone}`;
+      pills[2].textContent = project.type;
+      detailView.querySelectorAll(".info-row").forEach((row, index) => {
+        const label = row.querySelector("dt").textContent;
+        row.querySelector("dd").textContent = label === "現場" ? project.area
+          : label === "想定金額" ? project.price
+          : project.id === projects[0].id ? originalFields[index] : "未設定（デモ）";
+      });
+      document.dispatchEvent(new CustomEvent("wagokan:project-selected", { detail: { id: project.id } }));
+    }
+    selectProject(selectedProjectId);
+
+    function showView(id) {
+      document.querySelectorAll(".view").forEach(view => view.classList.toggle("active", view.id === id));
+      document.querySelectorAll("[data-view-target]").forEach(button => {
+        if (button.classList.contains("nav-button")) button.classList.toggle("active", button.dataset.viewTarget === id);
+      });
+      document.dispatchEvent(new CustomEvent("wagokan:view-selected", { detail: { id } }));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener("click", event => {
+      const trigger = event.target.closest("[data-view-target]");
+      if (!trigger) return;
+      if (trigger.dataset.projectId) selectProject(trigger.dataset.projectId);
+      showView(trigger.dataset.viewTarget);
+    });
+  </script>
+  <script src="reactions.js"></script>
+  <script src="applications.js"></script>
 </body>
 </html>
